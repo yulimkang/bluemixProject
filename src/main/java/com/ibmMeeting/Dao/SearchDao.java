@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Mapper
-public interface AdminDao {
-	
-	Integer loginCheck(HashMap<String,Object> loginInformation);
-
+public interface SearchDao {
+	ArrayList<HashMap<String,Object>> allReservList();
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ibmMeeting.Dao.SearchDao">
+
+	<select id="allReservList" resultType="HashMap">
+		select rsv_comp
+			,  rsv_date
+			,  rsv_start_time
+			,  rsv_end_time
+			,  rsv_title
+			,  rsv_conf_nm
+			,  rsv_mem_nm
+			,  rsv_mem_pn
+		from reservation
+	</select>
+</mapper>

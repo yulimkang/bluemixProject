@@ -11,11 +11,12 @@ public class ConstantCode {
 	
 	public static Integer ZERO = 0;
 	
-	public static Integer ReservationMaxMonth = 2;
-	public static Integer ReservationMaxTime = 5;
-	public static Integer ReservationEmailTime = 30;
-	public static Integer ReservationNoShowCount = 3;
-	public static Integer ReservationNoShowBanDay = 30;
-	public static Integer ReservationMaxMonopoly = 5;
+	public static Integer RESERVATION_MAX_MONTH = 2; 
+	public static Integer RESERVATION_MAX_TIME = 5;
+	public static Integer RESERVATION_MAX_MONOPOLY = 5;
+	public static Integer RESERVATION_EMAIL_TIME = 30;
+	public static Integer RESERVATION_NO_SHOW_COUNT = 3;
+	public static Integer RESERVATION_NO_SHOW_BAN_DAY = 30;
+	
 
 }

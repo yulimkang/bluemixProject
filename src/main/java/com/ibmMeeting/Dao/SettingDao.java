@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Mapper
-public interface AdminDao {
+public interface SettingDao {
 	
-	Integer loginCheck(HashMap<String,Object> loginInformation);
-
-
+	void settingUpdate(HashMap<String,Object> settingValue);
+	HashMap<String,Object> settingLoad();
 }

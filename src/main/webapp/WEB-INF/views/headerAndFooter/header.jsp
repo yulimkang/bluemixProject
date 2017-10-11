@@ -18,6 +18,8 @@
 <script type="text/javascript" src="/resources/scheduler/scheduler.min.js"></script>
 <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
 
+<script type="text/javascript" src="/resources/js/headerLocation.js"></script>  
+
 <html>
 <head>
 <title>Insert title here</title>
@@ -36,6 +38,7 @@
 
 					<ul class="nav navbar-nav navbar-right">
 						<li><a onclick="notice()">공지사항</a></li>
+						<li><a onClick="searchPage()">검색</a></li>
 						<li><a target="_blank" onclick="admin()">관리자</a></li>
 					</ul>
 				</div>

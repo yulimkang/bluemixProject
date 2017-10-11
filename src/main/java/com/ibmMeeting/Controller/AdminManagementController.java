@@ -8,10 +8,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Constant.ConstantCode;
 import com.ibmMeeting.Service.MeetingRoomManagementService;
+import com.ibmMeeting.Service.SettingService;
 
 
 @Controller
@@ -20,6 +22,9 @@ public class AdminManagementController {
 	
 	@Autowired
 	MeetingRoomManagementService adminRoomManagementService;
+	
+	@Autowired
+	SettingService settingService;
 	
 	@RequestMapping("/DashBoard")
 	public String dashBoard(HttpServletRequest request, HttpSession session){
@@ -30,28 +35,21 @@ public class AdminManagementController {
 	public ModelAndView setting(HttpServletRequest request, HttpSession session){
 		
 		ModelAndView setting = new ModelAndView();
-		HashMap<String,Object> settingValue = new HashMap<String,Object>();
-		
-		settingValue.put("ReservationMaxMonth", Integer.toString(ConstantCode.ReservationMaxMonth));
-		settingValue.put("ReservationEmailTime", Integer.toString(ConstantCode.ReservationMaxMonth));
-		settingValue.put("ReservationNoShowCount", Integer.toString(ConstantCode.ReservationMaxMonth));
-		settingValue.put("ReservationNoShowBanDay", Integer.toString(ConstantCode.ReservationMaxMonth));
-		settingValue.put("ReservationMaxMonopoly", Integer.toString(ConstantCode.ReservationMaxMonth));
-		
-		
-		Integer ReservationMaxMonth = ConstantCode.ReservationMaxMonth;
-		Integer ReservationEmailTime = ConstantCode.ReservationEmailTime;
-		Integer ReservationNoShowCount = ConstantCode.ReservationNoShowCount;
-		Integer ReservationNoShowBan = ConstantCode.ReservationNoShowBanDay;
-		Integer ReservationMaxMonopoly = ConstantCode.ReservationMaxMonopoly;
-		
-		
-		
-		
+		HashMap<String,Object> settingValue = settingService.settingLoad();
+		setting.addObject("settingValue",settingValue);
 		setting.setViewName("/admin/admin_setting");
 		
 		return setting;
 	}
+	
+	@ResponseBody
+	@RequestMapping("SettingSubmit")
+	public Integer settingSubmit(HttpServletRequest request){
+		
+		settingService.settingSubmit(request);
+		return ConstantCode.SUCCESS;
+	}
+	
 	
 }
 

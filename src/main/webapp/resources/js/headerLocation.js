@@ -9,3 +9,7 @@ function admin(){
 function notice(){
 	location.href= "/notice/";
 }
+
+function searchPage() {
+	location.href="/Search/SearchPage";
+}
