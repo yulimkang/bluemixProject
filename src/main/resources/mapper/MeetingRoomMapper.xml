@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ibmMeeting.Dao.MeetingRoomDao">
+
+	 <select id="meetingRoomList" resultType ="HashMap">
+ 		select *
+		from conference
+		order by conf_order asc; 
+    </select>
+        
+    <select id="meetingRoomAdd" parameterType="HashMap">
+    	INSERT INTO conference
+		values(0,#{roomName},"default",#{roomNumber});
+    </select>
+    
+     <select id="meetingRoomDelete" parameterType="Integer">
+    	delete 
+		from conference
+		where conf_no=#{meetingRoomSeq};
+    </select>
+    
+    <select id="meetingRoomUpdate" parameterType="HashMap">
+    	update conference
+		set conf_nm=#{roomName},conf_order=#{roomNumber}
+		where conf_no=#{roomSeq};
+    </select>
+   
+</mapper>

@@ -18,6 +18,7 @@
 <script type="text/javascript" src="/resources/scheduler/scheduler.min.js"></script>
 <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
 
+<script type="text/javascript" src="/resources/js/headerLocation.js"></script>  
 
 <html>
 <head>
@@ -25,26 +26,7 @@
 
 </head>
 	<body>
-		<div class="page-header">
-			<div class="navbar navbar-default navbar-fixed-top">
-				<div class="container">
-					<div class="navbar-header">
-						<a onclick="main()" class="navbar-brand">IBM 회의실 예약 시스템</a>
-					</div>
-					<div class="navbar-collapse collapse" id="navbar-main">
-						<ul class="nav navbar-nav">
-	
-						</ul>
-	
-						<ul class="nav navbar-nav navbar-right">
-							<li><a onclick="notice()">공지사항</a></li>
-							<li><a onclick="notice()">내 정보</a></li>
-							<li><a target="_blank" onclick="admin()">관리자</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
 		
 		<div class="container">
 			<div id="calendar"></div>
@@ -140,19 +122,12 @@
 			</div>	
 		</div>
 		
-		<div class="modal-footer" style="margin-top:20px">
-		    <center>
-		        <p class="muted"><strong>Copyright® IBM 산학협력 7기 ParkSungJun, ParkSeYeon, ChoiMunJeong, GoChangHwan</strong></p>
-		    </center>
-		</div>
+		<jsp:include page="../headerAndFooter/footer.jsp"></jsp:include>
 	</body>
 </html>
 
 <script>
 
-function admin(){
-	location.href = "/Admin/Login";
-}
 
 function dateInput(calEvent){
 	
@@ -173,11 +148,7 @@ $(function() { // document ready
 		    $( "#selectDate" ).datepicker();
 		    $( "#selectDate" ).datepicker( "option", "dateFormat", "yy-mm-dd"	 );
 		} );
-		
-		
 	
-	
-
 	$('#calendar').fullCalendar({
 		locale:"ko",
 		timezone: 'Asia/Seoul',

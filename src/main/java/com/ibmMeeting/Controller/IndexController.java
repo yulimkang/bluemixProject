@@ -8,7 +8,6 @@ public class IndexController {
 	@RequestMapping("/")
 	public String IndexPage() {
 		
-		return "/index";
+		return "index/index";
 	}
-
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ibmMeeting.Dao.AdminDao">
+    <select id="loginCheck" resultType="Integer" parameterType ="HashMap">
+       	select count(*)
+		from administrator
+		where admin_id = #{id} and admin_pwd = #{pw};
+    </select>  
+   
+</mapper>

@@ -10,6 +10,8 @@
 <link rel="stylesheet/less" type="text/css"	href="/resources/bootstrap/bootswatch.less" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
 
+<script type="text/javascript" src="/resources/js/headerLocation.js"></script>  
+
 <style>
 .wrapper {    
 	margin-top: 80px;
@@ -66,51 +68,53 @@ input[type="password"] {
 
 </head>
 	<body>
-		<div class="page-header">
-			<div class="navbar navbar-default navbar-fixed-top">
-				<div class="container">
-					<div class="navbar-header">
-						<a onclick="main()" class="navbar-brand">IBM 회의실 예약 시스템</a>
-					</div>
-					<div class="navbar-collapse collapse" id="navbar-main">
-						<ul class="nav navbar-nav">
-	
-						</ul>
-	
-						<ul class="nav navbar-nav navbar-right">
-							<li><a onclick="notice()">공지사항</a></li>
-							<li><a onclick="notice()">내 정보</a></li>
-							<li><a target="_blank" onclick="admin()">관리자</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
 		
 		<div class="container" style="height:70%">
 		
 		<div class="wrapper">
-			<form action="" method="post" name="Login_Form" class="form-signin">       
-			    <h3 class="form-signin-heading">Admin Login</h3>
+			<form action="" method="post" name="adminLogin" id="adminLogin" class="form-signin">       
+			    <h3 class="form-signin-heading">관리자 로그인</h3>
 				  <hr class="colorgraph"><br>
 				  
-				  <input type="text" class="form-control" name="Username" placeholder="Username" required="" autofocus="" />
-				  <input type="password" class="form-control" name="Password" placeholder="Password" required=""/>     		  
+				  <input type="text" class="form-control" name="id" id="id" placeholder="Username" required="" autofocus="" />
+				  <input type="password" class="form-control" name="pw" id="pw" placeholder="Password" required=""/>     		  
 				 
-				  <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>  			
+				  <button type="button" class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" onClick="loginBtn()">Login</button>  			
 			</form>			
 		</div>
 	</div>
 		
-		<div class="modal-footer" style="margin-top:20px">
-		    <center>
-		        <p class="muted"><strong>Copyright® IBM 산학협력 7기 ParkSungJun, ParkSeYeon, ChoiMunJeong, GoChangHwan</strong></p>
-		    </center>
-		</div>
+	<jsp:include page="../headerAndFooter/footer.jsp"></jsp:include>
 	</body>
 </html>
 
-<script>
+<script type="text/javascript">
+
+function loginBtn(){
+    $.ajax({
+        url : "/AdminLogin/LoginCheck",
+        dataType : "text",
+        async : false,
+        type : "POST",
+        data : $('#adminLogin').serializeArray(),
+        success: function(data) {
+            if(data=="1") {
+                $("#adminLogin").attr("action","/AdminManagement/DashBoard");
+        		$("#adminLogin").submit();
+            }
+            else{
+                alert("loginFail");
+            }
+        },
+        error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"error:"+error);
+        }
+    });
+}
+</script>
+
+
 
 
 
