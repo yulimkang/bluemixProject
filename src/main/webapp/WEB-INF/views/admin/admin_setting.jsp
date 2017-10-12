@@ -1,11 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<script src="http://code.jquery.com/jquery-2.1.1.min.js"
-	type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 
-<link rel="stylesheet"	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" 	type="text/css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<link rel="stylesheet"	href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" 	type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/bootstrap/bootswatch.css" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/bootswatch.less" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
@@ -13,6 +12,11 @@
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>
 <script type="text/javascript" src="/resources/js/adminFooter.js"></script>  
 
+<%
+	if(session.getAttribute("id")==null){
+		response.sendRedirect("/");  
+	}
+%>
 
 <html>
 <head>
@@ -31,15 +35,16 @@
 		</div>
 		
 		<div id="settingFormDiv">
-			<div class="col-sm-6">
+			<div class="col-lg-6">
 				<div class="panel panel-default">
-				  <div class="panel-heading">비밀번호 변경</div>
+				  <div class="panel-heading">비밀번호 변경<span style="display:inline-block" id="pwDescription"></span></div>
+				  
 				  <div class="panel-body">
 				    <div class="form-group col-sm-5">
 						  <label class="control-label">비밀번호 </label>
 						  <div class="input-group">
 						    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-						    <input class="form-control input-sm" type="text" id="changePw">
+						    <input class="form-control input-sm" type="text" id="changePw" onkeyup="pwSameCheck()">
 						  </div>
 					</div>
 					
@@ -47,7 +52,7 @@
 						  <label class="control-label">비밀번호 재 입력</label>
 						  <div class="input-group">
 						    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-						    <input class="form-control input-sm" type="text" id="changePwCheck">
+						    <input class="form-control input-sm" type="text" id="changePwCheck" onkeyup="pwSameCheck()">
 						  </div>
 					</div>
 					
@@ -58,7 +63,7 @@
 				</div>
 			</div>
 			
-			<div class="col-sm-6">
+			<div class="col-lg-6">
 				<div class="panel panel-default">
 				  <div class="panel-heading">예약가능 기간(월)</div>
 				  <div class="panel-body">
@@ -86,7 +91,7 @@
 		</div>
 		
 		<div>
-			<div class="col-sm-6">
+			<div class="col-lg-6">
 				<div class="panel panel-primary">
 				  <div class="panel-heading">사용자 최대 예약가능 시간</div>
 				  <div class="panel-body">
@@ -112,7 +117,7 @@
 				</div>
 			</div>
 			
-			<div class="col-sm-6">
+			<div class="col-lg-6">
 				<div class="panel panel-primary">
 				  <div class="panel-heading">이메일 전송 시간</div>
 				  <div class="panel-body">
@@ -139,7 +144,7 @@
 			</div>
 			
 			<div>
-				<div class="col-sm-6">
+				<div class="col-lg-6">
 					<div class="panel panel-danger">
 					  <div class="panel-heading">No Show 미준수 횟수</div>
 					  <div class="panel-body">
@@ -165,7 +170,7 @@
 					</div>
 				</div>
 				
-				<div class="col-sm-6">
+				<div class="col-lg-6">
 					<div class="panel panel-danger">
 					  <div class="panel-heading">No Show 회원 정지</div>
 					  <div class="panel-body">
@@ -191,7 +196,7 @@
 					</div>
 				</div>
 			
-				<div class="col-sm-6" >
+				<div class="col-lg-6" >
 					<div class="panel panel-warning">
 					  <div class="panel-heading">독점방지</div>
 					  <div class="panel-body">
@@ -229,6 +234,8 @@
 </html>
 
 <script type="text/javascript">
+
+var pwSameCheckVal = false;
 
 function numkeyCheck(e) { 
 	var keyValue = event.keyCode; 
@@ -353,6 +360,45 @@ function settingSubmit(){
             alert("code:"+request.status+"\n"+"error:"+error);
         }
     });
+}
+
+function pwSameCheck(){
+	var pw = $("#changePw").val();
+	var pwCheck = $("#changePwCheck").val();
+	
+	if(pw!=pwCheck){
+		$("#pwDescription").text("- 비밀번호가 일치 하지 않습니다.");
+		pwSameCheckVal = false;
+		
+	}
+	else{
+		$("#pwDescription").text("- 비밀번호가 일치 합니다.");
+		pwSameCheckVal = true;
+	}
+}
+
+function changePwBtn(){
+	
+	var pw = $("#changePw").val();
+	
+	if(pwSameCheckVal==false){
+		alert("비밀번호가 같지 않다구요!");
+	}
+	else{
+		$.ajax({
+	        url : "/AdminManagement/PasswordChange",
+	        dataType : "text",
+	        async : false,
+	        type : "POST",
+	        data : {"pw":pw},
+	        success: function(data) {
+	        	alert("비밀번호가 변경됐습니다.");
+	        	$("#ddddd").load(window.location.href + " #ddddd");
+	        },
+	        error:function(request,status,error){
+	        }
+	    });
+	}
 }
 
 </script>

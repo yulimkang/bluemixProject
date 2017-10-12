@@ -1,22 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<script src="http://code.jquery.com/jquery-2.1.1.min.js"
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"
 	type="text/javascript"></script>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
-	type="text/css" />
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="/resources/bootstrap/bootswatch.css" />
-<link rel="stylesheet/less" type="text/css"
-	href="/resources/bootstrap/bootswatch.less" />
-<link rel="stylesheet/less" type="text/css"
-	href="/resources/bootstrap/variables.less" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/bootswatch.css" />
+<link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/bootswatch.less" />
+<link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
 
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>
+
+<%
+	if(session.getAttribute("id")==null){
+		response.sendRedirect("/");  
+	}
+%>
 
 
 
@@ -37,7 +37,7 @@
 				<div class="panel-body">회의실 관리</div>
 			</div>
 
-			<div id="meetingRoomList">
+			<div id="meetingRoomList" class="col-lg-12">
 				<table class="table table-striped table-hover text-center">
 					<thead>
 						<tr>
@@ -64,16 +64,16 @@
 		</div>
 
 		<form action="" id="meetingRoomAddForm">
-			<div class="col-sm-12" >
-				<div class="col-sm-10">
+			<div class="col-lg-12" >
+				<div class="col-lg-10">
 					<div id="meetingRoomAddInputBox">
-						<div class="col-sm-12 well">
-							<div class="col-sm-4">
+						<div class="col-lg-12 well">
+							<div class="col-lg-4">
 								<p>회의실 이름</p>
 								<input type="text" class="form-control" id="addMeetingRoomName" name="addMeetingRoomName">
 							</div>
 
-							<div class="col-sm-4">
+							<div class="col-lg-4">
 								<p>회의실 번호</p>
 								<select class="form-control" id="addMeetingRoomNumber" name="addMeetingRoomNumber">
 									<option>1</option>
@@ -84,7 +84,7 @@
 								</select>
 							</div>
 
-							<div class="col-sm-2">
+							<div class="col-lg-2">
 								<p>　</p>
 								<Button type="button" class="form-control btn btn-primary"
 									onclick="meetingRoomAddSubmit()">추가</Button>
@@ -92,7 +92,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-2">
+				<div class="col-lg-2">
 					<Button type="button" class="pull-right btn btn-primary"
 						onclick="meetingRoomAddBtnClick()" id="meetingRoomAddBtn">회의실
 						추가</Button>
@@ -100,17 +100,18 @@
 			</div>
 		</form>
 		
+		<br><br><br>
 		<form action="" id="meetingRoomUpdateForm">
-			<div class="col-sm-12" >
-				<div class="col-sm-10">
+			<div class="col-lg-12" >
+				<div class="col-lg-10">
 					<div id="meetingRoomUpdateInputBox">
-						<div class="col-sm-12 well">
-							<div class="col-sm-4">
+						<div class="col-lg-12 well">
+							<div class="col-lg-4">
 								<p>회의실 이름</p>
 								<input type="text" class="form-control" id="updateMeetingRoomName" name="updateMeetingRoomName">
 							</div>
 
-							<div class="col-sm-4">
+							<div class="col-lg-4">
 								<p>회의실 번호</p>
 								<select class="form-control" id="updateMeetingRoomNumber" name="updateMeetingRoomNumber">
 									<option>1</option>
@@ -121,7 +122,7 @@
 								</select>
 							</div>
 
-							<div class="col-sm-2">
+							<div class="col-lg-2">
 								<p>　</p>
 								<Button type="button" class="form-control btn btn-success"
 									onclick="meetingRoomUpdateSubmit()">수정</Button>
@@ -148,20 +149,22 @@
 
 $("#meetingRoomAddInputBox").hide();
 $("#meetingRoomUpdateInputBox").hide();
+var addBtnstate = $("#addBtnClickState").val();
 
 	function meetingRoomAddBtnClick() {
 
-		var state = $("#addBtnClickState").val();
-
-		if (state == "false") {
+		if (addBtnstate == false) {
 			$("#meetingRoomAddInputBox").show();
 			$("#addBtnClickState").val("true");
 			$("#meetingRoomAddBtn").html("추가 취소");
+			$("#meetingRoomUpdateInputBox").hide();
+			addBtnstate=true;
 
 		} else {
 			$("#meetingRoomAddInputBox").hide();
 			$("#addBtnClickState").val("false");
 			$("#meetingRoomAddBtn").html("회의실 추가");
+			addBtnstate=false;
 		}
 	}
 	
@@ -170,6 +173,10 @@ $("#meetingRoomUpdateInputBox").hide();
 		$("#updateMeetingRoomSeq").val(seq);
 		$("#updateMeetingRoomName").val(name);
 		$("#updateMeetingRoomNumber").val(order);
+		$("#meetingRoomAddInputBox").hide();
+		addBtnstate=true;
+		
+		meetingRoomAddBtnClick();
 	}
 
 	function meetingRoomAddSubmit() {
@@ -182,11 +189,7 @@ $("#meetingRoomUpdateInputBox").hide();
 			type : "POST",
 			data : $('#meetingRoomAddForm').serializeArray(),
 			success : function(data) {
-				if (data == "1") {
-					$("#meetingRoomList").load(
-							window.location.href + " #meetingRoomList");
-				}
-
+				$("#meetingRoomList").load(window.location.href + " #meetingRoomList");
 			},
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "error:" + error);
@@ -205,10 +208,7 @@ $("#meetingRoomUpdateInputBox").hide();
 			type : "POST",
 			data : $("#meetingRoomUpdateForm").serializeArray(),
 			success : function(data) {
-				if (data == "1") {
-					$("#meetingRoomList").load(
-							window.location.href + " #meetingRoomList");
-				}
+				$("#meetingRoomList").load(window.location.href + " #meetingRoomList");
 
 			},
 			error : function(request, status, error) {
@@ -228,11 +228,7 @@ $("#meetingRoomUpdateInputBox").hide();
 			type : "POST",
 			data : { "meetingRoomSeq" : seq},
 			success : function(data) {
-				if (data == "1") {
-					$("#meetingRoomList").load(
-							window.location.href + " #meetingRoomList");
-				}
-
+				$("#meetingRoomList").load(window.location.href + " #meetingRoomList");
 			},
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "error:" + error);

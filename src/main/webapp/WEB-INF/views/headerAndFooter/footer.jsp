@@ -1,10 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 	
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
 <link rel="stylesheet" type="text/css"	href="/resources/bootstrap/bootswatch.css" />
 <link rel="stylesheet/less" type="text/css"	href="/resources/bootstrap/bootswatch.less" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
@@ -26,7 +26,7 @@
 <body>
 	<div class="modal-footer" style="margin-top:20px">
 		    <center>
-		        <p class="muted"><strong>Copyright® IBM 산학협력 7기 ParkSungJun, ParkSeYeon, ChoiMoonCheong, GoChangHwan</strong></p>
+		        <p class="muted"><strong>Copyright® IBM 산학협력 7기 ParkSungJun, ParkSeYeon, ChoiMoonCheong, GhoChangHwan</strong></p>
 		    </center>
 		</div>
 

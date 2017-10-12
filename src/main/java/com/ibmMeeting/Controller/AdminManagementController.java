@@ -50,6 +50,13 @@ public class AdminManagementController {
 		return ConstantCode.SUCCESS;
 	}
 	
+	@ResponseBody
+	@RequestMapping("PasswordChange")
+	public Integer passwordChange(HttpServletRequest request, HttpSession session){
+		
+		settingService.passwordChange(request,session);
+		return ConstantCode.SUCCESS;
+	}
 	
 }
 

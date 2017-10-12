@@ -18,5 +18,8 @@ public class ConstantCode {
 	public static Integer RESERVATION_NO_SHOW_COUNT = 3;
 	public static Integer RESERVATION_NO_SHOW_BAN_DAY = 30;
 	
+	public static String SUCCESS_STRING = "SUCCESS";
+	public static String FAIL_STRING = "FAIL";
+	
 
 }

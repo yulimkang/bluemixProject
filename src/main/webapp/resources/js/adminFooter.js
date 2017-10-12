@@ -21,10 +21,10 @@ function selectTab(seq){
 		location.href = "/main/main";
 	}
 	else if(selectNumber==onBoarding){
-		location.href = "/main/main";
+		location.href = "/AdminBoarding/Onboarding";
 	}
 	else if(selectNumber==offBoarding){
-		location.href = "/main/main";
+		location.href = "/AdminBoarding/Onboarding";
 	}
 	else if(selectNumber==meetingRoomManagement){
 		location.href = "/MeetingRoom/RoomManagementList";

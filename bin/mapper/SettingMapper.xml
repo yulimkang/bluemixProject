@@ -9,7 +9,7 @@
     </select>  
     
     <select id="settingLoad" resultType="HashMap">
-    	select *
+    	select *	
     	from setting
     </select>
    

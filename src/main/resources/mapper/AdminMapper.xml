@@ -8,38 +8,11 @@
 		from administrator
 		where admin_id = #{id} and admin_pwd = #{pw};
     </select>
-
-	 <select id="meetingRoomList" resultType ="HashMap">
- 		select *
-		from conference
-		order by conf_order asc; 
-    </select>
-        
-    <select id="meetingRoomAdd" parameterType="HashMap">
-    	INSERT INTO conference
-		values(0,#{roomName},"default",#{roomNumber});
-    </select>
     
-     <select id="meetingRoomDelete" parameterType="Integer">
-    	delete 
-		from conference
-		where conf_no=#{meetingRoomSeq};
-    </select>
-    
-    <select id="meetingRoomUpdate" parameterType="HashMap">
-    	update conference
-		set conf_nm=#{roomName},conf_order=#{roomNumber}
-		where conf_no=#{roomSeq};
-    </select>
-    
-   
-   
-   
-   
-   
-   
-   
-   
-   
+    <select id="changePassword" parameterType="HashMap">
+	 	update administrator
+	 	set ADMIN_PWD = #{pw}
+	 	where ADMIN_ID = #{id}
+	 </select>
 
 </mapper>

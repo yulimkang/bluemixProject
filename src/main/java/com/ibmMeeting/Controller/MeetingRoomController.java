@@ -21,9 +21,6 @@ public class MeetingRoomController {
 	@Autowired
 	MeetingRoomManagementService meetingRoomManagementService;
 	
-	@Autowired
-	ConstantCode constantCode;
-	
 	@RequestMapping("/RoomManagementList")
 	public ModelAndView roomManagement(HttpServletRequest request, HttpSession session){
 		
