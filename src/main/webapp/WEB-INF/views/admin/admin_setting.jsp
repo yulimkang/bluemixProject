@@ -10,7 +10,9 @@
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
 
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>
-<script type="text/javascript" src="/resources/js/adminFooter.js"></script>  
+<script type="text/javascript" src="/resources/js/adminFooter.js"></script> 
+
+
 
 <%
 	if(session.getAttribute("id")==null){

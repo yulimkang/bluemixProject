@@ -32,6 +32,8 @@
 	
 		<jsp:include page="admin_footer.jsp"></jsp:include>
 		
+		
+		
 		 
 		</div>
 
@@ -40,6 +42,7 @@
 </html>
 
 <script type="text/javascript">
+
 
 
 

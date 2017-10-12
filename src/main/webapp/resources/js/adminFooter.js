@@ -1,6 +1,11 @@
 var selectNumber;
 
+
+
 function selectTab(seq){
+	
+	var tempId = seq.id;
+	selectNumber = tempId.charAt(tempId.length-1);
 	
 	var reservationManagement=1;
 	var reservationList = 2;
@@ -10,13 +15,8 @@ function selectTab(seq){
 	var noShow = 6;
 	var setting = 7;
 	
-	
-	var tempId = seq.id;
-	selectNumber = tempId.charAt(tempId.length-1);
-	
 	if(selectNumber==reservationManagement){
 		location.href = "/main/main";
-		temp();
 	}
 	else if(selectNumber==reservationList){
 		location.href = "/main/main";
@@ -36,7 +36,6 @@ function selectTab(seq){
 	else if(selectNumber==setting){
 		location.href = "/AdminManagement/Setting";
 	}
-	
 	else{
 		
 	}

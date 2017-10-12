@@ -12,6 +12,7 @@
 
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>
 
+
 <%
 	if(session.getAttribute("id")==null){
 		response.sendRedirect("/");  
@@ -133,8 +134,6 @@
 			</div>
 			<input type="hidden" id="updateMeetingRoomSeq" name="updateMeetingRoomSeq">
 		</form>
-		
-		
 	</div>
 	
 

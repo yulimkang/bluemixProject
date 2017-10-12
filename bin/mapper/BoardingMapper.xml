@@ -6,7 +6,8 @@
 
 <select id="BoardingListAll" resultType ="HashMap">
 	select *
-	from member;
+	from member
+	where MEM_STATE="정상";
 </select>
 
 <!-- parameterType = "context" 
@@ -21,6 +22,50 @@
 	select *
 	from member
 	where mem_no=#{selectedNumber};		
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<select id="noShowUserList" resultType ="HashMap">
+	SELECT *
+	FROM MEMBER
+	WHERE COUNT_WARN > 2 AND MEM_STATE="정상";
+</select>
+
+<select id="noShowCountPlus" parameterType="Integer">
+	UPDATE MEMBER
+	SET COUNT_WARN = COUNT_WARN+1
+	WHERE MEM_NO=#{memberSeq};
+</select>
+
+<select id="noShowCountMinus" parameterType="Integer">
+	UPDATE MEMBER
+	SET COUNT_WARN = COUNT_WARN-1
+	WHERE MEM_NO=#{memberSeq};
+</select>
+
+<select id="noShowCountInit" parameterType="Integer">
+	UPDATE MEMBER
+	SET COUNT_WARN = 0
+	WHERE MEM_NO=#{memberSeq};
+</select>
+
+<select id="memeberBlock" parameterType="Integer">
+	UPDATE MEMBER
+	SET MEM_STATE="차단"
+	WHERE MEM_NO=#{memberSeq};
 </select>
 	
 </mapper>

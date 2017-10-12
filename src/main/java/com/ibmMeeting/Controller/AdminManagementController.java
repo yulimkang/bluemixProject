@@ -1,5 +1,6 @@
 package com.ibmMeeting.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Constant.ConstantCode;
+import com.ibmMeeting.Service.AdminBoardingService;
 import com.ibmMeeting.Service.MeetingRoomManagementService;
 import com.ibmMeeting.Service.SettingService;
 
@@ -26,6 +28,9 @@ public class AdminManagementController {
 	@Autowired
 	SettingService settingService;
 	
+	@Autowired
+	AdminBoardingService adminBoardingService;
+	
 	@RequestMapping("/DashBoard")
 	public String dashBoard(HttpServletRequest request, HttpSession session){
 		return "/admin/admin_reservationList";
@@ -33,16 +38,21 @@ public class AdminManagementController {
 	
 	@RequestMapping("/NoShow")
 	public ModelAndView noShow(HttpServletRequest request){
-		
 		ModelAndView noShowInformation = new ModelAndView();
-		
-		
-		
+		ArrayList<HashMap<String,Object>> noShowUserList = adminBoardingService.noShowUserList();
+		noShowInformation.addObject("noShowUserList",noShowUserList);
+		noShowInformation.setViewName("/admin/admin_no_show_management");
 		return noShowInformation;
-		
-		
-		
 	}
+	
+	@ResponseBody
+	@RequestMapping("/NoShowValueSetting")
+	public Integer noShowValueSetting(HttpServletRequest request){
+		
+		adminBoardingService.noShowValueSetting(request);
+		return ConstantCode.SUCCESS;
+	}
+	
 	
 	@RequestMapping("/Setting")
 	public ModelAndView setting(HttpServletRequest request, HttpSession session){
