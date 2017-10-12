@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.ibmMeeting.Dao.MeetingRoomDao">
 
 	 <select id="meetingRoomList" resultType ="HashMap">
@@ -25,6 +24,23 @@
     	update conference
 		set conf_nm=#{roomName},conf_order=#{roomNumber}
 		where conf_no=#{roomSeq};
+    </select>
+    
+    
+    
+    <!-- property : VO 변수명, column : SQL 변수명 -->
+    <resultMap type="com.ibmMeeting.VO.Conference" id="conference_resultmap">
+    	<id column="conf_no" property="confNo"/>
+    	<result column="conf_nm" property="confNm"/>
+    	<result column="conf_comp" property="confComp"/>
+    	<result column="conf_order" property="confOrder"/>
+ 	</resultMap>
+    
+    <!-- 등록된 회의실 조회해오기 -->
+    <select id="getResources" resultMap="conference_resultmap">
+    	SELECT conf_no, conf_nm, conf_order
+    	FROM conference
+    	ORDER BY conf_order ASC
     </select>
    
 </mapper>

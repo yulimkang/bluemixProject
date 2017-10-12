@@ -1,9 +1,12 @@
 package com.ibmMeeting.Dao;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.ibmMeeting.VO.Conference;
 
 @Mapper
 public interface MeetingRoomDao {
@@ -11,4 +14,6 @@ public interface MeetingRoomDao {
 	void meetingRoomAdd(HashMap<String,Object> meetingRoomAdd);
 	void meetingRoomUpdate(HashMap<String,Object> meetingRoomUpdate);
 	void meetingRoomDelete(Integer meetingRoomSeq);
+	
+	List<Conference> getResources();
 }

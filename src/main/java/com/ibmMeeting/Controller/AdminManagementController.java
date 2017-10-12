@@ -31,6 +31,19 @@ public class AdminManagementController {
 		return "/admin/admin_reservationList";
 	}
 	
+	@RequestMapping("/NoShow")
+	public ModelAndView noShow(HttpServletRequest request){
+		
+		ModelAndView noShowInformation = new ModelAndView();
+		
+		
+		
+		return noShowInformation;
+		
+		
+		
+	}
+	
 	@RequestMapping("/Setting")
 	public ModelAndView setting(HttpServletRequest request, HttpSession session){
 		

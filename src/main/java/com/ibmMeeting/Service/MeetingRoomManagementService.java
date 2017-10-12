@@ -2,6 +2,7 @@ package com.ibmMeeting.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibmMeeting.Dao.MeetingRoomDao;
+import com.ibmMeeting.VO.Conference;
 
 @Service
 public class MeetingRoomManagementService {
@@ -54,6 +56,13 @@ public class MeetingRoomManagementService {
 		meetingRoomDao.meetingRoomDelete(meetingRoomSeq);
 		
 		return "success";
+	}
+	
+	public List<Conference> getResources(){
+		
+		List<Conference> list = meetingRoomDao.getResources();
+		
+		return list;
 	}
 
 }

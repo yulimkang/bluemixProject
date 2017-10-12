@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ibmMeeting.Dao.ReservationDao">
+
+    <!-- property : VO 변수명, column : SQL 변수명 -->
+	<resultMap type="com.ibmMeeting.VO.Reservation" id="reservation_resultmap">
+    	<id column="rsv_no" property="rsvNo"/>
+    	<result column="rsv_comp" property="rsvComp"/>
+    	<result column="rsv_conf_nm" property="rsvConfNm"/>
+    	<result column="rsv_date" property="rsvDate"/>
+    	<result column="rsv_total_time" property="rsvTotalTime"/>
+    	<result column="rsv_start_time" property="rsvStartTime"/>
+    	<result column="rsv_end_time" property="rsvEndTime"/>
+    	<result column="rsv_title" property="rsvTitle"/>
+    	<result column="rsv_mem_nm" property="rsvMemNm"/>
+    	<result column="rsv_mem_pn" property="rsvMemPn"/>
+    	<result column="rsv_mem_em" property="rsvMemEm"/>
+    	<result column="rsv_del_pwd" property="rsvDelPwd"/>
+    	<result column="rsv_reg_date" property="rsvRegDate"/>
+    	<result column="rsv_color" property="rsvColor"/>
+    	<result column="rsv_confirm_state" property="rsvConfirmState"/>
+    	<result column="rsv_repeat_seq" property="rsvRepeatSeq"/>
+    	<result column="rsv_email_check" property="rsvEmailCheck"/>
+ 	</resultMap>
+ 	
+ 	 <resultMap type="com.ibmMeeting.VO.Conference" id="conference_resultmap">
+    	<id column="conf_no" property="confNo"/>
+    	<result column="conf_nm" property="confNm"/>
+    	<result column="conf_comp" property="confComp"/>
+    	<result column="conf_order" property="confOrder"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="com.ibmMeeting.VO.Reservation" id="reservation_conference_resultmap" extends="reservation_resultmap">
+ 		<collection property="conference" resultMap="conference_resultmap"/>
+ 	</resultMap>
+ 	
+ 	
+  	<!-- 등록된 예약내역 간단 조회해오기 - 달력에 표시하기 위함 -->
+ 	<select id="getReservation" resultMap="reservation_conference_resultmap">
+ 		SELECT r.rsv_no, r.rsv_date, r.rsv_start_time, r.rsv_end_time, r.rsv_title, r.rsv_mem_nm, r.rsv_color, r.rsv_confirm_state, c.conf_no
+ 		FROM reservation r JOIN conference c ON r.rsv_conf_nm = c.conf_nm
+ 	</select>
+
+	<!-- 등록된 예약내역 상세 조회 -->
+	<select id="getReservationInfo" parameterType="int" resultMap="reservation_resultmap">
+		SELECT rsv_conf_nm, rsv_date, rsv_start_time, rsv_end_time, rsv_title, rsv_mem_nm, rsv_mem_pn, rsv_mem_em, rsv_del_pwd, rsv_color, rsv_email_check
+		FROM reservation
+		WHERE rsv_no = #{value}
+	</select>
+
+</mapper>

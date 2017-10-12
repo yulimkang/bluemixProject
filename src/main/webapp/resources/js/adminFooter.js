@@ -7,7 +7,8 @@ function selectTab(seq){
 	var onBoarding = 3;
 	var offBoarding = 4;
 	var meetingRoomManagement = 5;
-	var setting = 6;
+	var noShow = 6;
+	var setting = 7;
 	
 	
 	var tempId = seq.id;
@@ -29,21 +30,14 @@ function selectTab(seq){
 	else if(selectNumber==meetingRoomManagement){
 		location.href = "/MeetingRoom/RoomManagementList";
 	}
+	else if(selectNumber==noShow){
+		location.href = "/AdminManagement/NoShow";
+	}
 	else if(selectNumber==setting){
 		location.href = "/AdminManagement/Setting";
 	}
+	
 	else{
 		
-	}
-}
-
-function temp(){
-	for(var i=1; i<=6; i++){
-		if(i!=selectNumber){
-			$("#tab"+i).attr("class","");
-		}
-		else{
-			$("#tab"+i).attr("class","active");
-		}
 	}
 }
