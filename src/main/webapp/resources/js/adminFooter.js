@@ -1,7 +1,5 @@
 var selectNumber;
 
-
-
 function selectTab(seq){
 	
 	var tempId = seq.id;
@@ -12,26 +10,30 @@ function selectTab(seq){
 	var onBoarding = 3;
 	var offBoarding = 4;
 	var meetingRoomManagement = 5;
-	var noShow = 6;
-	var setting = 7;
+	var noShowManagement = 6;
+	var noShowUser = 7
+	var setting = 8;
 	
 	if(selectNumber==reservationManagement){
-		location.href = "/main/main";
+		location.href = "/AdminBoarding/ReservationHistory";
 	}
 	else if(selectNumber==reservationList){
-		location.href = "/main/main";
+		location.href = "/AdminReservCheckAndDelete/ReservHistory";
 	}
 	else if(selectNumber==onBoarding){
 		location.href = "/AdminBoarding/Onboarding";
 	}
 	else if(selectNumber==offBoarding){
-		location.href = "/AdminBoarding/Onboarding";
+		location.href = "/AdminBoarding/Offboarding";
 	}
 	else if(selectNumber==meetingRoomManagement){
 		location.href = "/MeetingRoom/RoomManagementList";
 	}
-	else if(selectNumber==noShow){
-		location.href = "/AdminManagement/NoShow";
+	else if(selectNumber==noShowManagement){
+		location.href = "/AdminManagement/NoShowManagement";
+	}
+	else if(selectNumber==noShowUser){
+		location.href = "/AdminManagement/NoShowAllManage";
 	}
 	else if(selectNumber==setting){
 		location.href = "/AdminManagement/Setting";

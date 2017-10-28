@@ -3,16 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <typeAliases>
-        <package name="com.ibmMeeting.Dao"/>
-    </typeAliases>
-    <mappers>
-        <mapper resource="mapper/TestMapper.xml"/>
-        <mapper resource="mapper/AdminMapper.xml"/>
-         <mapper resource="mapper/MeetingRoomMapper.xml"/>
-         <mapper resource="mapper/ReservationMapper.xml"/>
-         <mapper resource="mapper/BoardingMapper.xml"/>
-         <mapper resource="mapper/SettingMapper.xml"/>
-         <mapper resource="mapper/SearchMapper.xml"/>
-    </mappers>
+	<typeAliases>
+		<package name="com.ibmMeeting.Dao" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="mapper/TestMapper.xml" />
+		<mapper resource="mapper/AdminMapper.xml" />
+		<mapper resource="mapper/MeetingRoomMapper.xml" />
+		<mapper resource="mapper/BoardingMapper.xml" />
+		<mapper resource="mapper/SettingMapper.xml" />
+		<mapper resource="mapper/SearchMapper.xml" />
+		<mapper resource="mapper/ReservationMapper.xml" />
+		<mapper resource="mapper/HistoryMapper.xml" />
+		<mapper resource="mapper/MemberMapper.xml" />
+		<mapper resource="mapper/RepeatReservationMapper.xml" />
+		<mapper resource="mapper/SchedulerMapper.xml" />
+	</mappers>
+
 </configuration>
+

@@ -8,7 +8,6 @@ public class History implements Serializable{
 
 	private int hstNo;
 	private String hstRsvComp;
-	private String hstConfNm;
 	private String hstRsvTitle;
 	private Date hstDate;
 	private Time hstTotalTime;
@@ -20,16 +19,20 @@ public class History implements Serializable{
 	private String hstRsvMemEm;
 	private String hstDelPwd;
 	private Date hstRegDate;
+	private int hstConfNo;
+	private String hstRepeatPeriod;
+	private String hstSetting;
+	private int hstRepeatNo;
 	
-	public History(int hstNo, String hstRsvComp, String hstConfNm,
-			String hstRsvTitle, Date hstDate, Time hstTotalTime,
-			Time hstStartTime, Time hstEndTime, String hstRsvState,
-			String hstRsvMemNm, String hstRsvMemPn, String hstRsvMemEm,
-			String hstDelPwd, Date hstRegDate) {
+	public History(int hstNo, String hstRsvComp, String hstRsvTitle,
+			Date hstDate, Time hstTotalTime, Time hstStartTime,
+			Time hstEndTime, String hstRsvState, String hstRsvMemNm,
+			String hstRsvMemPn, String hstRsvMemEm, String hstDelPwd,
+			Date hstRegDate, int hstConfNo, String hstRepeatPeriod,
+			String hstSetting, int hstRepeatNo) {
 		super();
 		this.hstNo = hstNo;
 		this.hstRsvComp = hstRsvComp;
-		this.hstConfNm = hstConfNm;
 		this.hstRsvTitle = hstRsvTitle;
 		this.hstDate = hstDate;
 		this.hstTotalTime = hstTotalTime;
@@ -41,6 +44,10 @@ public class History implements Serializable{
 		this.hstRsvMemEm = hstRsvMemEm;
 		this.hstDelPwd = hstDelPwd;
 		this.hstRegDate = hstRegDate;
+		this.hstConfNo = hstConfNo;
+		this.hstRepeatPeriod = hstRepeatPeriod;
+		this.hstSetting = hstSetting;
+		this.hstRepeatNo = hstRepeatNo;
 	}
 
 	public History() {
@@ -61,14 +68,6 @@ public class History implements Serializable{
 
 	public void setHstRsvComp(String hstRsvComp) {
 		this.hstRsvComp = hstRsvComp;
-	}
-
-	public String getHstConfNm() {
-		return hstConfNm;
-	}
-
-	public void setHstConfNm(String hstConfNm) {
-		this.hstConfNm = hstConfNm;
 	}
 
 	public String getHstRsvTitle() {
@@ -159,12 +158,43 @@ public class History implements Serializable{
 		this.hstRegDate = hstRegDate;
 	}
 
+	public int getHstConfNo() {
+		return hstConfNo;
+	}
+
+	public void setHstConfNo(int hstConfNo) {
+		this.hstConfNo = hstConfNo;
+	}
+
+	public String getHstRepeatPeriod() {
+		return hstRepeatPeriod;
+	}
+
+	public void setHstRepeatPeriod(String hstRepeatPeriod) {
+		this.hstRepeatPeriod = hstRepeatPeriod;
+	}
+
+	public String getHstSetting() {
+		return hstSetting;
+	}
+
+	public void setHstSetting(String hstSetting) {
+		this.hstSetting = hstSetting;
+	}
+
+	public int getHstRepeatNo() {
+		return hstRepeatNo;
+	}
+
+	public void setHstRepeatNo(int hstRepeatNo) {
+		this.hstRepeatNo = hstRepeatNo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((hstConfNm == null) ? 0 : hstConfNm.hashCode());
+		result = prime * result + hstConfNo;
 		result = prime * result + ((hstDate == null) ? 0 : hstDate.hashCode());
 		result = prime * result
 				+ ((hstDelPwd == null) ? 0 : hstDelPwd.hashCode());
@@ -173,6 +203,9 @@ public class History implements Serializable{
 		result = prime * result + hstNo;
 		result = prime * result
 				+ ((hstRegDate == null) ? 0 : hstRegDate.hashCode());
+		result = prime * result + hstRepeatNo;
+		result = prime * result
+				+ ((hstRepeatPeriod == null) ? 0 : hstRepeatPeriod.hashCode());
 		result = prime * result
 				+ ((hstRsvComp == null) ? 0 : hstRsvComp.hashCode());
 		result = prime * result
@@ -185,6 +218,8 @@ public class History implements Serializable{
 				+ ((hstRsvState == null) ? 0 : hstRsvState.hashCode());
 		result = prime * result
 				+ ((hstRsvTitle == null) ? 0 : hstRsvTitle.hashCode());
+		result = prime * result
+				+ ((hstSetting == null) ? 0 : hstSetting.hashCode());
 		result = prime * result
 				+ ((hstStartTime == null) ? 0 : hstStartTime.hashCode());
 		result = prime * result
@@ -201,10 +236,7 @@ public class History implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		History other = (History) obj;
-		if (hstConfNm == null) {
-			if (other.hstConfNm != null)
-				return false;
-		} else if (!hstConfNm.equals(other.hstConfNm))
+		if (hstConfNo != other.hstConfNo)
 			return false;
 		if (hstDate == null) {
 			if (other.hstDate != null)
@@ -227,6 +259,13 @@ public class History implements Serializable{
 			if (other.hstRegDate != null)
 				return false;
 		} else if (!hstRegDate.equals(other.hstRegDate))
+			return false;
+		if (hstRepeatNo != other.hstRepeatNo)
+			return false;
+		if (hstRepeatPeriod == null) {
+			if (other.hstRepeatPeriod != null)
+				return false;
+		} else if (!hstRepeatPeriod.equals(other.hstRepeatPeriod))
 			return false;
 		if (hstRsvComp == null) {
 			if (other.hstRsvComp != null)
@@ -258,6 +297,11 @@ public class History implements Serializable{
 				return false;
 		} else if (!hstRsvTitle.equals(other.hstRsvTitle))
 			return false;
+		if (hstSetting == null) {
+			if (other.hstSetting != null)
+				return false;
+		} else if (!hstSetting.equals(other.hstSetting))
+			return false;
 		if (hstStartTime == null) {
 			if (other.hstStartTime != null)
 				return false;
@@ -274,13 +318,15 @@ public class History implements Serializable{
 	@Override
 	public String toString() {
 		return "History [hstNo=" + hstNo + ", hstRsvComp=" + hstRsvComp
-				+ ", hstConfNm=" + hstConfNm + ", hstRsvTitle=" + hstRsvTitle
-				+ ", hstDate=" + hstDate + ", hstTotalTime=" + hstTotalTime
-				+ ", hstStartTime=" + hstStartTime + ", hstEndTime="
-				+ hstEndTime + ", hstRsvState=" + hstRsvState
-				+ ", hstRsvMemNm=" + hstRsvMemNm + ", hstRsvMemPn="
-				+ hstRsvMemPn + ", hstRsvMemEm=" + hstRsvMemEm + ", hstDelPwd="
-				+ hstDelPwd + ", hstRegDate=" + hstRegDate + "]";
+				+ ", hstRsvTitle=" + hstRsvTitle + ", hstDate=" + hstDate
+				+ ", hstTotalTime=" + hstTotalTime + ", hstStartTime="
+				+ hstStartTime + ", hstEndTime=" + hstEndTime
+				+ ", hstRsvState=" + hstRsvState + ", hstRsvMemNm="
+				+ hstRsvMemNm + ", hstRsvMemPn=" + hstRsvMemPn
+				+ ", hstRsvMemEm=" + hstRsvMemEm + ", hstDelPwd=" + hstDelPwd
+				+ ", hstRegDate=" + hstRegDate + ", hstConfNo=" + hstConfNo
+				+ ", hstRepeatPeriod=" + hstRepeatPeriod + ", hstSetting="
+				+ hstSetting + ", hstRepeatNo=" + hstRepeatNo + "]";
 	}
 	
 }

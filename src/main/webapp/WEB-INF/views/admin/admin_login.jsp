@@ -10,82 +10,140 @@
 <link rel="stylesheet/less" type="text/css"	href="/resources/bootstrap/bootswatch.less" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
 
-<script type="text/javascript" src="/resources/js/headerLocation.js"></script>  
+<script type="text/javascript" src="/resources/js/headerLocation.js"></script> 
+<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-.wrapper {    
-	margin-top: 80px;
-	margin-bottom: 20px;
+.progress-bar {
+    color: #333;
+} 
+
+/*
+Reference:
+http://www.bootstrapzen.com/item/135/simple-login-form-logo/
+*/
+
+body{
+    background-color:#f5f5f5;
+}
+.form-signin
+{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-control
+{
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+    z-index: 2;
+}
+.form-signin input[type="text"]
+{
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"]
+{
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.account-wall
+{
+    margin-top: 80px;
+    padding: 40px 0px 20px 0px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+}
+.login-title
+{
+    color: #555;
+    font-size: 22px;
+    font-weight: 400;
+    display: block;
+}
+.profile-img
+{
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.select-img
+{
+	border-radius: 50%;
+    display: block;
+    height: 75px;
+    margin: 0 30px 10px;
+    width: 75px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.select-name
+{
+    display: block;
+    margin: 30px 10px 10px;
 }
 
-.form-signin {
-  max-width: 420px;
-  padding: 30px 38px 66px;
-  margin: 0 auto;
-  background-color: #eee;
-  border: 3px dotted rgba(0,0,0,0.1);  
-  }
-
-.form-signin-heading {
-  text-align:center;
-  margin-bottom: 30px;
+.logo-img
+{
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
 }
 
-.form-control {
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-}
 
-input[type="text"] {
-  margin-bottom: 0px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-input[type="password"] {
-  margin-bottom: 20px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.colorgraph {
-  height: 7px;
-  border-top: 0;
-  background: #c4e17f;
-  border-radius: 5px;
-  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-}
 </style>
 
 <html>
 <head>
-<title>관리자 로그인</title>
+<title>관리자 로그인234</title>
 
 </head>
 	<body>
+	<div class="header">
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
-		
-		<div class="container" style="height:70%">
-		
-		<div class="wrapper">
-			<form action="" method="post" name="adminLogin" id="adminLogin" class="form-signin">       
-			    <h3 class="form-signin-heading">관리자 로그인</h3>
-				  <hr class="colorgraph"><br>
-				  
-				  <input type="text" class="form-control" name="id" id="id" placeholder="Username" required="" autofocus="" />
-				  <input type="password" class="form-control" name="pw" id="pw" placeholder="Password" required=""/>     		  
-				 
-				  <button type="button" class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" onClick="loginBtn()">Login</button>  			
-			</form>			
 		</div>
-	</div>
 		
+		<div class="container">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+                <div id="my-tab-content" class="tab-content">
+						<div class="tab-pane active" id="login">
+               		    <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                    alt="">
+               			<form class="form-signin" action="" id="adminLogin" name="adminLogin" method="POST">
+               				<input type="text" class="form-control" placeholder="Username" id="id" name="id" required autofocus>
+               				<input type="password" class="form-control" placeholder="Password" id="pw" name="pw" required>
+               				<input type="submit" class="btn btn-lg btn-default btn-block" onClick="loginBtn()" value="Sign In" />
+               			</form>
+					</div>
+					</div>
+            </div>
+        </div>
+    </div>
+	
 	<jsp:include page="../headerAndFooter/footer.jsp"></jsp:include>
+	
 	</body>
 </html>
 
@@ -100,7 +158,7 @@ function loginBtn(){
         data : $('#adminLogin').serializeArray(),
         success: function(data) {
             if(data=="1") {
-                $("#adminLogin").attr("action","/AdminManagement/DashBoard");
+                $("#adminLogin").attr("action","/AdminBoarding/ReservationHistory");
         		$("#adminLogin").submit();
             }
             else{

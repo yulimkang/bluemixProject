@@ -51,5 +51,17 @@ public class SettingService {
 		
 		adminDao.changePassword(loginInformation);
 	}
+	
+	public void emailChange(HttpServletRequest request,HttpSession session){
+		String id = (String)session.getAttribute("id");
+		String email = request.getParameter("email");
+		
+		HashMap<String,Object> adminInformation = new HashMap<String,Object>();
+		
+		adminInformation.put("id",id);
+		adminInformation.put("email",email);
+		
+		adminDao.changeEmail(adminInformation);
+	}
 
 }

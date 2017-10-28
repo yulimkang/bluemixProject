@@ -16,19 +16,27 @@
 <script type="text/javascript" src="/resources/fullcalander/locale-all.js"></script>
 <script type="text/javascript" src="/resources/scheduler/scheduler.min.js"></script>
 <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	<div class="modal-footer" style="margin-top:20px">
+<body id="htmlBody">
+	<div class="modal-footer" style="margin-top:40px">
 		    <center>
-		        <p class="muted"><strong>Copyright® IBM 산학협력 7기 ParkSungJun, ParkSeYeon, ChoiMoonCheong, GhoChangHwan</strong></p>
-		    </center>
-		</div>
+		        
+		        <p class="muted">
+		        <a href="https://www.ibm.com"> <img src="/resources/image/ibm_logo.png" style="width:80px"></a>
+		        <a href="https://drive.google.com/file/d/0B5qB3ntA-vJQRE1mdmFVNFFqbzg/view?usp=sharing"> <img src="/resources/image/amore.png" style="width:80px"></a>
 
+		        
+		          <strong><br>  Copyright® 박성준, 박세연, 최문정, 고창환 </strong>
+		         
+		        </p>
+		    </center>
+	</div>
 </body>
 </html>

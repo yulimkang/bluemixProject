@@ -10,7 +10,6 @@ public class Reservation implements Serializable{
 
 	private int rsvNo;
 	private String rsvComp;
-	private String rsvConfNm;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date rsvDate;
 	private Time rsvTotalTime;
@@ -25,20 +24,22 @@ public class Reservation implements Serializable{
 	private String rsvColor;
 	private String rsvConfirmState;
 	private int rsvRepeatSeq;
-	private String rsvEmailCheck;
+	private String rsvEmailCheck;	
+	private int rsvConfNo;
+	private String rsvRepeatPeriod;
+	private String rsvSetting;
+	private int rsvRepeatNo;
 	
-	private Conference conference;
-
-	public Reservation(int rsvNo, String rsvComp, String rsvConfNm,
-			Date rsvDate, Time rsvTotalTime, Time rsvStartTime,
-			Time rsvEndTime, String rsvTitle, String rsvMemNm, String rsvMemPn,
-			String rsvMemEm, String rsvDelPwd, Date rsvRegDate,
-			String rsvColor, String rsvConfirmState, int rsvRepeatSeq,
-			String rsvEmailCheck, Conference conference) {
+	public Reservation(int rsvNo, String rsvComp, Date rsvDate,
+			Time rsvTotalTime, Time rsvStartTime, Time rsvEndTime,
+			String rsvTitle, String rsvMemNm, String rsvMemPn, String rsvMemEm,
+			String rsvDelPwd, Date rsvRegDate, String rsvColor,
+			String rsvConfirmState, int rsvRepeatSeq, String rsvEmailCheck,
+			int rsvConfNo, String rsvRepeatPeriod, String rsvSetting,
+			int rsvRepeatNo) {
 		super();
 		this.rsvNo = rsvNo;
 		this.rsvComp = rsvComp;
-		this.rsvConfNm = rsvConfNm;
 		this.rsvDate = rsvDate;
 		this.rsvTotalTime = rsvTotalTime;
 		this.rsvStartTime = rsvStartTime;
@@ -53,33 +54,10 @@ public class Reservation implements Serializable{
 		this.rsvConfirmState = rsvConfirmState;
 		this.rsvRepeatSeq = rsvRepeatSeq;
 		this.rsvEmailCheck = rsvEmailCheck;
-		this.conference = conference;
-	}
-
-	public Reservation(int rsvNo, String rsvComp, String rsvConfNm,
-			Date rsvDate, Time rsvTotalTime, Time rsvStartTime,
-			Time rsvEndTime, String rsvTitle, String rsvMemNm, String rsvMemPn,
-			String rsvMemEm, String rsvDelPwd, Date rsvRegDate,
-			String rsvColor, String rsvConfirmState, int rsvRepeatSeq,
-			String rsvEmailCheck) {
-		super();
-		this.rsvNo = rsvNo;
-		this.rsvComp = rsvComp;
-		this.rsvConfNm = rsvConfNm;
-		this.rsvDate = rsvDate;
-		this.rsvTotalTime = rsvTotalTime;
-		this.rsvStartTime = rsvStartTime;
-		this.rsvEndTime = rsvEndTime;
-		this.rsvTitle = rsvTitle;
-		this.rsvMemNm = rsvMemNm;
-		this.rsvMemPn = rsvMemPn;
-		this.rsvMemEm = rsvMemEm;
-		this.rsvDelPwd = rsvDelPwd;
-		this.rsvRegDate = rsvRegDate;
-		this.rsvColor = rsvColor;
-		this.rsvConfirmState = rsvConfirmState;
-		this.rsvRepeatSeq = rsvRepeatSeq;
-		this.rsvEmailCheck = rsvEmailCheck;
+		this.rsvConfNo = rsvConfNo;
+		this.rsvRepeatPeriod = rsvRepeatPeriod;
+		this.rsvSetting = rsvSetting;
+		this.rsvRepeatNo = rsvRepeatNo;
 	}
 
 	public Reservation() {
@@ -100,14 +78,6 @@ public class Reservation implements Serializable{
 
 	public void setRsvComp(String rsvComp) {
 		this.rsvComp = rsvComp;
-	}
-
-	public String getRsvConfNm() {
-		return rsvConfNm;
-	}
-
-	public void setRsvConfNm(String rsvConfNm) {
-		this.rsvConfNm = rsvConfNm;
 	}
 
 	public Date getRsvDate() {
@@ -222,12 +192,36 @@ public class Reservation implements Serializable{
 		this.rsvEmailCheck = rsvEmailCheck;
 	}
 
-	public Conference getConference() {
-		return conference;
+	public int getRsvConfNo() {
+		return rsvConfNo;
 	}
 
-	public void setConference(Conference conference) {
-		this.conference = conference;
+	public void setRsvConfNo(int rsvConfNo) {
+		this.rsvConfNo = rsvConfNo;
+	}
+
+	public String getRsvRepeatPeriod() {
+		return rsvRepeatPeriod;
+	}
+
+	public void setRsvRepeatPeriod(String rsvRepeatPeriod) {
+		this.rsvRepeatPeriod = rsvRepeatPeriod;
+	}
+
+	public String getRsvSetting() {
+		return rsvSetting;
+	}
+
+	public void setRsvSetting(String rsvSetting) {
+		this.rsvSetting = rsvSetting;
+	}
+
+	public int getRsvRepeatNo() {
+		return rsvRepeatNo;
+	}
+
+	public void setRsvRepeatNo(int rsvRepeatNo) {
+		this.rsvRepeatNo = rsvRepeatNo;
 	}
 
 	@Override
@@ -235,12 +229,9 @@ public class Reservation implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((conference == null) ? 0 : conference.hashCode());
-		result = prime * result
 				+ ((rsvColor == null) ? 0 : rsvColor.hashCode());
 		result = prime * result + ((rsvComp == null) ? 0 : rsvComp.hashCode());
-		result = prime * result
-				+ ((rsvConfNm == null) ? 0 : rsvConfNm.hashCode());
+		result = prime * result + rsvConfNo;
 		result = prime * result
 				+ ((rsvConfirmState == null) ? 0 : rsvConfirmState.hashCode());
 		result = prime * result + ((rsvDate == null) ? 0 : rsvDate.hashCode());
@@ -259,7 +250,12 @@ public class Reservation implements Serializable{
 		result = prime * result + rsvNo;
 		result = prime * result
 				+ ((rsvRegDate == null) ? 0 : rsvRegDate.hashCode());
+		result = prime * result + rsvRepeatNo;
+		result = prime * result
+				+ ((rsvRepeatPeriod == null) ? 0 : rsvRepeatPeriod.hashCode());
 		result = prime * result + rsvRepeatSeq;
+		result = prime * result
+				+ ((rsvSetting == null) ? 0 : rsvSetting.hashCode());
 		result = prime * result
 				+ ((rsvStartTime == null) ? 0 : rsvStartTime.hashCode());
 		result = prime * result
@@ -278,11 +274,6 @@ public class Reservation implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Reservation other = (Reservation) obj;
-		if (conference == null) {
-			if (other.conference != null)
-				return false;
-		} else if (!conference.equals(other.conference))
-			return false;
 		if (rsvColor == null) {
 			if (other.rsvColor != null)
 				return false;
@@ -293,10 +284,7 @@ public class Reservation implements Serializable{
 				return false;
 		} else if (!rsvComp.equals(other.rsvComp))
 			return false;
-		if (rsvConfNm == null) {
-			if (other.rsvConfNm != null)
-				return false;
-		} else if (!rsvConfNm.equals(other.rsvConfNm))
+		if (rsvConfNo != other.rsvConfNo)
 			return false;
 		if (rsvConfirmState == null) {
 			if (other.rsvConfirmState != null)
@@ -345,7 +333,19 @@ public class Reservation implements Serializable{
 				return false;
 		} else if (!rsvRegDate.equals(other.rsvRegDate))
 			return false;
+		if (rsvRepeatNo != other.rsvRepeatNo)
+			return false;
+		if (rsvRepeatPeriod == null) {
+			if (other.rsvRepeatPeriod != null)
+				return false;
+		} else if (!rsvRepeatPeriod.equals(other.rsvRepeatPeriod))
+			return false;
 		if (rsvRepeatSeq != other.rsvRepeatSeq)
+			return false;
+		if (rsvSetting == null) {
+			if (other.rsvSetting != null)
+				return false;
+		} else if (!rsvSetting.equals(other.rsvSetting))
 			return false;
 		if (rsvStartTime == null) {
 			if (other.rsvStartTime != null)
@@ -368,15 +368,17 @@ public class Reservation implements Serializable{
 	@Override
 	public String toString() {
 		return "Reservation [rsvNo=" + rsvNo + ", rsvComp=" + rsvComp
-				+ ", rsvConfNm=" + rsvConfNm + ", rsvDate=" + rsvDate
-				+ ", rsvTotalTime=" + rsvTotalTime + ", rsvStartTime="
-				+ rsvStartTime + ", rsvEndTime=" + rsvEndTime + ", rsvTitle="
-				+ rsvTitle + ", rsvMemNm=" + rsvMemNm + ", rsvMemPn="
-				+ rsvMemPn + ", rsvMemEm=" + rsvMemEm + ", rsvDelPwd="
-				+ rsvDelPwd + ", rsvRegDate=" + rsvRegDate + ", rsvColor="
-				+ rsvColor + ", rsvConfirmState=" + rsvConfirmState
-				+ ", rsvRepeatSeq=" + rsvRepeatSeq + ", rsvEmailCheck="
-				+ rsvEmailCheck + ", conference=" + conference + "]";
+				+ ", rsvDate=" + rsvDate + ", rsvTotalTime=" + rsvTotalTime
+				+ ", rsvStartTime=" + rsvStartTime + ", rsvEndTime="
+				+ rsvEndTime + ", rsvTitle=" + rsvTitle + ", rsvMemNm="
+				+ rsvMemNm + ", rsvMemPn=" + rsvMemPn + ", rsvMemEm="
+				+ rsvMemEm + ", rsvDelPwd=" + rsvDelPwd + ", rsvRegDate="
+				+ rsvRegDate + ", rsvColor=" + rsvColor + ", rsvConfirmState="
+				+ rsvConfirmState + ", rsvRepeatSeq=" + rsvRepeatSeq
+				+ ", rsvEmailCheck=" + rsvEmailCheck + ", rsvConfNo="
+				+ rsvConfNo + ", rsvRepeatPeriod=" + rsvRepeatPeriod
+				+ ", rsvSetting=" + rsvSetting + ", rsvRepeatNo=" + rsvRepeatNo
+				+ "]";
 	}
 	
 }

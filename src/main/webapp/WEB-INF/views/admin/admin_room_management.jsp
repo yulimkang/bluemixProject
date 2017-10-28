@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"
-	type="text/javascript"></script>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -9,10 +8,11 @@
 <link rel="stylesheet" type="text/css" href="/resources/bootstrap/bootswatch.css" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/bootswatch.less" />
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
+<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>
 
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <%
 	if(session.getAttribute("id")==null){
 		response.sendRedirect("/");  
@@ -20,13 +20,12 @@
 %>
 
 
-
 <html>
 <head>
 <title>관리자 메인</title>
 
 </head>
-<body>
+<body id="htmlBody">
 	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
 
 	<div class="container">
@@ -38,11 +37,11 @@
 				<div class="panel-body">회의실 관리</div>
 			</div>
 
-			<div id="meetingRoomList" class="col-lg-12">
-				<table class="table table-striped table-hover text-center">
+			<div id="meetingRoomList" class="col-lg-12 ">
+				<table class="table table-hover text-center">
 					<thead>
 						<tr>
-							<th width="20%" style="text-align: center;">회의실번호</th>
+							<th width="20%" style="text-align: center;">번호</th>
 							<th width="50%" style="text-align: center;">회의실 이름</th>
 							<th width="30%" style="text-align: center;">비고</th>
 						</tr>
@@ -53,7 +52,7 @@
 								<td width="20%">${meetingRoomList.CONF_ORDER}</td>
 								<td width="50%">${meetingRoomList.CONF_NM}</td>
 								<td width="30%">
-									<Button type="button" class="btn btn-default btn-sm" onClick="meetingRoomUpdateBtnClick('${meetingRoomList.CONF_NO}','${meetingRoomList.CONF_NM}', '${meetingRoomList.CONF_ORDER}')">수정</Button>
+									<Button type="button" class="btn btn-primary btn-sm" onClick="meetingRoomUpdateBtnClick('${meetingRoomList.CONF_NO}','${meetingRoomList.CONF_NM}', '${meetingRoomList.CONF_ORDER}')">수정</Button>
 									<Button type="button" class="btn btn-danger btn-sm" onClick="meetingRoomDelete(${meetingRoomList.CONF_NO})">삭제</Button>
 									
 								</td>
@@ -87,16 +86,15 @@
 
 							<div class="col-lg-2">
 								<p>　</p>
-								<Button type="button" class="form-control btn btn-primary"
+								<Button type="button" class="form-control btn btn-default"
 									onclick="meetingRoomAddSubmit()">추가</Button>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-2">
-					<Button type="button" class="pull-right btn btn-primary"
-						onclick="meetingRoomAddBtnClick()" id="meetingRoomAddBtn">회의실
-						추가</Button>
+					<Button type="button" class="pull-right btn btn-default"
+						onclick="meetingRoomAddBtnClick()" id="meetingRoomAddBtn">회의실 추가</Button>
 				</div>
 			</div>
 		</form>
@@ -125,7 +123,7 @@
 
 							<div class="col-lg-2">
 								<p>　</p>
-								<Button type="button" class="form-control btn btn-success"
+								<Button type="button" class="form-control btn btn-default"
 									onclick="meetingRoomUpdateSubmit()">수정</Button>
 							</div>
 						</div>
@@ -138,6 +136,7 @@
 	
 
 	<input type="hidden" id="addBtnClickState" value="false">
+	
 	
 
 	<jsp:include page="../headerAndFooter/footer.jsp"></jsp:include>
@@ -198,8 +197,6 @@ var addBtnstate = $("#addBtnClickState").val();
 	
 	function meetingRoomUpdateSubmit() {
 		
-		alert();
-
 		$.ajax({
 			url : "/MeetingRoom/MeetingRoomUpdate",
 			dataType : "text",
@@ -220,22 +217,25 @@ var addBtnstate = $("#addBtnClickState").val();
 	
 	function meetingRoomDelete(seq){
 		
-		$.ajax({
-			url : "/MeetingRoom/MeetingRoomDelete",
-			dataType : "text",
-			async : false,
-			type : "POST",
-			data : { "meetingRoomSeq" : seq},
-			success : function(data) {
-				$("#meetingRoomList").load(window.location.href + " #meetingRoomList");
-			},
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "error:" + error);
-			}
-		});
+		var confirmCheck = confirm("정말로 회의실을 삭제하시겠습니까?");
+		if (confirmCheck == true) {
+		
+			$.ajax({
+				url : "/MeetingRoom/MeetingRoomDelete",
+				dataType : "text",
+				async : false,
+				type : "POST",
+				data : { "meetingRoomSeq" : seq},
+				success : function(data) {
+					$("#meetingRoomList").load(window.location.href + " #meetingRoomList");
+				},
+				error : function(request, status, error) {
+					alert("code:" + request.status + "\n" + "error:" + error);
+				}
+			});
+		}
 	}
-		
-		
+	
 
 </script>
 

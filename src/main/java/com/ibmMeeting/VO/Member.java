@@ -13,9 +13,11 @@ public class Member implements Serializable{
 	private Date memRegDate;
 	private String memState;
 	private int countWarn;
+	private String memBanday;
 	
 	public Member(int memNo, String memName, String memPn, String memEm,
-			String memComp, Date memRegDate, String memState, int countWarn) {
+			String memComp, Date memRegDate, String memState, int countWarn,
+			String memBanday) {
 		super();
 		this.memNo = memNo;
 		this.memName = memName;
@@ -25,6 +27,7 @@ public class Member implements Serializable{
 		this.memRegDate = memRegDate;
 		this.memState = memState;
 		this.countWarn = countWarn;
+		this.memBanday = memBanday;
 	}
 
 	public Member() {
@@ -95,11 +98,21 @@ public class Member implements Serializable{
 		this.countWarn = countWarn;
 	}
 
+	public String getMemBanday() {
+		return memBanday;
+	}
+
+	public void setMemBanday(String memBanday) {
+		this.memBanday = memBanday;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + countWarn;
+		result = prime * result
+				+ ((memBanday == null) ? 0 : memBanday.hashCode());
 		result = prime * result + ((memComp == null) ? 0 : memComp.hashCode());
 		result = prime * result + ((memEm == null) ? 0 : memEm.hashCode());
 		result = prime * result + ((memName == null) ? 0 : memName.hashCode());
@@ -122,6 +135,11 @@ public class Member implements Serializable{
 			return false;
 		Member other = (Member) obj;
 		if (countWarn != other.countWarn)
+			return false;
+		if (memBanday == null) {
+			if (other.memBanday != null)
+				return false;
+		} else if (!memBanday.equals(other.memBanday))
 			return false;
 		if (memComp == null) {
 			if (other.memComp != null)
@@ -163,7 +181,7 @@ public class Member implements Serializable{
 		return "Member [memNo=" + memNo + ", memName=" + memName + ", memPn="
 				+ memPn + ", memEm=" + memEm + ", memComp=" + memComp
 				+ ", memRegDate=" + memRegDate + ", memState=" + memState
-				+ ", countWarn=" + countWarn + "]";
+				+ ", countWarn=" + countWarn + ", memBanday=" + memBanday + "]";
 	}
 	
 }

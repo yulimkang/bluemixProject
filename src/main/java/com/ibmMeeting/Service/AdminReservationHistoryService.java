@@ -1,20 +1,27 @@
 /*
- * ÀÛ¼ºÀÚ : ÃÖ¹®Á¤
- * ³»¿ë : °ü¸®ÀÚ ¿¹¾à³»¿ª ÆäÀÌÁö Service
+ * ï¿½Û¼ï¿½ï¿½ï¿½ : ï¿½Ö¹ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½à³»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Service
  */
 
 package com.ibmMeeting.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ibmMeeting.Dao.AdminDao;
+import com.ibmMeeting.Dao.HistoryDao;
 
 @Service
 public class AdminReservationHistoryService {
 	
 	@Autowired
-	AdminDao adminDao;
+	HistoryDao historyDao;
+	
+
+
+
 	
 
 }

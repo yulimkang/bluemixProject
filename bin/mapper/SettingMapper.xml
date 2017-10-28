@@ -3,14 +3,19 @@
 
 
 <mapper namespace="com.ibmMeeting.Dao.SettingDao">
+
+	<!-- 작성자 : 박성준 -->
+	<!-- 셋팅 값 저장-->
     <select id="settingUpdate" parameterType ="HashMap">
-       	update setting
+       	update SETTING
 		set ${selectSetting} = #{settingValue}
     </select>  
     
+    <!-- 작성자 : 박성준 -->
+	<!-- 셋팅값 불러오기-->
     <select id="settingLoad" resultType="HashMap">
     	select *	
-    	from setting
+    	from SETTING
     </select>
    
 </mapper>

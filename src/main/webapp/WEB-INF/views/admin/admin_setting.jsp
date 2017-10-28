@@ -10,7 +10,8 @@
 <link rel="stylesheet/less" type="text/css" href="/resources/bootstrap/variables.less" />
 
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>
-<script type="text/javascript" src="/resources/js/adminFooter.js"></script> 
+<script type="text/javascript" src="/resources/js/adminFooter.js"></script>
+<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 
 
 
@@ -25,7 +26,7 @@
 <title>관리자 setting</title>
 
 </head>
-<body>
+<body id="htmlBody">
 	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
 
 	<div class="container" id="ddddd">
@@ -46,7 +47,7 @@
 						  <label class="control-label">비밀번호 </label>
 						  <div class="input-group">
 						    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-						    <input class="form-control input-sm" type="text" id="changePw" onkeyup="pwSameCheck()">
+						    <input class="form-control input-sm" type="password" id="changePw" onkeyup="pwSameCheck()">
 						  </div>
 					</div>
 					
@@ -54,12 +55,40 @@
 						  <label class="control-label">비밀번호 재 입력</label>
 						  <div class="input-group">
 						    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-						    <input class="form-control input-sm" type="text" id="changePwCheck" onkeyup="pwSameCheck()">
+						    <input class="form-control input-sm" type="password" id="changePwCheck" onkeyup="pwSameCheck()">
 						  </div>
 					</div>
 					
 					<div class="col-sm-2" style="margin-top:25px">
 						  <Button type="button" class="btn btn-primary btn-sm" onclick="changePwBtn()">변경</Button>
+					</div>
+				  </div>
+				</div>
+			</div>
+			
+			<div class="col-lg-6">
+				<div class="panel panel-default">
+				  <div class="panel-heading">이메일 변경<span style="display:inline-block" id="emailDescription"></span></div>
+				  
+				  <div class="panel-body">
+				    <div class="form-group col-sm-5">
+						  <label class="control-label">이메일 </label>
+						  <div class="input-group">
+						    <span class="input-group-addon input-sm"><i class="fa fa-envelope-o"></i></span>
+						    <input class="form-control input-sm" type="text" id="changeEmail" onkeyup="emailSameCheck()">
+						  </div>
+					</div>
+					
+					<div class="form-group col-sm-5">
+						  <label class="control-label">이메일 재 입력</label>
+						  <div class="input-group">
+						    <span class="input-group-addon input-sm"><i class="fa fa-envelope-o"></i></span>
+						    <input class="form-control input-sm" type="text" id="changeEmailCheck" onkeyup="emailSameCheck()">
+						  </div>
+					</div>
+					
+					<div class="col-sm-2" style="margin-top:25px">
+						  <Button type="button" class="btn btn-primary btn-sm" onclick="changeEmailBtn()">변경</Button>
 					</div>
 				  </div>
 				</div>
@@ -94,33 +123,7 @@
 		
 		<div>
 			<div class="col-lg-6">
-				<div class="panel panel-primary">
-				  <div class="panel-heading">사용자 최대 예약가능 시간</div>
-				  <div class="panel-body">
-				    <div class="form-group col-sm-5">
-						  <label class="control-label">현재 최대 예약가능 시간</label>
-						  <div class="input-group">
-						    <input class="form-control input-sm" type="text" id="reservationMaxTime" disabled="" value="${settingValue.SET_REV_MAX_TIME}분">
-						  </div>
-					</div>
-					
-					<div class="form-group col-sm-5">
-						  <label class="control-label">변경 최대 예약 가능 시간</label>
-						  <div class="input-group">
-						    <span class="input-group-addon input-sm"><i class="fa fa-calendar-check-o"></i></span>
-						    <input class="form-control input-sm" type="text" id="changeReservationMaxTime">
-						  </div>
-					</div>
-					
-					<div class="col-sm-2" style="margin-top:25px">
-						  <Button type="button" class="btn btn-primary btn-sm" onclick="reservationMaxTimeBtn()">변경</Button>
-					</div>
-				  </div>
-				</div>
-			</div>
-			
-			<div class="col-lg-6">
-				<div class="panel panel-primary">
+				<div class="panel panel-default">
 				  <div class="panel-heading">이메일 전송 시간</div>
 				  <div class="panel-body">
 				    <div class="form-group col-sm-5">
@@ -147,7 +150,7 @@
 			
 			<div>
 				<div class="col-lg-6">
-					<div class="panel panel-danger">
+					<div class="panel panel-default">
 					  <div class="panel-heading">No Show 미준수 횟수</div>
 					  <div class="panel-body">
 					    <div class="form-group col-sm-5">
@@ -158,7 +161,7 @@
 						</div>
 						
 						<div class="form-group col-sm-5">
-							  <label class="control-label">변경 최대 예약 가능 시간</label>
+							  <label class="control-label">변경 NoShow 미준수 횟수</label>
 							  <div class="input-group">
 							    <span class="input-group-addon input-sm"><i class="fa fa-calendar-check-o"></i></span>
 							    <input class="form-control input-sm" type="text" id="changeReservationNoShowCount">
@@ -173,7 +176,7 @@
 				</div>
 				
 				<div class="col-lg-6">
-					<div class="panel panel-danger">
+					<div class="panel panel-default">
 					  <div class="panel-heading">No Show 회원 정지</div>
 					  <div class="panel-body">
 					    <div class="form-group col-sm-5">
@@ -199,12 +202,12 @@
 				</div>
 			
 				<div class="col-lg-6" >
-					<div class="panel panel-warning">
+					<div class="panel panel-default">
 					  <div class="panel-heading">독점방지</div>
 					  <div class="panel-body">
 					    <div class="form-group col-sm-5">
 							  <label class="control-label">현재 독점방지 시간</label>
-							  <div class="input-group">
+							  <div class="input-group" disabled="">
 							    <input class="form-control input-sm" type="text" id="reservationMaxMonopoly" disabled="" value="${settingValue.SET_REV_MAX_MONOPOLY}시간">							  </div>
 						</div>
 						
@@ -218,6 +221,32 @@
 						
 						<div class="col-sm-2" style="margin-top:25px">
 							  <Button type="button" class="btn btn-primary btn-sm" onclick="reservationMaxMonopolyBtn()">변경</Button>
+						</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-6" >
+					<div class="panel panel-default">
+					  <div class="panel-heading">새로고침</div>
+					  <div class="panel-body">
+					    <div class="form-group col-sm-5">
+							  <label class="control-label">현재 새로고침 시간</label>
+							  <div class="input-group" disabled="">
+							    <input class="form-control input-sm" type="text" id="refreshTime" disabled="" value="${settingValue.SET_INDEX_REFRESH}초">							  </div>
+						</div>
+						
+						<div class="form-group col-sm-5" >
+							  <label class="control-label">변경 새로고침 시간</label>
+							  <div class="input-group">
+							    <span class="input-group-addon input-sm"><i class="fa fa-calendar-check-o"></i></span>
+							    <input class="form-control input-sm" type="text" id="changeRefreshTime" onKeyPress="return numkeyCheck(event)">
+							  </div>
+						</div>
+						
+						<div class="col-sm-2" style="margin-top:25px">
+							  <Button type="button" class="btn btn-primary btn-sm" onclick="refreshTimeBtn()">변경</Button>
 						</div>
 					  </div>
 					</div>
@@ -238,6 +267,7 @@
 <script type="text/javascript">
 
 var pwSameCheckVal = false;
+var emailSameCheckVal = false;
 
 function numkeyCheck(e) { 
 	var keyValue = event.keyCode; 
@@ -274,135 +304,203 @@ function checkMin(value){
 		return true;
 }
 
+	function refreshTimeBtn() {
 
-function reservationMaxMonopolyBtn(){
-	$("#selectSetting").val("SET_REV_MAX_MONOPOLY");
-	var changeValue = $("#ChangeReservationMaxMonopoly").val();
-	
-	if(checkHour(changeValue) == true){
-		$("#settingValue").val(changeValue);
-		settingSubmit();
-	}
-	else{
-		alert("잘못된 입력");
-	}
-}
+		var confirmCheck = confirm("새로고침 시간을 변경하시겠습니까?");
+		if (confirmCheck == true) {
+			$("#selectSetting").val("SET_INDEX_REFRESH");
+			var changeValue = $("#changeRefreshTime").val();
 
-function reservationNoShowBanDayBtn(){
-	$("#selectSetting").val("SET_NO_SHOW_BAN_DAY");
-	var changeValue = $("#changeReservationNoShowBanDay").val();
-	
-	if(checkDay(changeValue) == true){
-		$("#settingValue").val(changeValue);
-		settingSubmit();
-	}
-	else{
-		alert("잘못된 입력");
-	}
-}
+			$("#settingValue").val(changeValue);
+			settingSubmit();
+		}
 
-function reservationNoShowCountBtn(){
-	$("#selectSetting").val("SET_NO_SHOW_COUNT");
-	var changeValue = $("#changeReservationNoShowCount").val();
-	$("#settingValue").val(changeValue);
-	settingSubmit();
-}
+	}
 
-function reservationEmailTimeBtn(){
-	$("#selectSetting").val("SET_EMAIL_TIME");
-	var changeValue = $("#changeReservationEmailTime").val();
-	
-	if(checkMin(changeValue) == true){
-		$("#settingValue").val(changeValue);
-		settingSubmit();
-	}
-	else{
-		alert("잘못된 입력");
-	}
-}
+	function reservationMaxMonopolyBtn() {
 
-function reservationMaxTimeBtn(){
-	$("#selectSetting").val("SET_REV_MAX_TIME");
-	var changeValue = $("#changeReservationMaxTime").val();
-	
-	if(checkMin(changeValue) == true){
-		$("#settingValue").val(changeValue);
-		settingSubmit();
-	}
-	else{
-		alert("잘못된 입력");
-	}
-}
+		var confirmCheck = confirm("독점예약 시간을 변경하시겠습니까?");
+		if (confirmCheck == true) {
+			$("#selectSetting").val("SET_REV_MAX_MONOPOLY");
+			var changeValue = $("#ChangeReservationMaxMonopoly").val();
 
-function reservationMaxMonthBtn(){
-	$("#selectSetting").val("SET_REV_MAX_MONTH");
-	var changeValue = $("#changeReservationMaxMonth").val();
-	
-	if(checkMonth(changeValue) == true){
-		$("#settingValue").val(changeValue);
-		settingSubmit();
+			if (checkHour(changeValue) == true) {
+				$("#settingValue").val(changeValue);
+				settingSubmit();
+			} else {
+				alert("잘못된 입력");
+			}
+		}
 	}
-	else{
-		alert("잘못된 입력");
-	}
-	
-}
 
-function settingSubmit(){
-	$.ajax({
-        url : "/AdminManagement/SettingSubmit",
-        dataType : "text",
-        async : false,
-        type : "POST",
-        data : $('#settingSubmitForm').serializeArray(),
-        success: function(data) {
-        	$("#ddddd").load(window.location.href + " #ddddd");
-        },
-        error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"error:"+error);
-        }
-    });
-}
+	function reservationNoShowBanDayBtn() {
 
-function pwSameCheck(){
-	var pw = $("#changePw").val();
-	var pwCheck = $("#changePwCheck").val();
-	
-	if(pw!=pwCheck){
-		$("#pwDescription").text("- 비밀번호가 일치 하지 않습니다.");
-		pwSameCheckVal = false;
-		
-	}
-	else{
-		$("#pwDescription").text("- 비밀번호가 일치 합니다.");
-		pwSameCheckVal = true;
-	}
-}
+		var confirmCheck = confirm("노쇼 회원 정지일 수를 변경하시겠습니까?");
+		if (confirmCheck == true) {
+			$("#selectSetting").val("SET_NO_SHOW_BAN_DAY");
+			var changeValue = $("#changeReservationNoShowBanDay").val();
 
-function changePwBtn(){
-	
-	var pw = $("#changePw").val();
-	
-	if(pwSameCheckVal==false){
-		alert("비밀번호가 같지 않다구요!");
+			if (checkDay(changeValue) == true) {
+				$("#settingValue").val(changeValue);
+				settingSubmit();
+			} else {
+				alert("잘못된 입력");
+			}
+		}
 	}
-	else{
+
+	function reservationNoShowCountBtn() {
+
+		var confirmCheck = confirm("노쇼 미준수 횟수를 변경하시겠습니까?");
+		if (confirmCheck == true) {
+			$("#selectSetting").val("SET_NO_SHOW_COUNT");
+			var changeValue = $("#changeReservationNoShowCount").val();
+			$("#settingValue").val(changeValue);
+			settingSubmit();
+		}
+	}
+
+	function reservationEmailTimeBtn() {
+
+		var confirmCheck = confirm("이메일 예약 전송시간을 변경하시겠습니까?");
+
+		if (confirmCheck == true) {
+			$("#selectSetting").val("SET_EMAIL_TIME");
+			var changeValue = $("#changeReservationEmailTime").val();
+
+			if (checkMin(changeValue) == true) {
+				$("#settingValue").val(changeValue);
+				settingSubmit();
+			} else {
+				alert("잘못된 입력");
+			}
+		}
+	}
+
+	function reservationMaxMonthBtn() {
+
+		var confirmCheck = confirm("예약가능기간을 변경하시겠습니까?");
+
+		if (confirmCheck == true) {
+			$("#selectSetting").val("SET_REV_MAX_MONTH");
+			var changeValue = $("#changeReservationMaxMonth").val();
+
+			if (checkMonth(changeValue) == true) {
+				$("#settingValue").val(changeValue);
+				settingSubmit();
+			} else {
+				alert("잘못된 입력");
+			}
+		}
+
+	}
+
+	function settingSubmit() {
 		$.ajax({
-	        url : "/AdminManagement/PasswordChange",
-	        dataType : "text",
-	        async : false,
-	        type : "POST",
-	        data : {"pw":pw},
-	        success: function(data) {
-	        	alert("비밀번호가 변경됐습니다.");
-	        	$("#ddddd").load(window.location.href + " #ddddd");
-	        },
-	        error:function(request,status,error){
-	        }
-	    });
+			url : "/AdminManagement/SettingSubmit",
+			dataType : "text",
+			async : false,
+			type : "POST",
+			data : $('#settingSubmitForm').serializeArray(),
+			success : function(data) {
+				$("#ddddd").load(window.location.href + " #ddddd");
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "error:" + error);
+			}
+		});
 	}
-}
 
+	function pwSameCheck() {
+		var pw = $("#changePw").val();
+		var pwCheck = $("#changePwCheck").val();
+
+		if (pw != pwCheck) {
+			$("#pwDescription").text("- 비밀번호가 일치 하지 않습니다.");
+			$("#pwDescription").css("color", "red");
+			pwSameCheckVal = false;
+
+		} else {
+			$("#pwDescription").text("- 비밀번호가 일치 합니다.");
+			$("#pwDescription").css("color", "blue");
+			pwSameCheckVal = true;
+		}
+	}
+
+	function emailSameCheck() {
+		var email = $("#changeEmail").val();
+		var emailCheck = $("#changeEmailCheck").val();
+
+		if (email != emailCheck) {
+			$("#emailDescription").text("- 이메일이 일치 하지 않습니다.");
+			$("#emailDescription").css("color", "red");
+			emailSameCheckVal = false;
+
+		} else {
+			$("#emailDescription").text("- 이메일이 일치 합니다.");
+			$("#emailDescription").css("color", "blue");
+			emailSameCheckVal = true;
+		}
+	}
+
+	function changeEmailBtn() {
+
+		var confirmCheck = confirm("이메일을 변경하시겠습니까?");
+
+		if (confirmCheck == true) {
+			var email = $("#changeEmail").val();
+
+			if (emailSameCheckVal == false) {
+				alert("이메일이 같지 않다구요!");
+			} else {
+				$.ajax({
+					url : "/AdminManagement/EmailChange",
+					dataType : "text",
+					async : false,
+					type : "POST",
+					data : {
+						"email" : email
+					},
+					success : function(data) {
+						alert("이메일이 변경됐습니다.");
+						$("#ddddd").load(window.location.href + " #ddddd");
+					},
+					error : function(request, status, error) {
+					}
+				});
+			}
+		}
+
+	}
+
+	function changePwBtn() {
+
+		var confirmCheck = confirm("비밀번호를 변경하시겠습니까?");
+		if (confirmCheck == true) {
+			var pw = $("#changePw").val();
+
+			if (pwSameCheckVal == false) {
+				alert("비밀번호가 같지 않다구요!");
+			} else {
+				$.ajax({
+					url : "/AdminManagement/PasswordChange",
+					dataType : "text",
+					async : false,
+					type : "POST",
+					data : {
+						"pw" : pw
+					},
+					success : function(data) {
+						alert("비밀번호가 변경됐습니다.");
+						$("#ddddd").load(window.location.href + " #ddddd");
+					},
+					error : function(request, status, error) {
+					}
+				});
+			}
+		}
+
+	}
 </script>
 
 

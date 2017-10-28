@@ -9,7 +9,7 @@ function admin(){
 		type : "POST",
 		success : function(data) {
 			if(data=="SUCCESS"){
-				location.href="/AdminManagement/DashBoard";
+				location.href="/AdminBoarding/ReservationHistory";
 			}
 			else{
 				location.href="/AdminLogin/LoginPage";
@@ -31,4 +31,12 @@ function searchPage() {
 
 function logout(){
 	location.href="/Common/Logout"
+}
+
+function adminSearchPage() {
+	location.href="/AdminSearch/AdminSearchPage";
+}
+
+function repeatReservation(){
+	location.href= "/RepeatReservation/";
 }

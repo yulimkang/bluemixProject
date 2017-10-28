@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ibmMeeting.Constant.ConstantCode;
 import com.ibmMeeting.Dao.MeetingRoomDao;
+import com.ibmMeeting.Dao.ReservationDao;
 import com.ibmMeeting.VO.Conference;
 
 @Service
@@ -17,6 +19,12 @@ public class MeetingRoomManagementService {
 	
 	@Autowired
 	MeetingRoomDao meetingRoomDao;
+	
+	@Autowired
+	ReservationDao reservationDao;
+	
+	@Autowired
+	DatabaseSettingService databaseSettingService;
 	
 	public ArrayList<HashMap<String,Object>> meetingRoomList(){
 		return meetingRoomDao.meetingRoomList();
@@ -32,7 +40,7 @@ public class MeetingRoomManagementService {
 		meetingRoomAdd.put("roomNumber", roomNumber);
 		meetingRoomDao.meetingRoomAdd(meetingRoomAdd);
 		
-		return "success";
+		return ConstantCode.SUCCESS_STRING;
 	}
 	
 	public String meetingRoomUpdate(HttpServletRequest request){
@@ -47,17 +55,22 @@ public class MeetingRoomManagementService {
 		meetingRoomUpdate.put("roomSeq", roomSeq);
 		meetingRoomDao.meetingRoomUpdate(meetingRoomUpdate);
 		
-		return "success";
+		return ConstantCode.SUCCESS_STRING;
 	}
 	
 	public String meetingRoomDelete(HttpServletRequest request){
 		
 		Integer meetingRoomSeq = Integer.parseInt(request.getParameter("meetingRoomSeq"));
 		meetingRoomDao.meetingRoomDelete(meetingRoomSeq);
-		
-		return "success";
+		reservationDao.deleteReservationByMeetingRoomSeq(meetingRoomSeq);
+		return ConstantCode.SUCCESS_STRING;
 	}
 	
+	/**
+	 * 작성자 : 박세연
+	 * DB에 등록된 회의실들 정보 가져오기
+	 * @return
+	 */
 	public List<Conference> getResources(){
 		
 		List<Conference> list = meetingRoomDao.getResources();

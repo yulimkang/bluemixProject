@@ -5,15 +5,995 @@
 
 <mapper namespace="com.ibmMeeting.Dao.SearchDao">
 
-	<select id="allReservList" resultType="HashMap">
-		select rsv_comp
-			,  rsv_date
-			,  rsv_start_time
-			,  rsv_end_time
-			,  rsv_title
-			,  rsv_conf_nm
-			,  rsv_mem_nm
-			,  rsv_mem_pn
-		from reservation
+	<!-- 반복 예약내역 YN 출력 -->
+	<!-- 일반 검색, 반복예약기간 (rsv_confirm_state(승인상태) == Y, rsv_repeat_period(반복예약기간) = N) -->
+	
+	<!-- '전체' 옵션, 최신순으로 검색 -->
+	<select id="generalSelectByAllOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+		select r.rsv_no, 
+			   r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null" >
+			where r.rsv_conf_no = c.conf_no
+			and (REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			or r.rsv_mem_nm = #{value}
+			or REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date DESC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
 	</select>
+	
+	
+	<!-- '전체' 옵션, 오래된 순으로 검색 -->
+	<select id="generalSelectByAllOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+		select r.rsv_no,  
+			   r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and (REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			or r.rsv_mem_nm = #{value}
+			or REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
+	</select>
+	
+	<!-- 페이징을 위한 '전체' 옵션 검색 결과 개수 -->
+	<select id="rownumSelectByAll" resultType="Integer" parameterType="String">
+		select count(*)
+		from RESERVATION r
+	
+		<if test="value !=null">
+			where (REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			or r.rsv_mem_nm = #{value}
+			or REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+	
+	</select>
+	
+	
+	<!-- 페이징을 위한  '회의제목' 옵션, 최신순으로 검색 -->
+	<select id="generalSelectByTitleOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+		select r.rsv_no,  
+		       r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+			  
+		from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date DESC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
+	</select>
+	
+	<!-- '회의제목' 옵션, 오래된 순으로 검색 -->
+	<select id="generalSelectByTitleOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+		select r.rsv_no,  
+		       r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+			  
+		from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
+	</select>
+	
+	<!-- 페이징을 위한 '회의제목' 옵션 검색 결과 개수 -->
+	<select id="rownumSelectByTitle" resultType="Integer" parameterType="String">
+		select count(*)
+		from RESERVATION r
+	
+		<if test="value !=null">
+			where REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+	
+	</select>
+	
+	
+	<!-- '예약자이름' 옵션, 최신순으로 검색 -->
+	<select id="generalSelectByMemNMOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+		select r.rsv_no,  
+		       r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+			   
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and r.rsv_mem_nm = #{value}
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date DESC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
+	</select>
+	
+	<!-- '예약자이름' 옵션, 오래된 순으로 검색 -->
+	<select id="generalSelectByMemNMOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+		select r.rsv_no,  
+		       r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+			   
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and r.rsv_mem_nm = #{value}
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
+	</select>
+	
+	<!--페이징을 위한 '예약자 이름' 옵션 검색 결과 개수 -->
+	<select id="rownumSelectByMemNM" resultType="Integer" parameterType="String">
+		select count(*)
+		from RESERVATION r
+	
+		<if test="value !=null">
+			where r.rsv_mem_nm = #{value}
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+	
+	</select>
+
+	
+	
+	<!-- '예약자 핸드폰 번호' 옵션, 최신순으로 검색 -->
+	<select id="genelralSelectByMemPNOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+			select r.rsv_no, 
+			   r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date DESC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+
+	</select>
+	
+	<!-- '예약자 핸드폰 번호' 옵션, 오래된 순으로 검색 -->
+	<select id="genelralSelectByMemPNOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from (
+			select r.rsv_no, 
+			   r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn
+
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+		order by r.rsv_date ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+
+	</select>
+	
+	<!-- 페이징을 위한 '핸드폰 번호' 옵션 검색 결과 개수 -->
+	<select id="rownumSelectByMemPN" resultType="Integer" parameterType="String">
+		select count(*)
+		from RESERVATION r
+	
+		<if test="value !=null">
+			where REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period = 'N'
+			and (r.rsv_confirm_state = 'Y' or r.rsv_confirm_state = 'ACCEPT')
+		</if>
+	
+	</select>
+	
+	
+	<!-- 반복 예약 검색 (rsv_confirm_state(승인상태) == Y, rsv_confirm_state(반복예약기간) != N)-->
+	<!-- '전체'옵션, 최신순으로 검색 -->
+	<select id="repeatSelectByAllOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and (REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			or r.rsv_mem_nm = #{value}
+			or REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date DESC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+	
+	</select>
+	
+	
+	
+	<!-- '전체'옵션, 오래된 순으로 검색 -->
+	<select id="repeatSelectByAllOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and (REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			or r.rsv_mem_nm = #{value}
+			or REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date ASC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+	
+	</select>
+	
+	<!-- '회의 제목'옵션, 최신순으로 검색 -->
+	<select id="repeatSelectByTitleOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date DESC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+	
+	</select>
+	
+	<!-- '회의 제목'옵션, 오래된 순으로 검색 -->
+	<select id="repeatSelectByTitleOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date ASC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+	
+	</select>
+	
+	
+	<!-- '예약자'옵션, 최신순으로 검색 -->
+	<select id="repeatSelectByMemNMOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and r.rsv_mem_nm = #{value}
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date DESC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+	
+	</select>
+	
+	<!-- '예약자'옵션, 오래된 순으로 검색 -->
+	<select id="repeatSelectByMemNMOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and r.rsv_mem_nm = #{value}
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date ASC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+
+	</select>
+	
+	
+	
+	<!-- '예약자 핸드폰 번호'옵션, 최신순으로 검색 -->
+	<select id="repeatSelectByMemPNOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%', REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date DESC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+			
+	</select>
+	
+	<!-- '예약자 핸드폰 번호'옵션, 오래된 순으로 검색 -->
+	<select id="repeatSelectByMemPNOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		select * from (
+		select @RNUM := @RNUM + 1 AS ROWNUM, A.* 
+		from ( 
+		
+		select *
+		from ( select r.rsv_date,  
+			   r.rsv_start_time,  
+			   r.rsv_end_time,  
+			   r.rsv_title, c.conf_nm,  
+			   r.rsv_mem_nm,  
+			   r.rsv_mem_pn,
+			   r.rsv_repeat_period,
+			   r.rsv_setting,
+			   r.rsv_repeat_no
+			   from RESERVATION r, CONFERENCE c 
+			   		
+		<if test="value !=null">
+			where r.rsv_conf_no = c.conf_no
+			and REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%', REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+		group by r.rsv_repeat_no
+		order by r.rsv_date ASC) CNT
+		order by rsv_date ASC, rsv_start_time ASC, rsv_mem_nm ASC) A, (select @RNUM := 0) B) C
+		where C.ROWNUM BETWEEN #{startPage} and #{endPage}
+
+	</select>
+	
+	
+	<!-- 페이징 처리를 위한 반복예약 검색 결과 개수 -->
+	<!-- '전체' 옵션으로 검색한 경우 -->
+	<select id="rownumRepeatSelectByAll" resultType="Integer" parameterType="String">
+		select count(*) 
+    	from ( 
+    	select count(*)
+		from RESERVATION r
+		
+		<if test="value !=null">
+			where (REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+				or r.rsv_mem_nm = #{value}
+				or REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+        </if>
+        group by r.rsv_repeat_no) CNT
+        
+       </select>
+	
+	<!-- '회의제목' 옵션으로 검색한 경우 -->
+	<select id="rownumRepeatSelectByTitle" resultType="Integer" parameterType="String">
+		select count(*) 
+    	from ( 
+    	select count(*)
+		from RESERVATION r
+		
+		<if test="value !=null">
+			where REPLACE(r.rsv_title, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+        group by r.rsv_repeat_no) CNT
+      </select>
+	
+	<!-- '예약자 이름' 옵션으로 검색한 경우 -->
+	<select id="rownumRepeatSelectByMemNM" resultType="Integer" parameterType="String">
+		select count(*) 
+    	from ( 
+    	select count(*)
+		from RESERVATION r
+		
+		<if test="value !=null">
+			where r.rsv_mem_nm = #{value}
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+        group by r.rsv_repeat_no) CNT
+       </select>
+	
+	<!-- '핸드폰 번호' 옵션으로 검색한 경우 -->
+	<select id="rownumRepeatSelectByMemPN" resultType="Integer" parameterType="String">
+		select count(*) 
+    	from ( 
+    	select count(*)
+		from RESERVATION r
+		
+		<if test="value !=null">
+			where REPLACE(r.rsv_mem_pn, '-', '') LIKE CONCAT('%', REPLACE(#{value}, '-', ''),'%')
+			and r.rsv_repeat_period != 'N'
+			and r.rsv_confirm_state = 'ACCEPT'
+		</if>
+        group by r.rsv_repeat_no) CNT
+       </select>
+	
+	<!-- 모달 상세보기 출력 -->
+	<select id="repeatSearchDetailContents" resultType="HashMap" parameterType="Integer">
+		select r.rsv_no,
+		r.rsv_date,
+		r.rsv_start_time,
+		r.rsv_end_time,
+		r.rsv_title,
+		r.rsv_mem_nm,
+		r.rsv_mem_pn,
+		r.rsv_confirm_state,
+		r.rsv_repeat_period,
+		r.rsv_setting,
+		r.rsv_repeat_no,
+		c.conf_nm
+		from RESERVATION r, CONFERENCE c 
+
+		where r.rsv_conf_no = c.conf_no
+		and r.rsv_repeat_no = #{repeatSeq}
+
+	</select>
+	
+	<!-- 가예약 검색 기능 -->
+
+	
+	
+	<!-- 자동완성 기능을 위한 쿼리 -->	
+	<!-- 전체검색일 경우 -->
+	<select id="autocompleteByAllList" resultType="HashMap" parameterType="String"> <!-- TITLE, MEM_NM, MEM_PN 모두 출력할 수 있도록 -->
+		SELECT DISTINCT RSV_TITLE
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE REPLACE(RSV_TITLE, ' ', '') LIKE CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+		</if>
+		
+		UNION
+		SELECT DISTINCT RSV_MEM_NM
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE RSV_MEM_NM LIKE CONCAT('%',#{value},'%')
+		</if>
+		
+		UNION
+		SELECT DISTINCT RSV_MEM_PN
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE REPLACE(RSV_MEM_PN, '-', '') LIKE CONCAT('%',#{value},'%')
+		</if>
+	</select>
+	
+	<!-- 회의제목 검색일 경우 -->
+	<select id="autocompleteByTitleList" resultType="HashMap" parameterType="String">
+		SELECT DISTINCT RSV_TITLE
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE REPLACE(RSV_TITLE, ' ', '') LIKE CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+		</if>
+	</select>
+	
+	<!-- 예약자 검색일 경우 경우 -->
+	<select id="autocompleteByMemNMList" resultType="HashMap" parameterType="String">
+		SELECT DISTINCT RSV_MEM_NM
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE RSV_MEM_NM LIKE CONCAT('%',#{value},'%')
+		</if>
+	</select>
+	
+	<!-- 예약자 번호 검색인 경우 -->
+	<select id="autocompleteByMemPNList" resultType="HashMap">
+		SELECT DISTINCT RSV_MEM_PN
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE REPLACE(RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+		</if>
+	</select>
+	
+	
+	<!-- 쿼리 맞는지 확인하기 -->
+	<select id="autocompleteByMemPNForIndexList" resultType="HashMap">
+		SELECT DISTINCT RSV_MEM_PN
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		WHERE REPLACE(RSV_MEM_PN, '-', '') LIKE CONCAT('%', REPLACE(#{value}, '-', ''),'%')
+		</if>
+	</select>
+	
+	
+	
+	
+	
+	<!-- 관리자 페이지 예약 내역 히스토리 출력 -->
+	<!-- 일반예약, 날짜 검색, 최신순  -->
+	<select id="generalSelectByDateOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT H.HST_DATE,
+			H.HST_START_TIME,
+			H.HST_END_TIME,
+			C.CONF_NM,
+			H.HST_RSV_TITLE,
+			H.HST_RSV_MEM_NM,
+			H.HST_RSV_MEM_PN,
+			H.HST_REPEAT_PERIOD,
+			H.HST_SETTING,
+			H.HST_RSV_STATE,
+			H.HST_REG_DATE	   
+			FROM HISTORY H, CONFERENCE C
+			
+			WHERE H.HST_CONF_NO = C.CONF_NO
+			AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+			AND H.HST_RSV_STATE != 'NOSHOW'
+			AND H.HST_REPEAT_PERIOD = 'N'
+			ORDER BY H.HST_DATE DESC, H.HST_START_TIME ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 일반예약, 날짜 검색, 오래된 순  -->
+	<select id="generalSelectByDateOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT H.HST_DATE,
+			H.HST_START_TIME,
+			H.HST_END_TIME,
+			C.CONF_NM,
+			H.HST_RSV_TITLE,
+			H.HST_RSV_MEM_NM,
+			H.HST_RSV_MEM_PN,
+			H.HST_REPEAT_PERIOD,
+			H.HST_SETTING,
+			H.HST_RSV_STATE,
+			H.HST_REG_DATE	   
+			FROM HISTORY H, CONFERENCE C
+			
+			WHERE H.HST_CONF_NO = C.CONF_NO
+			AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+			AND H.HST_RSV_STATE != 'NOSHOW'
+			AND H.HST_REPEAT_PERIOD = 'N'
+			ORDER BY H.HST_DATE ASC, H.HST_START_TIME ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 일반예약, 날짜 검색, 이름 가다나순  -->
+	<select id="generalSelectByDateOrderByNameList" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT H.HST_DATE,
+			H.HST_START_TIME,
+			H.HST_END_TIME,
+			C.CONF_NM,
+			H.HST_RSV_TITLE,
+			H.HST_RSV_MEM_NM,
+			H.HST_RSV_MEM_PN,
+			H.HST_REPEAT_PERIOD,
+			H.HST_SETTING,
+			H.HST_RSV_STATE,
+			H.HST_REG_DATE	   
+			FROM HISTORY H, CONFERENCE C
+			
+			WHERE H.HST_CONF_NO = C.CONF_NO
+			AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+			AND H.HST_RSV_STATE != 'NOSHOW'
+			AND H.HST_REPEAT_PERIOD = 'N'
+			ORDER BY H.HST_RSV_MEM_NM ASC, H.HST_DATE ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 일반예약 페이징을 위한 날짜 검색 개수 -->
+	<select id="rownumSelectByDate" resultType="Integer" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM HISTORY H
+		
+
+		WHERE H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+		AND H.HST_RSV_STATE != 'NOSHOW'
+		AND H.HST_REPEAT_PERIOD = 'N'
+	</select>
+	
+	
+	<!-- 확인 -->
+	
+	
+	<!-- 반복예약, 날짜 검색, 최신순  -->
+	<select id="repeatSelectByDateOrderByNewList" resultType="HashMap" parameterType="HashMap">
+			SELECT * FROM (
+			SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+			FROM (
+	        SELECT MIN(H.HST_DATE) X, MAX(H.HST_DATE) Y, 
+				H.HST_START_TIME,
+				H.HST_END_TIME,
+				C.CONF_NM,
+				H.HST_RSV_TITLE,
+				H.HST_RSV_MEM_NM,
+				H.HST_RSV_MEM_PN,
+				H.HST_REPEAT_PERIOD,
+				H.HST_SETTING,
+				H.HST_RSV_STATE,
+				H.HST_REG_DATE,
+	            H.HST_REPEAT_NO
+	            
+	        FROM HISTORY H, CONFERENCE C
+	        WHERE H.HST_CONF_NO = C.CONF_NO
+				AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+				AND H.HST_RSV_STATE != 'NOSHOW'
+				AND H.HST_REPEAT_PERIOD != 'N'
+	            GROUP BY HST_REPEAT_NO
+				ORDER BY H.HST_DATE DESC, H.HST_START_TIME ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+			WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>	
+	
+	<!-- 반복예약, 날짜 검색, 오래된 순  -->
+	<select id="repeatSelectByDateOrderByOldList" resultType="HashMap" parameterType="HashMap">
+			SELECT * FROM (
+			SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+			FROM (
+	        SELECT MIN(H.HST_DATE) X, MAX(H.HST_DATE) Y, 
+				H.HST_START_TIME,
+				H.HST_END_TIME,
+				C.CONF_NM,
+				H.HST_RSV_TITLE,
+				H.HST_RSV_MEM_NM,
+				H.HST_RSV_MEM_PN,
+				H.HST_REPEAT_PERIOD,
+				H.HST_SETTING,
+				H.HST_RSV_STATE,
+				H.HST_REG_DATE,
+	            H.HST_REPEAT_NO
+	            
+	        FROM HISTORY H, CONFERENCE C
+	        WHERE H.HST_CONF_NO = C.CONF_NO
+				AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+				AND H.HST_RSV_STATE != 'NOSHOW'
+				AND H.HST_REPEAT_PERIOD != 'N'
+	            GROUP BY HST_REPEAT_NO
+				ORDER BY H.HST_DATE ASC, H.HST_START_TIME ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+			WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 반복예약, 날짜 검색, 이름 가다나순  -->
+	<select id="repeatSelectByDateOrderByNameList" resultType="HashMap" parameterType="HashMap">
+			SELECT * FROM (
+			SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+			FROM (
+	        SELECT MIN(H.HST_DATE) X, MAX(H.HST_DATE) Y, 
+				H.HST_START_TIME,
+				H.HST_END_TIME,
+				C.CONF_NM,
+				H.HST_RSV_TITLE,
+				H.HST_RSV_MEM_NM,
+				H.HST_RSV_MEM_PN,
+				H.HST_REPEAT_PERIOD,
+				H.HST_SETTING,
+				H.HST_RSV_STATE,
+				H.HST_REG_DATE,
+	            H.HST_REPEAT_NO
+	            
+	        FROM HISTORY H, CONFERENCE C
+	        WHERE H.HST_CONF_NO = C.CONF_NO
+				AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+				AND H.HST_RSV_STATE != 'NOSHOW'
+				AND H.HST_REPEAT_PERIOD != 'N'
+	            GROUP BY HST_REPEAT_NO
+				ORDER BY H.HST_RSV_MEM_NM ASC, H.HST_DATE ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+			WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>	
+	
+	<!-- 반복예약 페이징을 위한 날짜 검색 개수 -->
+	<select id="rownumRepeatSelectByDate" resultType="Integer" parameterType="HashMap">
+		SELECT COUNT(*) FROM (
+		SELECT COUNT(*)
+		FROM HISTORY H
+
+		WHERE H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+		AND H.HST_RSV_STATE != 'NOSHOW'
+		AND H.HST_REPEAT_PERIOD != 'N'
+		GROUP BY HST_REPEAT_NO ) CNT
+	
+	</select>
+	
+	<!-- 반복예약 상세 목록 -->
+	<select id="repeatSearchDetailContentsInHistory" resultType="HashMap" parameterType="Integer">
+		SELECT H.HST_DATE,
+				H.HST_START_TIME,
+				H.HST_END_TIME,
+				C.CONF_NM,
+				H.HST_RSV_TITLE,
+				H.HST_RSV_MEM_NM,
+				H.HST_RSV_MEM_PN,
+				H.HST_REPEAT_PERIOD,
+				H.HST_SETTING,
+				H.HST_RSV_STATE,
+				H.HST_REG_DATE,
+	            H.HST_REPEAT_NO
+	    FROM HISTORY H, CONFERENCE C
+	    WHERE H.HST_CONF_NO = C.CONF_NO
+	    AND H.HST_REPEAT_NO =  #{repeatSeq}
+	</select>
+	
+	<!-- 확인 -->
+	
+	<!-- 노쇼, 날짜 검색, 최신순  -->
+	<select id="noshowSelectByDateOrderByNewList" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT H.HST_DATE,
+			H.HST_START_TIME,
+			H.HST_END_TIME,
+			C.CONF_NM,
+			H.HST_RSV_TITLE,
+			H.HST_RSV_MEM_NM,
+			H.HST_RSV_MEM_PN,
+			H.HST_REPEAT_PERIOD,
+			H.HST_SETTING,
+			H.HST_RSV_STATE,
+			H.HST_REG_DATE	   
+			FROM HISTORY H, CONFERENCE C
+			
+			WHERE H.HST_CONF_NO = C.CONF_NO
+			AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+			AND H.HST_RSV_STATE = 'NOSHOW'
+			ORDER BY H.HST_DATE DESC, H.HST_START_TIME ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 노쇼, 날짜 검색, 오래된 순  -->
+	<select id="noshowSelectByDateOrderByOldList" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT H.HST_DATE,
+			H.HST_START_TIME,
+			H.HST_END_TIME,
+			C.CONF_NM,
+			H.HST_RSV_TITLE,
+			H.HST_RSV_MEM_NM,
+			H.HST_RSV_MEM_PN,
+			H.HST_REPEAT_PERIOD,
+			H.HST_SETTING,
+			H.HST_RSV_STATE,
+			H.HST_REG_DATE	   
+			FROM HISTORY H, CONFERENCE C
+			
+			WHERE H.HST_CONF_NO = C.CONF_NO
+			AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+			AND H.HST_RSV_STATE = 'NOSHOW'
+			ORDER BY H.HST_DATE ASC, H.HST_START_TIME ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 노쇼, 날짜 검색, 이름 가다나순  -->
+	<select id="noshowSelectByDateOrderByNameList" resultType="HashMap" parameterType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT H.HST_DATE,
+			H.HST_START_TIME,
+			H.HST_END_TIME,
+			C.CONF_NM,
+			H.HST_RSV_TITLE,
+			H.HST_RSV_MEM_NM,
+			H.HST_RSV_MEM_PN,
+			H.HST_REPEAT_PERIOD,
+			H.HST_SETTING,
+			H.HST_RSV_STATE,
+			H.HST_REG_DATE	   
+			FROM HISTORY H, CONFERENCE C
+			
+			WHERE H.HST_CONF_NO = C.CONF_NO
+			AND H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+			AND H.HST_RSV_STATE = 'NOSHOW'
+			ORDER BY H.HST_RSV_MEM_NM ASC, H.HST_DATE ASC, H.HST_NO DESC ) A, (SELECT @RNUM := 0) B) C
+
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 노쇼 페이징을 위한 날짜 검색 개수 -->
+	<select id="rownumNoshowSelectByDate" resultType="Integer" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM HISTORY H
+		
+		WHERE H.HST_DATE BETWEEN #{startDate} AND #{endDate}
+		AND H.HST_RSV_STATE = 'NOSHOW'
+	</select>
+	
+
 </mapper>

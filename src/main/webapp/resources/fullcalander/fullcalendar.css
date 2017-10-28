@@ -244,9 +244,13 @@ hr.fc-divider {
 
 .fc th {
 	text-align: center;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0;
+	height:2.0em;
+	background-color:beige;
 }
 
-.fc th,
 .fc td {
 	border-style: solid;
 	border-width: 1px;
@@ -393,13 +397,13 @@ temporary rendered events).
 	display: block; /* make the <a> tag block */
 	font-size: .85em;
 	line-height: 1.3;
-	border-radius: 3px;
-	border: 1px solid #3a87ad; /* default BORDER color */
+	border-radius: 2px;
+	border: 2px solid #fff; /* default BORDER color */
 }
 
 .fc-event,
 .fc-event-dot {
-	background-color: #3a87ad; /* default BACKGROUND color */
+	background-color: #fff; /* default BACKGROUND color */
 }
 
 .fc-event,
@@ -410,6 +414,7 @@ temporary rendered events).
 
 .fc-event[href],
 .fc-event.fc-draggable {
+	text-decoration: none;
 	cursor: pointer; /* give events with links and draggable events a hand mouse pointer */
 }
 
@@ -420,7 +425,6 @@ temporary rendered events).
 
 .fc-event .fc-bg { /* the generic .fc-bg already does position */
 	z-index: 1;
-	background: #fff;
 	opacity: .25;
 }
 
@@ -712,7 +716,7 @@ TODO: more distinction between this file and common.css
 }
 
 .fc-unthemed td.fc-today {
-	background: #fcf8e3;
+ 	background: #ffffff;
 }
 
 .fc-unthemed .fc-disabled-day {
@@ -1052,7 +1056,7 @@ NOTE: use percentage font sizes or else old IE chokes
 .fc-basic-view .fc-day-top .fc-week-number {
 	min-width: 1.5em;
 	text-align: center;
-	background-color: #f2f2f2;
+	background-color: #ffffff;
 	color: #808080;
 }
 
@@ -1279,12 +1283,34 @@ be a descendant of the grid when it is being dragged.
 .fc-time-grid-event .fc-title {
 	padding: 0 1px;
 	font-size: 2em;
+	text-align:center;
+	height:100%;
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+ @media screen and (max-width: 500px) {
+	.fc-time-grid-event .fc-time,
+	.fc-time-grid-event .fc-title {
+		height:100%;
+		padding: 0 1px;
+		font-size: 1.3em;
+		text-align:center;
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+		text-overflow: ellipsis;
+	    -o-text-overflow: ellipsis;
+	}
+ }
 
 .fc-time-grid-event .fc-time {
 	font-size: 1em;
 	white-space: nowrap;
+	display:none;
 }
+
 
 /* short mode, where time and title are on the same line */
 
@@ -1297,7 +1323,7 @@ be a descendant of the grid when it is being dragged.
 .fc-time-grid-event.fc-short .fc-title {
 	/* put the time and title on the same line */
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .fc-time-grid-event.fc-short .fc-time span {
@@ -1305,22 +1331,33 @@ be a descendant of the grid when it is being dragged.
 }
 
 .fc-time-grid-event.fc-short .fc-time:before {
+	display:none;
 	content: attr(data-start); /* ...instead, display only the start time */
 }
 
 .fc-time-grid-event.fc-short .fc-time:after {
+	display:none;
 	content: "\000A0-\000A0"; /* seperate with a dash, wrapped in nbsp's */
 }
 
 .fc-time-grid-event.fc-short .fc-title {
-	font-size: .85em; /* make the title text the same size as the time */
+	font-size: 1.2em; /* make the title text the same size as the time */
 	padding: 0; /* undo padding from above */
+	width:100%;
+	heignt:100%;
+	text-align:center;
+		text-overflow: ellipsis;
+	    -o-text-overflow: ellipsis;
+	    overflow: hidden;
+	    white-space: nowrap;
+	    word-wrap: normal !important;
 }
+
 
 /* resizer (cursor device) */
 
 .fc-time-grid-event.fc-allow-mouse-resize .fc-resizer {
-	left: 0;
+	left: -0;
 	right: 0;
 	bottom: 0;
 	height: 8px;
