@@ -25,6 +25,7 @@
     	<result column="rsv_repeat_period" property="rsvRepeatPeriod"/>
     	<result column="rsv_setting" property="rsvSetting"/>
     	<result column="rsv_repeat_no" property="rsvRepeatNo"/>
+    	<result column="rsv_description" property="rsvDescription"/>
  	</resultMap>
 	
 	<!-- 작성자 : 박세연 -->
@@ -46,7 +47,7 @@
 	<!-- 예약내역 등록하기 -->
 	<insert id="registReservation" parameterType="com.ibmMeeting.VO.Reservation">
 		INSERT INTO RESERVATION
-		VALUES (#{rsvNo}, #{rsvComp}, #{rsvDate}, #{rsvTotalTime}, #{rsvStartTime}, #{rsvEndTime}, #{rsvTitle}, #{rsvMemNm}, #{rsvMemPn}, #{rsvMemEm}, #{rsvDelPwd}, #{rsvRegDate}, #{rsvColor}, #{rsvConfirmState}, #{rsvRepeatSeq}, #{rsvEmailCheck}, #{rsvConfNo}, #{rsvRepeatPeriod}, #{rsvSetting}, #{rsvRepeatNo})
+		VALUES (#{rsvNo}, #{rsvComp}, #{rsvDate}, #{rsvTotalTime}, #{rsvStartTime}, #{rsvEndTime}, #{rsvTitle}, #{rsvMemNm}, #{rsvMemPn}, #{rsvMemEm}, #{rsvDelPwd}, #{rsvRegDate}, #{rsvColor}, #{rsvConfirmState}, #{rsvRepeatSeq}, #{rsvEmailCheck}, #{rsvConfNo}, #{rsvRepeatPeriod}, #{rsvSetting}, #{rsvRepeatNo}, #{rsvDescription})
 	</insert>
 	
 	<!-- 작성자 : 박세연 -->
@@ -84,12 +85,6 @@
 		WHERE rsv_no = #{value}	
 	</delete>
 	
-	<!-- 입력한 기간 이전의 예약내역 삭제 -->
-	<select id="deleteReservationByDate" parameterType="String">
-		<![CDATA[
-			DELETE FROM RESERVATION WHERE RSV_DATE <= #{deleteDate}
-		]]>
-	</select>
 	
 	<!-- 작성자 : 박세연 -->
 	<!-- 드래그 앤 드롭을 통해 예약 수정하기 -->
@@ -98,7 +93,8 @@
 		SET
 			rsv_start_time = #{rsvStartTime},
 			rsv_end_time = #{rsvEndTime},
-			rsv_conf_no = #{rsvConfNo}
+			rsv_conf_no = #{rsvConfNo},
+			rsv_total_time = #{rsvTotalTime}
 		WHERE rsv_no = #{rsvNo}	
 	</update>
 	
@@ -163,10 +159,14 @@
 		WHERE rsv_no = #{rsvNo}	
 	</select>
 	
-	
-	
-	
-	
+	<!-- 작성자 : 박세연 -->
+	<!-- 등록된 예약 위로 마우스 위치시, 예약자 내역 tooltip에 띄우기 -->
+	<select id="showInfoByTooltip" parameterType="int" resultMap="reservation_resultmap">
+		SELECT rsv_total_time, rsv_mem_nm, rsv_mem_pn, rsv_mem_em
+		FROM RESERVATION
+		WHERE rsv_no = #{rsvNo}		
+	</select>
+
 	
 	<!-- 작성자 : 박성준 -->
 	<!-- 회의실 삭제시 예약내역 모두 삭제 -->
@@ -184,28 +184,51 @@
 		order by CONF_NO ASC, RSV_START_TIME ASC;
 	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	<!-- 작성자 : 박성준 -->
 	<!-- 예약 된 값 중 비슷한 예약이 있는지 확인 -->
 	<select id="similarTitleCheck" parameterType="String" resultType="Integer">
 		select count(*)
 		from RESERVATION
 		where replace(RSV_TITLE,' ','') = replace(#{rsvTitle},' ','');
+	</select>
+	
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- 입력한 기간 이전의 예약내역 삭제 -->
+	<delete id="deleteReservationByDate" parameterType="String">
+		<![CDATA[
+			DELETE FROM RESERVATION WHERE RSV_DATE <= #{deleteDate}
+		]]>
+	</delete>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- 입력 기간 이전의 예약내역 저장 -->
+	<select id="selectAllReservationByDate" parameterType="String" resultType="HashMap">
+	<![CDATA[
+		   SELECT R.RSV_NO,
+					R.RSV_DATE,
+					R.RSV_TOTAL_TIME,
+					R.RSV_START_TIME,
+					R.RSV_END_TIME,
+					R.RSV_TITLE,
+					R.RSV_MEM_NM,
+					R.RSV_MEM_PN,
+					R.RSV_MEM_EM,
+					R.RSV_DEL_PWD,
+					R.RSV_REG_DATE,
+					R.RSV_CONFIRM_STATE,
+					R.RSV_REPEAT_SEQ,
+					R.RSV_EMAIL_CHECK,
+					C.CONF_NM,
+					R.RSV_REPEAT_PERIOD,
+					R.RSV_SETTING,
+					R.RSV_REPEAT_NO
+					
+			FROM RESERVATION R, CONFERENCE C
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND RSV_DATE <= #{deleteDate}
+			ORDER BY R.RSV_REPEAT_NO ASC, R.RSV_DATE ASC
+	]]>
 	</select>
 
 </mapper>

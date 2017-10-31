@@ -38,7 +38,7 @@ public class RepeatReservationController {
 		ModelAndView repeatReservationIndex = new ModelAndView();
 		ArrayList<HashMap<String,Object>> meetingRoomList = meetingRoomManagementService.meetingRoomList();
 		repeatReservationIndex.addObject("meetingRoomList",meetingRoomList);
-		repeatReservationIndex.setViewName("repeatReservation/repeatRequest");
+		repeatReservationIndex.setViewName("repeatReservation/repeat_request");
 		
 		return repeatReservationIndex;
 	}

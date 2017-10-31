@@ -7,9 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ibmMeeting.VO.Member;
 import com.ibmMeeting.VO.Reservation;
 
+/**
+ * @author 박세연
+ */
 @Mapper
 public interface MemberDao {
-
+	
 	List<Member> getMemInfoByPn(String memPn);
 	
 	void registMember(Member member);
@@ -17,4 +20,6 @@ public interface MemberDao {
 	int checkExistMemInfo(String memPn);
 	
 	void modifyMember(Member member);
+	
+	List<Member> memInfoByToolTip(String memPn);
 }

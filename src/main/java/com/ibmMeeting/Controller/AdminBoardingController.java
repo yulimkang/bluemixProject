@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Constant.ConstantCode;
 import com.ibmMeeting.Service.AdminBoardingService;
-import com.ibmMeeting.Service.DatabaseSettingService;
 
 
 @Controller
@@ -27,8 +26,6 @@ public class AdminBoardingController {
 	@Autowired
 	AdminBoardingService adminboardingService;
 	
-	@Autowired
-	DatabaseSettingService databaseSettingService;
 	
 /*	@RequestMapping("/")
 	public String Boarding(HttpServletRequest request, HttpSession session){
@@ -64,8 +61,6 @@ public class AdminBoardingController {
 		map.addAttribute("BoardingListAll", pagebeanMap.get("searchResult"));
 		map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
 		
-		System.out.println("page : "+ page);
-		System.out.println("Controller List: "+pagebeanMap.get("searchResult"));
 
 		
 		
@@ -116,7 +111,7 @@ public class AdminBoardingController {
 	
 	/* 
 	 * 작성자 : 고창환
-	 * 온보딩 멤버 수정
+	 * 온보딩 오프보딩 멤버 수정
 	 */
 	@ResponseBody
 	@RequestMapping("/OnBoardingUpdate")

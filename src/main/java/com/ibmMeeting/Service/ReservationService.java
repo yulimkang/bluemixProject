@@ -74,6 +74,7 @@ public class ReservationService {
 		reservation.setRsvRepeatPeriod("N");
 		reservation.setRsvSetting("0");
 		reservation.setRsvRepeatNo(0);
+		reservation.setRsvDescription("");
 	
 		//만약 key값을 이용해서 사이트명을 구분한다면 바뀌어야 할 코드
 		reservation.setRsvComp(ConstantCode.COMPANY_NAME);
@@ -135,11 +136,15 @@ public class ReservationService {
 	
 	
 	
-	//최문정 : 관리자 예약내역 중 입력날짜 이후의 값을 삭제
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 예약내역 중 입력날짜 이후의 값을 삭제
+	 * @param request
+	 * @return
+	 */
 	public Integer deleteReservationByDate(HttpServletRequest request) {
 		
 		String deleteDate = request.getParameter("deleteDate");
-		System.out.println("Reserv Service Delete Date : "+deleteDate);
 		
 		reservationDao.deleteReservationByDate(deleteDate);
 
@@ -155,20 +160,21 @@ public class ReservationService {
 	 * @param rsvStartTime
 	 * @param rsvEndTime
 	 */
-	public void modifyRsvByDrop(int rsvNo, int rsvConfNo, Time rsvStartTime, Time rsvEndTime){
+	public void modifyRsvByDrop(int rsvNo, int rsvConfNo, Time rsvStartTime, Time rsvEndTime, Time rsvTotalTime){
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("rsvNo", rsvNo);
 		map.put("rsvConfNo", rsvConfNo);
 		map.put("rsvStartTime", rsvStartTime);
 		map.put("rsvEndTime", rsvEndTime);
+		map.put("rsvTotalTime", rsvTotalTime);
 		
 		reservationDao.modifyRsvByDrop(map);
 	}
 	
 	/**
 	 * 작성자 : 박세연
-	 * 회의실 독점 방지를 위해 한주의 예약내역 개수세기
+	 * 회의실 독점 방지를 위해 한 주의 예약내역 개수세기
 	 * @param rsvTitle
 	 * @param rsvMemPn
 	 * @return
@@ -237,8 +243,6 @@ public class ReservationService {
 			wantDate = commonService.nowTime();
 		}
 		
-		System.out.println(wantDate);
-		
 		return reservationDao.allReservationList(wantDate);
 		
 	}
@@ -301,11 +305,30 @@ public class ReservationService {
 		
 	}
 	
+	/**
+	 * 작성자 : 박세연
+	 * 가예약 승인된 예약은 관리자만 수정 가능
+	 * @param rsvNo
+	 * @return
+	 */
 	public String getRsvConfirmStateVal(int rsvNo){
 	
 		String state = reservationDao.getRsvConfirmStateVal(rsvNo);
 		
 		return state;
+	}
+	
+	/**
+	 * 작성자 : 박세연
+	 * 등록된 예약 위로 마우스 위치시, 예약자 내역 tooltip에 띄우기
+	 * @param rsvNo
+	 * @return
+	 */
+	public List<Reservation> showInfoByTooltip(int rsvNo){
+		
+		List<Reservation> list = reservationDao.showInfoByTooltip(rsvNo);
+		
+		return list;
 	}
 	
 	

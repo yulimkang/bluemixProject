@@ -26,7 +26,7 @@
 %>
 <html>
 <head>
- <title>ReservationHistory</title>
+ <title>관리자 예약관리</title>
 </head>
 <body id="htmlBody">
  <jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
@@ -68,11 +68,20 @@
 					
 					<tbody >
 						<c:forEach items="${fakeReservation}" var="fakeReservation" >
-							<tr>
+							<tr  title="${fakeReservation.RSV_DESCRIPTION}">
 						 	<c:choose>
-								<c:when test="${fakeReservation.RSV_REPEAT_NO ne 0 }"><td>반복예약</td>								
+								<c:when test="${fakeReservation.RSV_REPEAT_NO ne 0 && fakeReservation.RSV_REPEAT_PERIOD eq 'month' }"><td>반복예약(월반복)</td>								
 								<td>${fn:substring(fakeReservation.RSV_DATE,5,10)} ~ ${fn:substring(fakeReservation.LAST_DATE,5,10)}</td>
 								</c:when>
+								
+								<c:when test="${fakeReservation.RSV_REPEAT_NO ne 0 && fakeReservation.RSV_REPEAT_PERIOD eq 'week' }"><td>반복예약(주반복)</td>								
+								<td>${fn:substring(fakeReservation.RSV_DATE,5,10)} ~ ${fn:substring(fakeReservation.LAST_DATE,5,10)}</td>
+								</c:when>
+								
+								<c:when test="${fakeReservation.RSV_REPEAT_NO ne 0 && fakeReservation.RSV_REPEAT_PERIOD eq 'day' }"><td>반복예약(일반복)</td>								
+								<td>${fn:substring(fakeReservation.RSV_DATE,5,10)} ~ ${fn:substring(fakeReservation.LAST_DATE,5,10)}</td>
+								</c:when>
+								
 								
 								<c:otherwise>
 								<td>5시간이상예약</td>
@@ -111,14 +120,14 @@
 																		<td style="text-align: center;"><b>회의날짜</b></td>
 																		<td style="text-align: center; "><b>회의시간</b></td>
 																		<td style="text-align: center;"><b>회의제목</b></td>
-																		
 															</tr>
 															</thead>
 															<tbody>
 																<tr>
 																</tr>
 															</tbody>
-														</table>
+
+															</table>
 													</div>
 											</div>
 										</div>
@@ -130,6 +139,7 @@
 									
 								
 							</tr>
+							
 						</c:forEach>
 					</tbody>
 	
@@ -151,13 +161,14 @@
 /* 	$(function() {
 		$('#accordion').accordion();
 	}) */
+	
+	//상세내역조회
 	function lookInside(repeatNo){
  		   var table = document.getElementById("tmp");
   		   var rowlen = table.rows.length;
 		   
  		   var insideArray = new Array();
 		   
-		   console.log("hi");
 			$.ajax({
 			url : "/AdminBoarding/LookInside",
 			dataType : "json",
@@ -166,12 +177,8 @@
 			data : { "repeatNo" : repeatNo},
 			success : function(data) {
 				
-				
  				insideArray = data;
-				
-			
-				
-				
+
  				for(var i = table.rows.length - 1; i > 0; i--)
  		         {
  		             table.deleteRow(i);
@@ -188,18 +195,21 @@
  		             row.insertCell(1).innerHTML = date;
  		             row.insertCell(2).innerHTML = startTime + "~" + endTime;
  		             row.insertCell(3).innerHTML = insideArray[i].RSV_TITLE;
-		             
  		          }
+
+
+
+
 			
 			},
 			error:function(request,status,error){
 			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			   }
 
-
 		});
 	}
 
+	//승인
 	function updateBtnClick(reservationSeq,repeatNo){
 		$.ajax({
 			url : "/AdminBoarding/ReservationUpdate",
@@ -216,6 +226,7 @@
 	
 	
  	}
+	//반려
 	function deleteBtnClick(reservationSeq,repeatNo){
 		$.ajax({
 			url : "/AdminBoarding/ReservationDelete",
@@ -232,7 +243,7 @@
 	
 	
 	}
-	
+	//조회 옵션
 	function selectOption(){
 		
 			$("#listFilter").attr("action","/AdminBoarding/Filtering")

@@ -26,8 +26,7 @@
 
 <html>
 <head>
-<title>관리자 No-Show </title>
-
+<title>관리자 No-Show 관리</title>
 </head>
 <body id="htmlBody">
 	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
@@ -37,7 +36,7 @@
 		<jsp:include page="admin_footer.jsp"></jsp:include>
 		
 		<div class="panel panel-default">
-				<div class="panel-body">현재예약 No-Show </div>
+				<div class="panel-body">No-Show </div>
 		</div>
 
 		<form action="/AdminManagement/NoShowManagement" id="dateChangeForm">
@@ -61,6 +60,8 @@
 						</tr>
 					</thead>
 					<tbody>
+					<!-- 작성자 : 박성준 -->
+					<!--JSTL이용한 전체 예약 내역 노출 -->
 						<c:forEach items="${allReservation}" var="allReservation" varStatus="count">
 							<tr>
 							
@@ -99,6 +100,7 @@
 		$("#onBoardingUpadateInputBox").show();
 	}
 
+	// 변경한 포맷으로 날짜 설정
 	$(function() {
 		$("#datepicker").datepicker();
 		$("#datepicker").datepicker("option", "dateFormat", "yy/mm/dd");
@@ -112,6 +114,7 @@
 		dateChangeForm.submit();
 	}
 
+	// 노쇼버튼 ajax
 	function noShowBtn(rsvNo, rsvTitle) {
 
 		var confirmCheck = confirm(rsvTitle + "를 No-Show 하시겠습니까?");

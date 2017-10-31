@@ -180,9 +180,9 @@ public class ReservationController {
 	 */
 	@RequestMapping("/ModifyRsvByDrop")
 	@ResponseBody
-	public String modifyRsvByDrop(@RequestParam int rsvNo, @RequestParam int rsvConfNo, @RequestParam Time rsvStartTime, @RequestParam Time rsvEndTime){
+	public String modifyRsvByDrop(@RequestParam int rsvNo, @RequestParam int rsvConfNo, @RequestParam Time rsvStartTime, @RequestParam Time rsvEndTime, @RequestParam Time rsvTotalTime){
 		
-		reservationService.modifyRsvByDrop(rsvNo, rsvConfNo, rsvStartTime, rsvEndTime);
+		reservationService.modifyRsvByDrop(rsvNo, rsvConfNo, rsvStartTime, rsvEndTime, rsvTotalTime);
 		//history
 		List<Reservation> rsv = reservationService.getReservationInfo(rsvNo);
 		Reservation reservation = new Reservation();
@@ -194,6 +194,7 @@ public class ReservationController {
 		reservation.setRsvConfNo(rsvConfNo);
 		reservation.setRsvStartTime(rsvStartTime);
 		reservation.setRsvEndTime(rsvEndTime);
+		reservation.setRsvTotalTime(rsvTotalTime);
 		
 		String hstState = "MODIFY";
 		historyService.insertHistory(reservation, hstState);
@@ -235,7 +236,7 @@ public class ReservationController {
 	
 	/**
 	 * 작성자 : 박세연
-	 * 이미 예약된 시작&종료시간 select option disabled 시키기
+	 * 이미 예약된 시작&종료시간 select option hide 시키기
 	 * @param rsvDate
 	 * @param rsvConfNo
 	 * @return
@@ -388,10 +389,22 @@ public class ReservationController {
 		
 		String state = reservationService.getRsvConfirmStateVal(rsvNo);
 		
-		System.out.println("==========");
-		System.out.println(state);
-		
 		return state;
+	}
+	
+	/**
+	 * 작성자 : 박세연
+	 * 등록된 예약 위로 마우스 위치시, 예약자 내역 tooltip에 띄우기
+	 * @param rsvNo
+	 * @return
+	 */
+	@RequestMapping("/ShowInfoByTooltip")
+	@ResponseBody
+	public List<Reservation> showInfoByTooltip(@RequestParam int rsvNo){
+		
+		List<Reservation> list = reservationService.showInfoByTooltip(rsvNo);
+		
+		return list;
 	}
 	
 }

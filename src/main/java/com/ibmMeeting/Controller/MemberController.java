@@ -2,6 +2,10 @@ package com.ibmMeeting.Controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +28,28 @@ public class MemberController {
 	 * @param memPn
 	 * @return
 	 */
-	@RequestMapping("GetMemInfoByPn")
 	@ResponseBody
-	public List<Member> getMemInfoByPn(@RequestParam String memPn){
+	@RequestMapping(value="/GetMemInfoByPn")
+	public void getMemInfoByPn(@RequestParam String memPn, HttpServletRequest request,
+			HttpServletResponse response){
 		
-		List<Member> list = memberService.getMemInfoByPn(memPn);
+		response.setCharacterEncoding("UTF-8");
+		memberService.getMemInfoByPn(memPn, response);
+		
+
+	}
+	
+	/**
+	 * 작성자 : 박세연
+	 * 관리자로 로그인시, tooltip에 회원상태(정상/차단)과 noshow 카운트 수 추가하여 보여주기
+	 * @param memPn
+	 * @return
+	 */
+	@RequestMapping("/MemInfoByTooltip")
+	@ResponseBody
+	public List<Member> memInfoByToolTip(@RequestParam String memPn){
+		
+		List<Member> list = memberService.memInfoByToolTip(memPn);
 		
 		return list;
 	}

@@ -40,14 +40,22 @@ public class RepeatReservationService {
 	@Autowired
 	MemberService memberService;
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 반복예약 가능 확인, 가능날짜, 불가능날짜 리턴
+	 * 가능한 날짜와 불가능한 날짜를 ArrayList로 받아와 더 큰 ArrayList에 넣고 리턴한다.
+	 */
 	public ArrayList<ArrayList<String>>reservationAvailableCheck(HttpServletRequest request)
 			throws ParseException {
 
+		// 사용가능한 날짜와 불가능한 날짜를 넣을 ArrayList
 		ArrayList<ArrayList<String>> reservationRepeatArray = new ArrayList<ArrayList<String>>();
+		// 사용가능한 날짜
 		ArrayList<String> availableDate = new ArrayList<String>();
+		// 불가능한 날짜
 		ArrayList<String> duplicateDate = new ArrayList<String>();
 		
-		// jsp input value store
+		// JSP에서 받아온 값들 HashMap에 저장
 		HashMap<String, Object> repeatInformation = new HashMap<String, Object>();
 		String startDate = request.getParameter("rsvStartDate");
 		String endDate = request.getParameter("rsvEndDate");
@@ -57,7 +65,6 @@ public class RepeatReservationService {
 		String repeatPeriod = request.getParameter("repeatPeriod");
 		String repeatSetting = request.getParameter("repeatSetting");
 		
-		// hashmap store
 		repeatInformation.put("startDate", startDate);
 		repeatInformation.put("endDate", endDate);
 		repeatInformation.put("startTime", startTime);
@@ -65,8 +72,6 @@ public class RepeatReservationService {
 		repeatInformation.put("confName", confName);
 		repeatInformation.put("repeatSetting", repeatSetting);
 		
-		System.out.println(repeatInformation);
-
 		// startCal , endCal Calendar init
 		Calendar startCal = Calendar.getInstance();
 		Calendar endCal = Calendar.getInstance();
@@ -98,45 +103,39 @@ public class RepeatReservationService {
 		String duplicateDate2[] = new String[50];
 		
 
+		// 사용자가 설정한 반복주기가 '매일'이라면
 		if (repeatPeriod.equals("day")) {
 			
+			// 시작날짜가 마지막날짜보다 클때까지 반복
 			while (true) {
 				dateCompare = startCal.compareTo(endCal);
 				// startDateFormat > endDateFormat
 				if (dateCompare > ConstantCode.ZERO) {
 					break;
 				}
+				// 현재 날짜에 겹치는지 확인하여 개수를 return
 				duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
 
+				 // 개수가 0 개라면 사용가능한 날짜배열에 사용가능한 날짜 넣어줌
 				if (duplicateCount == ConstantCode.ZERO) {
 					availableDate.add(transFormat.format(startCal.getTime()));
 					reservationAvailableCount++;
+				// 개수가 0개 이상이라면 불가능하기에 불가능한 날짜배열에 불가능한 날짜 정보 넣어줌
 				} else {
 					duplicateDate.add(transFormat.format(startCal.getTime()));
 					reservationDuplicateCount++;
 					compareTotalCount++;
 				}
 
+				// 현재날짜에 하루를 더함
 				startCal.add(startCal.DATE, ConstantCode.DAYS1);
 				repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
 				
 			}
 			
+			// 반복주기가 '주' 라면 도는 방식은 위와 같음
 		} else if (repeatPeriod.equals("week")) {
 			
-//			String mondayCheck = request.getParameter("mon");
-//			String tueCheck = request.getParameter("tue");
-//			String wedCheck = request.getParameter("wed");
-//			String thuCheck = request.getParameter("thu");
-//			String friCheck = request.getParameter("fri");
-//			
-//			int startCalWeek = startCal.DAY_OF_WEEK;
-//			// 1= 일 ~ 토=7
-//			
-//			if(mondayCheck.equals("true")){
-//				
-//			}
-
 			while (true) {
 				dateCompare = startCal.compareTo(endCal);
 				// startDateFormat > endDateFormat
@@ -155,6 +154,7 @@ public class RepeatReservationService {
 					compareTotalCount++;
 				}
 				
+				// 반복 설정값에따라 더하는 값이 다름
 				if (repeatSetting.equals("1week")) {
 					startCal.add(startCal.DATE, ConstantCode.DAYS7);
 				} else if (repeatSetting.equals("2week")) {
@@ -169,9 +169,10 @@ public class RepeatReservationService {
 				}
 				repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
 			}
+			// 반복주기가 월이라면
 		} else if (repeatPeriod.equals("month")) {
 
-			// week repeat
+			// 반복주기가 주(ex 매달 첫째주 목요일)
 			if (repeatSetting.equals("monthWeekRepeat")) {
 				String week = String.valueOf(startCal.get(Calendar.WEEK_OF_MONTH));
 				int weekNum = startCal.get(Calendar.DAY_OF_WEEK);
@@ -203,7 +204,7 @@ public class RepeatReservationService {
 				}
 			}
 
-			// day repeat
+			// 반복주기가 월 특정일 (ex : 매달 17일)
 			else if (repeatSetting.equals("monthDayRepeat")) {
 				while (true) {
 					dateCompare = startCal.compareTo(endCal);
@@ -231,13 +232,18 @@ public class RepeatReservationService {
 			}
 		}
 		
+		// 큰 Array에 되는날짜와 안되는 날짜를 add
 		reservationRepeatArray.add(availableDate);
 		reservationRepeatArray.add(duplicateDate);
 		
 		return reservationRepeatArray;
 	}
 	
-	
+	/* 
+	 * 작성자 : 박성준
+	 * 반복예약 신청
+	 * 사용자가 입력한 값을 받아와 신청
+	 */
 	public Integer repeatReservationSubmit(HttpServletRequest request){
 		
 		String rsvRegDate = commonService.nowTime();
@@ -256,14 +262,17 @@ public class RepeatReservationService {
 		String availableDate = request.getParameter("availableDate");
 		String rsvTotalTime = request.getParameter("rsvTotalTime");
 		String emailCheck = request.getParameter("emailCheckValue");
-		
 		String[] availableDates;
+		
+		// 사용가능한 날짜를 , 간격으로 잘라내 저장
 		availableDates = availableDate.split(",");
 		
+		// 반복예약이 하나도 없다면 반복예약 첫 값을 1로 설정
 		Integer repeatNo;
 		if(repeatReservationDao.repeatSeqMaxValue()==null){
 			repeatNo = ConstantCode.ONE;
 		}
+		// 반복예약 seq중에 가장 큰 값에 1을 더하여 반복 seq저장
 		else{
 			repeatNo = repeatReservationDao.repeatSeqMaxValue() + ConstantCode.ONE;
 		}
@@ -290,13 +299,16 @@ public class RepeatReservationService {
 		else
 			repeatInformation.put("emailCheck","N");
 		
+		// 가능한 날짜만큼 for문을 돌려 d/b update
 		for(int i=ConstantCode.ZERO; i<availableDates.length; i++){
 			repeatInformation.put("rsvDate", availableDates[i]);
 			repeatReservationDao.repeatReservationSubmit(repeatInformation);
 		}
 		
+		// 사용자가 현재 존재하는지 확인
 		int exist = memberService.checkExistMemInfo(rsvMemPn);
 		
+		// 사용자 정보가 없다면 사용자 정보 input
 		if(exist==0){
 			
 			Member member =  new Member();
@@ -315,6 +327,7 @@ public class RepeatReservationService {
 			
 		}
 		
+		// 이메일 전송
 		String adminEmail = adminDao.getAdminEmail();
 			
 		String subject = "[IBM 회의실] 반복예약 신청이 접수됐습니다.";

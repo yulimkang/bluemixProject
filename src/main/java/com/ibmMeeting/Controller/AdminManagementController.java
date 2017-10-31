@@ -87,12 +87,14 @@ public class AdminManagementController {
 		return noShowInformation;
 	}
 	
+	
+	
 	@ResponseBody
 	@RequestMapping("/noShowReservationDateChange")
 	public ArrayList<HashMap<String,Object>> noShowReservationDateChange(HttpServletRequest request){
 		
 		ArrayList<HashMap<String,Object>> noShowReservationList = adminBoardingService.noShowReservitonList(request);
-		System.out.println(noShowReservationList);
+
 		return noShowReservationList;
 	}
 	
@@ -142,7 +144,6 @@ public class AdminManagementController {
 		HashMap<String,Object> settingValue = settingService.settingLoad();
 		setting.addObject("settingValue",settingValue);
 		
-		System.out.println(settingValue);
 		setting.setViewName("/admin/admin_setting");
 		
 		return setting;

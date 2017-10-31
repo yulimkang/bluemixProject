@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Constant.ConstantCode;
-import com.ibmMeeting.Service.DatabaseSettingService;
 import com.ibmMeeting.Service.MeetingRoomManagementService;
 import com.ibmMeeting.VO.Conference;
 
@@ -24,8 +23,6 @@ public class MeetingRoomController {
 	@Autowired
 	MeetingRoomManagementService meetingRoomManagementService;
 	
-	@Autowired
-	DatabaseSettingService databaseSettingService;
 	
 	/**
 	 * 작성자 : 박성준

@@ -12,7 +12,7 @@
 		  <li id="tab4" class="" onclick="selectTab(this)"><a href="#" data-toggle="tab" aria-expanded="false" >Off-Boarding</a></li>
 		  <li id="tab5" class="" onclick="selectTab(this)"><a href="#" data-toggle="tab" aria-expanded="false" >회의실 관리</a></li>
 		  <li id="tab6" class="" onclick="selectTab(this)"><a href="#" data-toggle="tab" aria-expanded="false" >No-Show </a></li>
-		  <li id="tab7" class="" onclick="selectTab(this)"><a href="#" data-toggle="tab" aria-expanded="false" >No-Show 사용자 관리</a></li>
+		  <li id="tab7" class="" onclick="selectTab(this)"><a href="#" data-toggle="tab" aria-expanded="false" >No-Show 관리</a></li>
 		  <li id="tab8" class="" onclick="selectTab(this)"><a href="#" data-toggle="tab" aria-expanded="false" >설정</a></li>
 	</ul> <br>
 </body>

@@ -23,13 +23,14 @@ public class History implements Serializable{
 	private String hstRepeatPeriod;
 	private String hstSetting;
 	private int hstRepeatNo;
+	private String hstDescription;
 	
 	public History(int hstNo, String hstRsvComp, String hstRsvTitle,
 			Date hstDate, Time hstTotalTime, Time hstStartTime,
 			Time hstEndTime, String hstRsvState, String hstRsvMemNm,
 			String hstRsvMemPn, String hstRsvMemEm, String hstDelPwd,
 			Date hstRegDate, int hstConfNo, String hstRepeatPeriod,
-			String hstSetting, int hstRepeatNo) {
+			String hstSetting, int hstRepeatNo, String hstDescription) {
 		super();
 		this.hstNo = hstNo;
 		this.hstRsvComp = hstRsvComp;
@@ -48,6 +49,7 @@ public class History implements Serializable{
 		this.hstRepeatPeriod = hstRepeatPeriod;
 		this.hstSetting = hstSetting;
 		this.hstRepeatNo = hstRepeatNo;
+		this.hstDescription = hstDescription;
 	}
 
 	public History() {
@@ -190,6 +192,14 @@ public class History implements Serializable{
 		this.hstRepeatNo = hstRepeatNo;
 	}
 
+	public String getHstDescription() {
+		return hstDescription;
+	}
+
+	public void setHstDescription(String hstDescription) {
+		this.hstDescription = hstDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -198,6 +208,8 @@ public class History implements Serializable{
 		result = prime * result + ((hstDate == null) ? 0 : hstDate.hashCode());
 		result = prime * result
 				+ ((hstDelPwd == null) ? 0 : hstDelPwd.hashCode());
+		result = prime * result
+				+ ((hstDescription == null) ? 0 : hstDescription.hashCode());
 		result = prime * result
 				+ ((hstEndTime == null) ? 0 : hstEndTime.hashCode());
 		result = prime * result + hstNo;
@@ -247,6 +259,11 @@ public class History implements Serializable{
 			if (other.hstDelPwd != null)
 				return false;
 		} else if (!hstDelPwd.equals(other.hstDelPwd))
+			return false;
+		if (hstDescription == null) {
+			if (other.hstDescription != null)
+				return false;
+		} else if (!hstDescription.equals(other.hstDescription))
 			return false;
 		if (hstEndTime == null) {
 			if (other.hstEndTime != null)
@@ -326,7 +343,8 @@ public class History implements Serializable{
 				+ ", hstRsvMemEm=" + hstRsvMemEm + ", hstDelPwd=" + hstDelPwd
 				+ ", hstRegDate=" + hstRegDate + ", hstConfNo=" + hstConfNo
 				+ ", hstRepeatPeriod=" + hstRepeatPeriod + ", hstSetting="
-				+ hstSetting + ", hstRepeatNo=" + hstRepeatNo + "]";
+				+ hstSetting + ", hstRepeatNo=" + hstRepeatNo
+				+ ", hstDescription=" + hstDescription + "]";
 	}
 	
 }

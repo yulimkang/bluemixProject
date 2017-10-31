@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Constant.ConstantCode;
 import com.ibmMeeting.Dao.HistoryDao;
@@ -31,6 +33,9 @@ public class HistoryService {
 	
 	@Autowired
 	CommonService commonService;
+	
+	
+	
 
 	/**
 	 * 작성자 : 박세연
@@ -61,6 +66,7 @@ public class HistoryService {
 		history.setHstSetting("0");
 		history.setHstRsvState(hstState); // RESERVE/MODIFY/DELETE
 		history.setHstRepeatNo(0);
+		history.setHstDescription("");
 		
 		historyDao.registHistory(history);
 		
@@ -166,211 +172,47 @@ public class HistoryService {
 
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//최문정 : 관리자 예약내역 페이지, History에서 예약내역 검색 후 출력
-//	public ArrayList<HashMap<String, Object>> searchHistoryResult(HttpServletRequest request) {
-//		
-//		String searchStartDate = request.getParameter("selectStartDate");
-//		String searchEndDate = request.getParameter("selectEndDate");
-//		
-//		System.out.println(" Service Start Date : " + searchStartDate + ", End Date : " + searchEndDate );
-//		
-//		HashMap<String,Object> dateInfo = new HashMap<String,Object>();
-//		dateInfo.put("startDate", searchStartDate);
-//		dateInfo.put("endDate", searchEndDate);
-//		
-//		
-//		ArrayList<HashMap<String, Object>> searchHistoryResult = new ArrayList<HashMap<String, Object>>();
-//		
-//		searchHistoryResult = historyDao.searchHistoryByDate(dateInfo);
-//
-//		System.out.println("Service : "+ searchHistoryResult);
-//
-//		return searchHistoryResult;
-//		
-//	}
-	
-	
-	//최문정 : 관리자 예약내역 페이지, 입력한 날짜 이전의 날짜를 모두 삭제
+	/**
+	 * 작성자  : 최문정
+	 * 내용 : 관리자 예약내역 페이지, 입력한 날짜 이전의 날짜를 모두 삭제
+	 * @param request
+	 * @return
+	 */
 	public Integer deleteHistoryByDate(HttpServletRequest request) {
 		
 		String deleteDate = request.getParameter("deleteDate");
-		System.out.println("History Service Delete Date : "+deleteDate);
 		
 		historyDao.deleteHistoryByDate(deleteDate);
 		return ConstantCode.SUCCESS;
 	}
+	
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : History Table과 Reservation Table의 내용을 Controller에 Map 형태로 전달
+	 * @param request
+	 * @param response
+	 * @param dDate
+	 */
+	public HashMap<String, Object> reservHistoryToExcel(HttpServletRequest request, HttpServletResponse response, String dDate) {
+		
+		ArrayList<HashMap<String,Object>> historyResult = historyDao.selectAllHistoryByDate(dDate);
+		ArrayList<HashMap<String,Object>> reservationResult =  reservationDao.selectAllReservationByDate(dDate);
+		
+		HashMap<String, Object> map =  new HashMap<String, Object>();
+		
+		//엑셀에 저장할 내용 map에 저장
+		map.put("historyTable", historyResult);
+		map.put("reservTable", reservationResult);
+		map.put("dDate", dDate );
+		
+		return map;
 
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
 	
 	/* 
 	 * 작성자 : 고창환
-	 * 가예약 필터링 별 리스트
+	 * 가예약 셀렉트 옵션 별 리스트
 	 */
 	public ArrayList<HashMap<String, Object>> selectResult(HttpServletRequest request) {
 		
@@ -408,15 +250,5 @@ public class HistoryService {
 		return lookInside;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

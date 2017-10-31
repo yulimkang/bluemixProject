@@ -23,6 +23,11 @@ public interface MeetingRoomDao {
 	void meetingRoomUpdate(HashMap<String,Object> meetingRoomUpdate); 	// 회의실 수정
 	void meetingRoomDelete(Integer meetingRoomSeq);						// 회의실 삭제
 	
+	/**
+	 * 작성자 : 박세연
+	 * DB에 등록된 회의실들 정보 가져오기
+	 * @return
+	 */
 	List<Conference> getResources();
 	
 }

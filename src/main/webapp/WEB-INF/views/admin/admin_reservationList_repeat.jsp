@@ -26,7 +26,7 @@
 
 <html>
 <head>
-<title>관리자 메인</title>
+<title>관리자 예약내역</title>
 
 </head>
 <body id="htmlBody">
@@ -41,42 +41,52 @@
 		</div>
 		
 		<div id="deleteDiv" >
-		<div class="col-lg-3">
-		  	<button type="button" onClick="showInputBtn()" class="pull-left btn btn-primary">이전예약현황 삭제</button> <br><br>
-		  </div>
-		   	<form name="deleteResevAndHistForm" id="deleteResevAndHistForm" method="post" action="">
-		   		<div class="col-lg-2">
-					<input type="text" id="histDeleteDate" name="histDeleteDate" class="form-control" readonly/> 
-				</div>
-				<div class="col-lg-3">이전의 내용을 삭제합니다.</div>
-				<div class="col-lg-2">
-					<button type="button" onClick="storeResevAndHistBtn()" class="pull-right btn btn-primary">저장</button>
-				</div>
-				<div class="col-lg-2">
-					<button type="button" onClick="deleteResevAndHistBtn()" class="pull-right btn btn-primary">삭제</button>
-				</div>
+		<div class="col-lg-12">
+			<div class="col-lg-3">
+		  		<button type="button" onClick="showInputBtn()" class="pull-left btn btn-primary">이전예약현황 삭제</button>
+		 	</div>
+		 	
+		 	<form name="deleteResevAndHistForm" id="deleteResevAndHistForm" method="post" action="">
+	   		<div class="col-lg-2">
+				<input type="text" id="histDeleteDate" name="histDeleteDate" class="form-control" readonly/> 
+			</div>
+			<div class="col-lg-3" style="margin-top:10px">이전의 내용을 삭제합니다.</div>
+			<div class="col-lg-2">
+				<button type="button" onClick="storeResevAndHistBtn()" class="pull-right btn btn-primary">저장</button>
+			</div>
+			<div class="col-lg-2">
+				<button type="button" onClick="deleteResevAndHistBtn()" class="pull-left btn btn-primary">삭제</button>
+			</div>
 		   	</form>
-		</div>
+		 </div> <br>
 		
 		<br><br>
 		
 		<div style="margin-top:3%;">
 			<form name="searchHistByDateForm" id="searchHistByDateForm" method="post" action="">
-				<div class="col-lg-1">
+				<div class="col-lg-1" style="margin-top:7px">
 					시작일 
 				</div>
-				<div class="col-lg-3">
+				<div class="col-lg-2" >
 					<input type="text" id="selectStartDate" name="selectStartDate" class="form-control" />  
 				</div>
-				<div class="col-lg-1">
+				<div class="col-lg-1" style="margin-top:7px">
 					종료일 
 				</div>
-				<div class="col-lg-3">
+				<div class="col-lg-2">
 					 <input type="text" id="selectEndDate" name = "selectEndDate" class="form-control" />
 				</div>
 				
+				<div class="col-lg-4">
+					<select class="form-control" name="searchOpt" id="searchOpt">
+						<option value="general">일반예약</option>
+						<option value="repeat" selected>반복예약</option>
+						<option value="noshow">NOSHOW회의</option>
+					</select>	
+				</div>
+				
 				<div class="col-lg-2">
-					<button type="submit" onClick="repeatSearchFormSubmit()" class="pull-right btn btn-primary">검색</button>
+					<button type="submit" onClick="searchBtn()" class="pull-right btn btn-primary">검색</button>
 				</div>
 				
 				<!-- 탭 -->
@@ -308,8 +318,53 @@
 	//입력한 날 이전의 내역을 저장
 	function storeResevAndHistBtn() {
 		
+		var histDeleteDate = $("#histDeleteDate").val();
 		
+		$.ajax({
+			url : "/AdminReservCheckAndDelete/StoreResevHistToExcel",
+			dataType : "text",
+			async : false,
+			type : "POST",
+			data : { "deleteDate" : histDeleteDate },
+			success : function(data) {
+				alert("C 드라이브에 저장되었습니다.");
+			},
+			error : function(request, status, error) {
+				alert("code : "+request.status + "\n" + "error : " + error);
+			}
+		});
+
+	}
+	
+	//검색 버튼 클릭 시
+	function searchBtn() {
+		var selectStartDate = $("#selectStartDate").val();
+ 		var selectEndDate = $("#selectEndDate").val();
+ 		var selectOpt = $("#searchOpt").val();
 		
+ 		if( selectStartDate.length == 0 || selectEndDate.length == 0) {
+ 			alert("시작일 또는 종료일을 입력해주세요.");
+ 		}else {
+ 			
+ 			
+ 			if(selectOpt  == "general") {
+ 				//일반예약 검색일 때
+ 				$("#searchHistByDateForm").attr("action","/AdminReservCheckAndDelete/SearchGeneralHistory");
+ 				$("#searchHistByDateForm").submit();
+ 				
+ 			}else if(selectOpt == "repeat") {
+ 				//반복예약 검색일 때
+ 				$("#searchHistByDateForm").attr("action","/AdminReservCheckAndDelete/SearchRepeatHistory");
+ 				$("#searchHistByDateForm").submit();
+ 				
+ 			}else if(selectOpt == "noshow") {
+ 				//노쇼회의 검색일 때
+ 				$("#searchHistByDateForm").attr("action","/AdminReservCheckAndDelete/SearchNoshowHistory");
+ 				$("#searchHistByDateForm").submit();
+ 				
+ 			}
+ 			
+ 		}
 	}
 	
 	

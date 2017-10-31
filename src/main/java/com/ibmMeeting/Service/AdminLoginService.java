@@ -17,6 +17,10 @@ public class AdminLoginService {
 	@Autowired
 	AdminDao adminDao;
 
+	/* 
+	 * 작성자 : 박성준
+	 * 로그인 성공유무 Return
+	 */
 	public Integer loginCheck(HttpServletRequest request,HttpSession session){
 		
 		HashMap<String,Object> loginInformation = new HashMap<String,Object>();
@@ -25,6 +29,7 @@ public class AdminLoginService {
 		loginInformation.put("id", id);
 		loginInformation.put("pw", request.getParameter("pw"));
 		
+		// admin 테이블에 입력값이 하나라도 있다면, 즉 로그인이 성공했다면 세션에 저장
 		if(adminDao.loginCheck(loginInformation)>ConstantCode.ZERO){
 			session.setAttribute("id", id);
 			return ConstantCode.SUCCESS;

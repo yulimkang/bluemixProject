@@ -2,9 +2,6 @@ package com.ibmMeeting;
 
 
 
-import java.nio.charset.Charset;
-
-import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -15,14 +12,12 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.ibmMeeting.Job.SchedulerService;
+
 
 @EnableScheduling
 @Configuration
@@ -31,6 +26,7 @@ import com.ibmMeeting.Job.SchedulerService;
 @SpringBootApplication
 public class IbmMeetingApplication extends SpringBootServletInitializer {
 	
+	// SpringScheduler Setting
 	@Bean
 	public TaskScheduler taskScheduler() {
 		return new ConcurrentTaskScheduler();
@@ -39,11 +35,13 @@ public class IbmMeetingApplication extends SpringBootServletInitializer {
 	@Autowired 
 	private SchedulerService scheduler;
 
+	// warFile make
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(IbmMeetingApplication.class);
 	}
 	
+	// app run
 	public static void main(String[] args) {
 		SpringApplication.run(IbmMeetingApplication.class, args);
 	}

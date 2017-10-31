@@ -23,7 +23,7 @@
 
 <html>
 <head>
-<title>관리자 setting</title>
+<title>관리자 Setting</title>
 
 </head>
 <body id="htmlBody">

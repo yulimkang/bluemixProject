@@ -32,7 +32,6 @@ public class AdminBoardingService {
 	
 	public ArrayList<HashMap<String,Object>> offBoardingAll() {
 		// TODO Auto-generated method stub
-		System.out.println(boardingDao.offBoardingListAll());
 		return boardingDao.offBoardingListAll();
 	}
 
@@ -62,14 +61,22 @@ public class AdminBoardingService {
 		return "success";
 	}
 	
-	
+	/* 
+	 * 작성자 : 박성준
+	 * noShow 한번이상이라도 한 회원 리스트 출력
+	 */
 	public ArrayList<HashMap<String,Object>> noShowUserList(){
 		return boardingDao.noShowUserList();
 	}
-	
+	/* 
+	 * 작성자 : 박성준
+	 * noShow된 예약 리스트 출력
+	 */
 	public ArrayList<HashMap<String,Object>> noShowReservitonList(HttpServletRequest request){
 		
 		String wantDate;
+		// wantDate를 받아오지 않는 상황이라면 현재시간
+
 		if(request.getParameter("wantDate")==null){
 			wantDate = commonService.nowTime();
 		}
@@ -81,23 +88,32 @@ public class AdminBoardingService {
 		
 	}
 	
-	
+	/* 
+	 * 작성자 : 박성준
+	 * 특정사용자 No-Show Count 초기화
+	 * 유저Sequence넘버를 통해 noShowCount 초기화
+	 */
 	public void noShowValueSetting(HttpServletRequest request){
 		
-		String noShowBtnType = request.getParameter("noShowBtnType");
 		Integer memberSeq = Integer.parseInt(request.getParameter("noShowUserSeq"));
-		
 		boardingDao.noShowCountInit(memberSeq);
-		System.out.println("no-Show-Update-error");
 	}
-	
+	/* 
+	 * 작성자 : 박성준
+	 * 특정사용자 No-Show 밴
+	 * 유저Sequence넘버를 통해 noShowBan
+	 */
 	public void memberBan(HttpServletRequest request){
 		
 		Integer memberSeq = Integer.parseInt(request.getParameter("memberSeq"));
 		boardingDao.memeberBlock(memberSeq);
 		
 	}
-	
+	/* 
+	 * 작성자 : 박성준
+	 * 사용자 차단상태 확인
+	 * 핸드폰번호를 통해 사용자 차단상태 확인
+	 */
 	public String memberBanCheck(HttpServletRequest request){
 		
 		String memberPn = request.getParameter("memberPn");
@@ -106,7 +122,7 @@ public class AdminBoardingService {
 
 	/* 
 	 * 작성자 : 고창환
-	 * 오프보딩 온보딩 검색 결과저장
+	 * 온보딩 검색 결과저장
 	 */
 	public ArrayList<HashMap<String, Object>> searchResult(HttpServletRequest request) {
 		
@@ -129,7 +145,10 @@ public class AdminBoardingService {
 		return searchResult;
 		
 	}
-	
+	/* 
+	 * 작성자 : 고창환
+	 * 오프보딩 검색 결과저장
+	 */
 	public ArrayList<HashMap<String, Object>> offSearchResult(HttpServletRequest request) {
 		
 		
@@ -152,6 +171,10 @@ public class AdminBoardingService {
 		
 	}
 
+	/* 
+	 * 작성자 : 고창환
+	 * 온보딩 페이징 처리
+	 */
 	public HashMap<String, Object> boardingPage(HttpServletRequest request,
 			int page) {
 		

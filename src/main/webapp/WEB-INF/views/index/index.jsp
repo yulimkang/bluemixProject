@@ -53,9 +53,10 @@
 			<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px">
 		</div>
 			
-			<div id="calendar"></div>
+			<div id="calendar"></div><br>
 			
 			<form action="/Reservation/RegistReservation" method="post" id="submitForm">
+				<hr><br>
 				<div class="col-lg-12">
 					<div class="form-group col-lg-3">
 					  <label class="control-label">날짜</label>
@@ -129,10 +130,10 @@
 					    <span class="input-group-addon input-sm"><i class="fa fa-eye"></i></span>
 					    <select id="rsvColor" name="rsvColor" class="form-control input-sm">
 					    	<option value="red">빨강</option>
-					    	<option value="yellow">노랑</option>
-					    	<option value="green">초록</option>
-					    	<option value="blue">파랑</option>
-					    	<option value="purple">보라</option>
+					    	<option value="yellow">주황</option>
+					    	<option value="green">노랑</option>
+					    	<option value="blue">초록</option>
+					    	<option value="purple" selected>파랑</option>
 					    </select>
 					  </div>
 					</div>
@@ -212,20 +213,24 @@
 					</div>
 				</div>
 				
-					<div class="form-group col-lg-4">
+				<div class="col-lg-12">
+					<div class="form-group col-lg-11" style="text-align:right; margin-top:10px">
 					  <label class="control-label">메일 수신
 					    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
 					    <input type="hidden" id="emailCheckValue" name="emailCheckValue">
 					  </label>
 					</div>
 					
+					<div id="submit" class="form-group col-lg-1" style=text-align:right>	
+					<button type="submit" class="btn btn-primary" style="float:right;" onclick="return checkForm()">등록</button>
+					</div>
+				</div>
+					
  				<input type="hidden" id="rsvTotalTime" name="rsvTotalTime"> 
 				<input type="hidden" id="rsvConfirmState" name="rsvConfirmState" value="Y">
 		 		<input type="hidden" id="rsvNo" name="rsvNo" value="0">
  			 
-				<div id="submit">	
-					<button type="submit" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px" onclick="return checkForm()">등록</button>
-				</div>
+				
 				
 				<div id="modify" style="display:none;">
 					<button type="button" id="deleteBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">삭제</button>
@@ -301,7 +306,8 @@ function emptyErrorMsg(){
 
 //예약하기위한 slot 선택시 발생 이벤트
 function regRsv(date, resourceObj){
-	
+
+	$("#rsvNo").val(0);
 	$("#submit").show();
 	$("#modify").hide();
 	
@@ -312,6 +318,7 @@ function regRsv(date, resourceObj){
 	$("#rsvMemNm").removeAttr("value");
 	$("#rsvMemEm").removeAttr("value");
 	$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
+	$("#rsvColor option[value='purple']").attr("selected", true);
 	
 	emptyErrorMsg();
 	
@@ -324,13 +331,14 @@ function regRsv(date, resourceObj){
 	$("#rsvEndTime option[value='"+endTime +"']").attr("selected", true);  //종료시간 자동 select
 	
 	$("#rsvConfNo option[value='"+resourceObj.id +"']").attr("selected", true); //회의실 자동 select
-
+	$("#rsvTitle").focus();
+	
 	//해당 slot해당 날짜로 바뀜
 	$("#rsvDate").removeAttr("value");
 	$("#rsvDate").val(date.year()+"-"+(date.month()+1)+"-"+date.date());
 
 	//이미 예약된 예약시간을 체크해 새로 등록할 예약의 시작/종료시간 불가능한 시간 disabled 시키기
-	setTimeDisabled();
+	setTimeDisabled(resourceObj.id);
 
 }
 
@@ -463,7 +471,7 @@ function chkRsvedTime(){
 
 //등록/수정 버튼 클릭시 실행
 function checkForm(){
-
+	
 	var banState = memberBanCheck();
 	if(banState == "T"){
 		alert("차단된 회원이므로 예약 등록 및 수정을 진행하실 수 없습니다.");
@@ -475,7 +483,8 @@ function checkForm(){
 	var loginChk = <%= session.getAttribute("id") %>;
    	if(loginChk == null){ //관리자 로그인되지 않았을 때
    		if($("#rsvNo").val() != null){
-			var rsvConfirmStateVal = getRsvConfirmStateVal($("#rsvNo").val());
+   			var rsvConfirmStateVal = "Y";
+			rsvConfirmStateVal = getRsvConfirmStateVal($("#rsvNo").val());
     		if(rsvConfirmStateVal == "ACCEPT"){
     			alert("가예약 승인받은 예약은 관리자만 수정가능합니다.");
     			$('#calendar').fullCalendar('refetchEvents');
@@ -483,9 +492,11 @@ function checkForm(){
     		}
    		}
    	}
-   	
-  //가예약 상태이면 수정 불가
-	var rsvConfirmStateVal = getRsvConfirmStateVal($("#rsvNo").val());
+
+   	//가예약 상태이면 수정 불가
+	var rsvConfirmStateVal = "Y";
+ 	rsvConfirmStateVal = getRsvConfirmStateVal($("#rsvNo").val());
+		
 	if(rsvConfirmStateVal == "N"){
 		alert("가예약 승인 대기 중인 예약은 수정할 수 없습니다.");
 		$('#calendar').fullCalendar('refetchEvents');
@@ -524,6 +535,7 @@ function checkForm(){
  
 	preventMonopoly();
 	var count = $("#monopolyCount").val();
+
 	//이 값이 3이상이면 가예약상태
 	if(count >= 2){
 		if(!confirm("이번주에 "+maxTime+"시간 이상 예약을 3번이상 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
@@ -719,9 +731,9 @@ function preventMonopoly(){
 	});
 }
 
-//이미 예약된 시작&종료시간 select option disabled 시키기
-function setTimeDisabled(){
-
+//이미 예약된 시작&종료시간 select option hide 시키기
+function setTimeDisabled(confNo){
+	
 	startEndDisabledFalse();
 	
 	$.ajax({
@@ -730,7 +742,7 @@ function setTimeDisabled(){
 		dataType:"JSON",
 		data:{
 			"rsvDate":$("#rsvDate").val(),
-			"rsvConfNo":$("#rsvConfNo").val()
+			"rsvConfNo":confNo
 		},
 		async: false,
 		success:function(list){
@@ -749,13 +761,15 @@ function setTimeDisabled(){
 		
 				for(var i=0; i<$("#rsvStartTime option").size(); i++){ //시작시간 disabled
 					if(this.rsvStartTime <= $("#rsvStartTime option").eq(i).val() && $("#rsvStartTime option").eq(i).val() < this.rsvEndTime){
-						$("#rsvStartTime option").eq(i).attr("disabled", true);
+				//		$("#rsvStartTime option").eq(i).attr("disabled", true);
+						$("#rsvStartTime option").eq(i).hide();
 					}				
 				}
 				
 				for(var i=0; i<$("#rsvEndTime option").size(); i++){ //종료시간 disabled
 					if(min < $("#rsvEndTime option").eq(i).val() || $("#rsvStartTime").val() >= $("#rsvEndTime option").eq(i).val() || this.rsvStartTime < $("#rsvEndTime option").eq(i).val() && $("#rsvEndTime option").eq(i).val() <= this.rsvEndTime){
-						$("#rsvEndTime option").eq(i).attr("disabled", true);
+				//		$("#rsvEndTime option").eq(i).attr("disabled", true);
+						$("#rsvEndTime option").eq(i).hide();
 					}				
 				}
 				
@@ -769,6 +783,7 @@ function setTimeDisabled(){
 	});
 } 
 
+//드래그앤드롭을 통해 수정
 function modifyByDragNDrop(){
 
 	$.ajax({
@@ -793,6 +808,7 @@ function modifyByDragNDrop(){
 	
 }
 
+//비밀번호 확인을 위한 function
 function checkPwd(rsvNo){
 	
 	if($("#chkPwd").val() == ""){
@@ -831,6 +847,7 @@ function checkPwd(rsvNo){
 	return success;
 }
 
+//오늘로부터 최대 예약 가능 기간(설정값) 값 가져오기
 function getRsvMaxMonth(){
 	var date = new Date();
 	var maxMonthAfter;
@@ -870,6 +887,7 @@ function getRsvMaxMonth(){
 	return maxMonthAfter;
 }
 
+//차단된 회원인지 체크
 function memberBanCheck(){
 	
 	var memberBanState = "";
@@ -935,13 +953,9 @@ function sendEmail(rsvNo){
 }
 
 function startEndDisabledFalse(){
-	//모두 disabled false인 상태로 되돌리기
-	for(var i=0; i<$("#rsvStartTime option").size(); i++){ 
-		$("#rsvStartTime option").eq(i).attr("disabled", false);
-	}
-	for(var i=0; i<$("#rsvEndTime option").size(); i++){ 
-		$("#rsvEndTime option").eq(i).attr("disabled", false);
-	}
+ 	//모두 show인 상태로 되돌리기
+	$("#rsvStartTime option").show();
+	$("#rsvEndTime option").show();
 }
 
 //가예약 승인된 예약은 관리자만 수정 가능
@@ -1009,7 +1023,8 @@ $(document).ready(function(){
  			}
  		}
  		for(var j=0; j<=index; j++){ 
- 			$("#rsvEndTime option").eq(j).attr("disabled", true);
+ 			//$("#rsvEndTime option").eq(j).attr("disabled", true);
+ 			$("#rsvEndTime option").eq(j).hide();
  		}
 	}); 
  	$("#rsvEndTime").on("change", function(){
@@ -1023,11 +1038,11 @@ $(document).ready(function(){
  			}
  		}
  		for(var j=index; j<=$("#rsvStartTime option").size(); j++){ 
- 			$("#rsvStartTime option").eq(j).attr("disabled", true);
+ 			$("#rsvStartTime option").eq(j).hide();
  		}
  	});  
 
- 	
+ 	//작성자 : 박세연, 최문정
 	//전화번호 입력을 통해 이름과 이메일 자동입력
 	var data = new Array();
 	
@@ -1037,25 +1052,19 @@ $(document).ready(function(){
 				url:"/Member/GetMemInfoByPn",
 				type:"post",
 				dataType:"json",
-				data:{"memPn":$("#rsvMemPn").val()},
-				success:function(list){
-					$.each(list, function(i){
-						data[i] = {"pn":this.memPn,
-									   "nm":this.memName,
-									   "em":this.memEm
-						};
-					});
-						
-			 	  //data :: JSON list defined
-			      response($.map(data, function (value, key) {
-			          return {
-									label: value.pn,
-				                    value: value.pn,
-				                    nm : value.nm,
-				                    em : value.em
-				               }
-			          }));
-					
+				data:{ "memPn" : request.term },
+				success:function(data){				
+					$("#telChkMsg").empty();
+
+					//data :: JSON list defined
+			 	  	response($.map(data, function (item) {
+ 			        	  return {
+ 									label: item.pn,
+ 				                    value: item.pn,
+ 				                    nm : item.nm,
+ 				                    em : item.em
+ 				               }
+ 			         }));
 				},
 				error:function(request,status,error){
 					alert("Get Member Information Error");
@@ -1174,14 +1183,14 @@ $(document).ready(function(){
 	 $("#rsvMemEm").blur(function(){
 		emailcheck($("#rsvMemEm").val());
 	 });
-	 
+/* 	 
 	 $("#rsvMemPn").blur(function(){
 		$("#telChkMsg").empty();
 		if($("#rsvMemPn").val().length < 12){ 
 			$("#telChkMsg").append("올바르지 않은 전화번호 길이입니다.");
 			$("#telChkMsg").show();
 		}
-	 });
+	 }); */
  
 	 //달력 첫 조회시 오늘 날짜로 조회
 	  var date = new Date();
@@ -1215,7 +1224,6 @@ $(document).ready(function(){
 	$('#calendar').fullCalendar({
 		locale:"ko", //한글로 변환
 		
-	//	timezone: 'Asia/Seoul', ///*****************************고칠것 -> 필요?
 		navLinks: false, // can click day/week names to navigate views
 		eventOverlap: false, // will cause the event to take up entire resource height , 이벤트 겹치기 불가
 		contentHeight: 'auto',
@@ -1232,10 +1240,22 @@ $(document).ready(function(){
 		selectOverlap: false,
 		dragOpacity: 0.6,
 //		filterResourcesWithEvents: true,
-
 		
 		eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc, jsEvent) {
 		 
+			var sTime = $.fullCalendar.formatDate(event.start, 'kk:mm:ss');
+			var eTime = $.fullCalendar.formatDate(event.end, 'kk:mm:ss');
+	
+			//드롭시, 시작시간이 9시 이전이거나 종료시간이 18시 이후일때,
+ 			if(sTime.substr(0,2)< '09'){
+				sTime = "09:00:00";
+			}else if(eTime.substr(0,2)>'18'){
+				eTime = "18:00:00";
+			}
+ 			$("#rsvStartTime").val(sTime);
+ 			$("#rsvEndTime").val(eTime);
+ 			calTotalTime();
+
 			//오늘 이전 날짜의 예약은 수정 불가
 	    	var today = new Date();
 	    	var rsvDate = $.fullCalendar.formatDate(event.start, 'YYYY-MM-DD');
@@ -1258,6 +1278,7 @@ $(document).ready(function(){
 
 	    	if(rsvDate < today){
 	    		alert("오늘 날짜 이전의 예약은 수정할 수 없습니다.");
+	    		$('#calendar').fullCalendar('refetchEvents');
 	    		return false;
 	    	}
 			
@@ -1265,13 +1286,16 @@ $(document).ready(function(){
 	    	var banState = memberBanCheck();
 	    	if(banState == "T"){
 	    		alert("차단된 회원이므로 수정을 진행하실 수 없습니다.");
+	    		$('#calendar').fullCalendar('refetchEvents');
 	    		return false;
 	    	}
 			
+	    	var rsvConfirmStateVal = "Y";
 	    	//가예약 상태이면 수정 불가
-	    	var rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
+	    	rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
 	    	if(rsvConfirmStateVal == "N"){
 	    		alert("가예약 승인 대기 중인 예약은 수정할 수 없습니다.");
+	    		$('#calendar').fullCalendar('refetchEvents');
 	    		return false;
 	    	}
 	    	
@@ -1280,12 +1304,13 @@ $(document).ready(function(){
 		    	var rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
 		    	if(rsvConfirmStateVal == "ACCEPT"){
 		    		alert("가예약 승인받은 예약은 관리자만 수정가능합니다.");
+		    		$('#calendar').fullCalendar('refetchEvents');
 		    		return false;
 		    	}
 		    	    	
 				//비밀번호 확인
 			 	$("#eventInfo").html("<input type='password' id='chkPwd'> <input type='button' id='chkBtn' value='확인'><br><div id='chkPwdErrMsg' style='display:none'></div>");
-				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:350, height:200, resizable:false });
+				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:350, height:200, resizable:false, close: function( event, ui ) { $('#calendar').fullCalendar('refetchEvents');} });
 			    $("#eventLink").show();
 			    $("#detailInfo").empty();
 				$("#eventLink").on("click", function(){
@@ -1304,8 +1329,9 @@ $(document).ready(function(){
 							data:{
 								"rsvNo":event.id,
 								"rsvConfNo":event.resourceId,
-								"rsvStartTime":$.fullCalendar.formatDate(event.start, 'kk:mm:ss'),
-								"rsvEndTime":$.fullCalendar.formatDate(event.end, 'kk:mm:ss')
+								"rsvStartTime":sTime,
+								"rsvEndTime":eTime,
+								"rsvTotalTime":$("#rsvTotalTime").val()
 							},
 							success:function(result){
 								alert("이동이 완료되었습니다.");
@@ -1320,8 +1346,9 @@ $(document).ready(function(){
 					}
 					
 				});
-			}else if(loginChk != null){
+			}else if(loginChk != null){ //관리자로 로그인시
 				if(!confirm("예약내역을 이동해 수정하시겠습니까?")){
+					$('#calendar').fullCalendar('refetchEvents');
 		    		return false;
 				}else{
 					
@@ -1332,8 +1359,9 @@ $(document).ready(function(){
 						data:{
 							"rsvNo":event.id,
 							"rsvConfNo":event.resourceId,
-							"rsvStartTime":$.fullCalendar.formatDate(event.start, 'kk:mm:ss'),
-							"rsvEndTime":$.fullCalendar.formatDate(event.end, 'kk:mm:ss')
+							"rsvStartTime":sTime,
+							"rsvEndTime":eTime,
+							"rsvTotalTime":$("#rsvTotalTime").val()
 						},
 						success:function(result){
 							alert("이동이 완료되었습니다.");
@@ -1350,7 +1378,6 @@ $(document).ready(function(){
 		},
 		 		
 	//	windowResize:true,
- 		
 		header: {
 			left: 'prev,next',
 			center: 'title',
@@ -1516,18 +1543,18 @@ $(document).ready(function(){
 					
 					for(var j=0; j<events.length; j++){
 						if(events[j].confirm == 'N'){
-							events[j].color="rgba(230, 230, 230, 0.5)";
+							events[j].color="rgba(179, 179, 179, 0.5)";
 						}else{
 							if(events[j].color == 'red'){ //빨강
-								events[j].color="#FEE2CB"; 
+								events[j].color="#ff9999"; 
 							}else if(events[j].color == 'yellow'){ //노랑
-								events[j].color="rgba(255, 204, 102, 0.9)";
+								events[j].color="#ffb84d";
 							}else if(events[j].color == 'green'){ //초록
-								events[j].color="#C8EE9D";
+								events[j].color="#ffdb4d";
 							}else if(events[j].color == 'blue'){ //파랑
-								events[j].color="#E5EBF7";
+								events[j].color="#B1D781";
 							}else if(events[j].color == 'purple'){ //보라
-								events[j].color="#cab2db";
+								events[j].color="#99c2ff";
 							}
 						}
 					}
@@ -1542,12 +1569,31 @@ $(document).ready(function(){
 		},
 		selectable:true, 
 		select: function(start, end, jsEvent, view, resource) {
+		
+			$("#rsvNo").val(0);
+			$("#submit").show();
+			$("#modify").hide();
+			
+			//이미 입력되어있는 textbox내의 값들 지우기
+			$("#rsvTitle").removeAttr("value");
+			$("#rsvDelPwd").removeAttr("value");
+			$("#rsvMemPn").removeAttr("value");
+			$("#rsvMemNm").removeAttr("value");
+			$("#rsvMemEm").removeAttr("value");
+			$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
+			$("#rsvColor option[value='purple']").attr("selected", true);
+			
+			emptyErrorMsg();
+			
 			endtime = $.fullCalendar.formatDate(end, 'kk:mm:ss');
 	        starttime = $.fullCalendar.formatDate(start, 'kk:mm:ss');
 	        $("#rsvStartTime option[value='"+starttime+"']").attr("selected", true);
 	        $("#rsvEndTime option[value='"+endtime+"']").attr("selected", true);
 	        $("#rsvConfNo option[value='"+resource.id+"']").attr("selected", true);
 	   		$("#rsvTitle").focus();
+	   		
+	 	  	//이미 예약된 예약시간을 체크해 새로 등록할 예약의 시작/종료시간 불가능한 시간 disabled 시키기
+	   		setTimeDisabled(resource.id);
 	    },
 	    eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
  
@@ -1555,13 +1601,16 @@ $(document).ready(function(){
 	    	var banState = memberBanCheck();
 	    	if(banState == "T"){
 	    		alert("차단된 회원이므로 수정을 진행하실 수 없습니다.");
+	    		$('#calendar').fullCalendar('refetchEvents');
 	    		return false;
 	    	}
 	  
+	    	var rsvConfirmStateVal = "Y"
 	    	//가예약 상태이면 수정 불가
-	    	var rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
+	    	rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
 	    	if(rsvConfirmStateVal == "N"){
 	    		alert("가예약 승인 대기 중인 예약은 수정할 수 없습니다.");
+	    		$('#calendar').fullCalendar('refetchEvents');
 	    		return false;
 	    	}
 	    	
@@ -1587,6 +1636,7 @@ $(document).ready(function(){
 
 	    	if(rsvDate < today){
 	    		alert("오늘 날짜 이전의 예약은 수정할 수 없습니다.");
+	    		$('#calendar').fullCalendar('refetchEvents');
 	    		return false;
 	    	}
 	    	
@@ -1600,6 +1650,7 @@ $(document).ready(function(){
 	     	
 	    	if(overTime == 'T'){
 	    		if(!confirm(maxTime+"시간 이상 예약은 관리자 승인이 필요합니다. 진행하시겠습니까?")){
+	    			$('#calendar').fullCalendar('refetchEvents');
 	    			return false;
 	    		}else{
 	    			$("#rsvConfirmState").val("N");
@@ -1612,6 +1663,7 @@ $(document).ready(function(){
 	    	//이 값이 3이상이면 가예약상태
 	    	if(count >= 2){
 	    		if(!confirm("이번주에 "+maxTime+"시간 이상 예약을 3번이상 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
+	    			$('#calendar').fullCalendar('refetchEvents');
 	    			return false;
 	    		}else{
 	    			$("#rsvConfirmState").val("N");
@@ -1622,22 +1674,24 @@ $(document).ready(function(){
 	    	var total = "총 "+res[0]+"시간 "+res[1]+"분";
 	    	
 	    	if(loginChk == null){ //관리자 로그인되지 않았을 때
-	    	
-	    		var rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
+	    		var rsvConfirmStateVal = "Y";
+	    		rsvConfirmStateVal = getRsvConfirmStateVal(event.id);
 		    	if(rsvConfirmStateVal == "ACCEPT"){
 		    		alert("가예약 승인받은 예약은 관리자만 수정가능합니다.");
+		    		$('#calendar').fullCalendar('refetchEvents');
 		    		return false;
 		    	}
 		    	
 		    	//비밀번호 확인
 			 	$("#eventInfo").html("<input type='password' id='chkPwd'> <input type='button' id='chkBtn' value='확인'><br><div id='chkPwdErrMsg' style='display:none'></div>");
-				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:350, height:200, resizable:false });
+				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:350, height:200, resizable:false, close: function( event, ui ) { $('#calendar').fullCalendar('refetchEvents');} });
 			    $("#eventLink").show();
 			    $("#detailInfo").empty();
 				$("#eventLink").on("click", function(){
 					sendEmail(event.id);
 			    });
-			    
+
+				
 				$("#chkBtn").on("click", function(){
 					var res = "N";
 					res = checkPwd(event.id);
@@ -1646,7 +1700,7 @@ $(document).ready(function(){
 						
 				    	if(!confirm($("#rsvStartTime option:selected").text()+" - "+$("#rsvEndTime option:selected").text()+" ("+total+") 으로 예약을 변경하시겠습니까?")){
 				    		$("#eventContent").dialog("close");
-				    		self.location.reload();
+				    		$('#calendar').fullCalendar('refetchEvents');
 							return false;
 						}else{
 							$.ajax({
@@ -1677,7 +1731,7 @@ $(document).ready(function(){
 	    	}else if(loginChk != null){
 	    		if(!confirm($("#rsvStartTime option:selected").text()+" - "+$("#rsvEndTime option:selected").text()+" ("+total+") 으로 예약을 변경하시겠습니까?")){
 		    		$("#eventContent").dialog("close");
-		    		self.location.reload();
+		    		$('#calendar').fullCalendar('refetchEvents');
 					return false;
 				}else{
 					$.ajax({
@@ -1725,7 +1779,82 @@ $(document).ready(function(){
 	        	$("#submitForm :input").attr("disabled", true);
 	        }
 	     },
+		 eventMouseover: function (data, event, view) {
 
+			var name = "";
+			var phoneNum = "";
+			var email = "";
+			var totalTime = "";
+			var state = "";
+			var noshow = 0;
+			 
+			//예약 등록자 정보 가져오기
+			$.ajax({
+				url:"/Reservation/ShowInfoByTooltip",
+				type:"post",
+				dataType:"json",
+				data:{
+					"rsvNo":data.id 
+				},
+				async : false,
+				success:function(list){
+					name = list[0].rsvMemNm;
+					phoneNum = list[0].rsvMemPn;
+					email = list[0].rsvMemEm;
+					totalTime = list[0].rsvTotalTime;
+				},
+				error:function(request,status,error){
+					alert("Show Information By Tooltip Error");
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+			
+			$.ajax({
+				url:"/Member/MemInfoByTooltip",
+				type:"post",
+				dataType:"json",
+				data:{
+					"memPn":phoneNum
+				},
+				async : false,
+				success:function(list){
+					state = list[0].memState;
+					noshow = list[0].countWarn;
+				},
+				error:function(request,status,error){
+					alert("Member Information By Tooltip Error");
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+			 
+			var hour = totalTime.substr(1,1);
+			var min = totalTime.substr(3,2);
+
+			if(loginChk == null){ //관리자 로그인되지 않았을 때
+				tooltip = '<div class="tooltiptopicevent" style="width:auto;border-color:#d9d9d9;border-style:solid;border-width:0.2px;height:auto;background:white;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">' + name +' 님의 예약입니다.<br>Email : '+ email + '<br>전화번호 : ' + phoneNum + '<br>총 소요시간  : '+ hour +'시간 '+ min +'분</div>';
+			}else if(loginChk != null){ //관리자로 로그인시
+				if(state != "정상"){
+					tooltip = '<div class="tooltiptopicevent" style="width:auto;border-color:#d9d9d9;border-style:solid;border-width:0.2px;height:auto;background:white;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">' + name +' 님의 예약입니다.<br>Email : '+ email + '<br>전화번호 : ' + phoneNum + '<br>총 소요시간  : '+ hour +'시간 '+ min +'분<br>NoShow 수 : '+ noshow +'<br>차단된 회원입니다.</div>';
+				}else{
+					tooltip = '<div class="tooltiptopicevent" style="width:auto;border-color:#d9d9d9;border-style:solid;border-width:0.2px;height:auto;background:white;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">' + name +' 님의 예약입니다.<br>Email : '+ email + '<br>전화번호 : ' + phoneNum + '<br>총 소요시간  : '+ hour +'시간 '+ min +'분<br>NoShow 수 : '+ noshow +'</div>';
+				}
+			}
+			
+	        $("body").append(tooltip);
+	        $(this).mouseover(function (e) {
+	        	$(this).css('z-index', 10000);
+	            $('.tooltiptopicevent').fadeIn('500');
+	            $('.tooltiptopicevent').fadeTo('10', 1.9);
+	         }).mousemove(function (e) {
+	         	$('.tooltiptopicevent').css('top', e.pageY + 10);
+	         	$('.tooltiptopicevent').css('left', e.pageX + 20);
+	         });
+		 },
+	     eventMouseout: function (data, event, view) {
+	         $(this).css('z-index', 8);
+	         $('.tooltiptopicevent').remove();
+
+	     }
 	});
 
 
@@ -1735,7 +1864,6 @@ $(document).ready(function(){
 		var d =  $("#rsvDateFromSearch").val().toString();
 		d= new Date(d);
 		$('#calendar').fullCalendar('gotoDate', d);
-		
 	
 	}
 

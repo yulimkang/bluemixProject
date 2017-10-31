@@ -9,7 +9,8 @@
 <html>
 <head>
 <body>
-
+	<!-- 작성자 : 박성준 -->
+	<!-- noShow를 한번이상이라도 한 회원 출력-->
 	<div id="noShowMemberList" class="col-lg-12 table-responsive">
 		<table class="table table-hover text-center">
 			<thead>
@@ -34,6 +35,7 @@
 							style="text-align: center; color: #585858; font-weight: bold">
 							${noShowUserList.COUNT_WARN}번</td>
 
+						<!--  정상이라면 정상, 차단이라면 관리자 차단, noShow차단이라면 차단된 날짜 노출 -->
 						<c:choose>
 							<c:when test="${noShowUserList.MEM_STATE eq '정상'}">
 								<td width="20%" style="text-align: center;">정상</td>
@@ -106,6 +108,7 @@
 
 <script type="text/javascript">
 
+// 카운트 초기화
 function noShowValueSetting(btn,seq){
 	
 	var confirmCheck = confirm("Count는 0으로 초기화되며, 사용자는 정상상태가 됩니다. \n초기화 하시겠습니까?");
@@ -130,6 +133,7 @@ function noShowValueSetting(btn,seq){
 	}
 }
 
+// 노쇼내역 DetailView
 function detailView(memName, memPhone){
 	
 	$("#detailMemberName").val(memName);

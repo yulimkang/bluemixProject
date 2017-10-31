@@ -58,17 +58,4 @@ public interface BoardingDao {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

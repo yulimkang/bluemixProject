@@ -11,6 +11,10 @@ import com.ibmMeeting.VO.Reservation;
 @Mapper
 public interface ReservationDao {
 
+	/**
+	 * 작성자 : 박세연
+	 * @return
+	 */
 	List<Reservation> getReservation();
 	
 	List<Reservation> getReservationInfo(int no);
@@ -37,10 +41,7 @@ public interface ReservationDao {
 	
 	String getRsvConfirmStateVal(int rsvNo);
 	
-	
-	
-
-	void deleteReservationByDate(String deleteDate);
+	List<Reservation> showInfoByTooltip(int rsvNo);
 	
 	
 	/* 
@@ -50,5 +51,19 @@ public interface ReservationDao {
 	ArrayList<HashMap<String,Object>> allReservationList(String wantDate);	// 특정날짜 예약 목록
 	void deleteReservationByMeetingRoomSeq(Integer meetingRoomSeq);			// 회의실에 연결된 예약삭제
 	Integer similarTitleCheck(String rsvTitle);								// 제목 비슷한 내용체크
+	
+	
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 이전 날짜 이전의 기록 저장(RESERVATION TABLE)
+	 */
+	ArrayList<HashMap<String, Object>> selectAllReservationByDate(String deleteDate);
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 이전 날짜 이전의 기록 삭제
+	 */
+	void deleteReservationByDate(String deleteDate);
 	
 }

@@ -25,7 +25,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>관리자 일반예약 검색결과</title>
+<title>관리자 검색</title>
 </head>
 <body id="htmlBody">
 	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
@@ -38,9 +38,9 @@
 		<br>
 		
 		
-		<div class="col-xs-12">
+		<div class="col-lg-12">
 		  <form name="searchForm" id="searchForm" method="post" action="">
-			<div class="col-xs-3">
+			<div class="col-lg-3">
 				<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
 					<option value="all">전체</option>
 					<option value="title">회의제목</option>
@@ -48,11 +48,20 @@
 					<option value="mem_pn">전화번호</option>
 				</select>
 			</div>
-			<div class="col-xs-7">
+			<div class="col-lg-5">
 				<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){searchFormSubmit();}"  />
 			</div>
-			<div class="col-xs-2">
-				<button type="button" class="pull-right btn btn-primary" onclick="searchFormSubmit()">검색</button>
+			<div class="col-lg-2">
+				<div class="radio">
+          			<label>
+						<input type="radio" name="searchKind" value="general" checked="checked">일반예약
+						<input type="radio" name="searchKind" value="repeat" >반복예약
+					</label>
+				</div>
+			</div>
+			
+			<div class="col-lg-2">
+				<button type="button" class="pull-right btn btn-primary" onclick="searchBtn()">검색</button>
 			</div>
 
 		<br><br><br><br><br>
@@ -68,7 +77,7 @@
 			</div>
 		
 		<br>
-		 <div class="col-xs-3">
+		 <div class="col-lg-3">
 			<select class="form-control"  name="sort" id="sort" onchange="searchFormSubmit()">
 						<option value="new">최신순</option>
 						<option value="old">오래된 순</option>
@@ -176,7 +185,10 @@
 
 <script>
 
-//자동완성기능
+/**
+ * 작성자 : 최문정
+ * 내용 : 자동완성 기능
+ */
 $(function(){
     $( "#inputSearchCont" ).autocomplete({
         source : function( request, response ) {
@@ -212,14 +224,21 @@ $(function(){
 });
 
 
- //결과 값 출력 이후에도 옵션과 검색 내용이 보이도록 함
+/**
+ * 작성자 : 최문정
+ * 내용 : 결과 값 출력 이후에도 옵션과 검색 내용이 보이도록 함
+ */
  $(function() {
 	 $("#selectSearchOpt").val("${selectSearchOptBack}");
 	 $("#inputSearchCont").val("${inputSearchContBack}");
 	 $("#sort").val("${generalSortTypeBack}");
  });
 
-//Form에서 입력받은 값 GeneralSearchPage로 전송
+ 
+ /**
+ * 작성자 : 최문정
+ * 내용 : Form에서 입력받은 값 GeneralSearchPage로 전송
+ */
 function searchFormSubmit(){
 	var searchOpt = $("#selectSearchOpt").val();
 	var searchContent=$("#inputSearchCont").val();
@@ -236,7 +255,10 @@ function searchFormSubmit(){
 	
 }
 
-//Form에서 입력받은 값 RepeatSearchPage Contorller로 전송
+ /**
+ * 작성자 : 최문정
+ * 내용 : Form에서 입력받은 값 RepeatSearchPage Contorller로 전송
+ */
 function repeatSearchFormSubmit(){
 	var searchOpt = $("#selectSearchOpt").val();
 	var searchContent=$("#inputSearchCont").val();
@@ -252,6 +274,38 @@ function repeatSearchFormSubmit(){
 	}
 	
 }
+ 
+/**
+ * 작성자 : 최문정
+ * 내용 : Form에서 입력받은 값 검색 결과 선택에 따라 Contorller로 전송
+ */
+function searchBtn() {
+	var searchOpt = $("#selectSearchOpt").val();
+	var searchContent=$("#inputSearchCont").val();
+	var searchKind = $(":input:radio[name=searchKind]:checked").val();
+	
+	if(searchContent.length>0){
+		
+		if(searchKind == "general") {
+			//일반예약 검색일 때
+			$("#searchForm").attr("action","/Search/GeneralSearchPage");
+			$("#searchForm").submit();
+			
+		}else if(searchKind == "repeat") {
+			//반복예야 검색일 때
+			$("#searchForm").attr("action","/Search/RepeatSearchPage");
+			$("#searchForm").submit();
+			
+		}
+		
+	}
+	else{
+		alert("내용을 입력해 주세요.");
+	}
+}
+ 
+ 
+
 
 /* 작성자 : 박세연 
  * 제목 클릭시 날짜 페이지로 이동

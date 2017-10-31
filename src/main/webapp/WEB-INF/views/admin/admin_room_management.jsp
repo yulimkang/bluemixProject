@@ -22,8 +22,7 @@
 
 <html>
 <head>
-<title>관리자 메인</title>
-
+<title>관리자 회의실 관리</title>
 </head>
 <body id="htmlBody">
 	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
@@ -46,6 +45,8 @@
 							<th width="30%" style="text-align: center;">비고</th>
 						</tr>
 					</thead>
+					<!--  작성자 : 박성준 -->
+					<!--  JSTL이용한 미팅룸 리스트 출력 -->
 					<tbody>
 						<c:forEach items="${meetingRoomList}" var="meetingRoomList">
 							<tr>
@@ -149,6 +150,7 @@ $("#meetingRoomAddInputBox").hide();
 $("#meetingRoomUpdateInputBox").hide();
 var addBtnstate = $("#addBtnClickState").val();
 
+// 추가버튼
 	function meetingRoomAddBtnClick() {
 
 		if (addBtnstate == false) {
@@ -165,7 +167,8 @@ var addBtnstate = $("#addBtnClickState").val();
 			addBtnstate=false;
 		}
 	}
-	
+
+// 수정버튼
 	function meetingRoomUpdateBtnClick(seq,name,order) {
 		$("#meetingRoomUpdateInputBox").show();
 		$("#updateMeetingRoomSeq").val(seq);
@@ -177,6 +180,8 @@ var addBtnstate = $("#addBtnClickState").val();
 		meetingRoomAddBtnClick();
 	}
 
+
+// 추가 완료
 	function meetingRoomAddSubmit() {
 		var check = $("#addMeetingRoomNumber").val();
 
@@ -195,6 +200,7 @@ var addBtnstate = $("#addBtnClickState").val();
 		});
 	}
 	
+// 업데이트 완료
 	function meetingRoomUpdateSubmit() {
 		
 		$.ajax({
@@ -213,8 +219,7 @@ var addBtnstate = $("#addBtnClickState").val();
 		});
 	}
 	
-	
-	
+// 삭제 완료
 	function meetingRoomDelete(seq){
 		
 		var confirmCheck = confirm("정말로 회의실을 삭제하시겠습니까?");

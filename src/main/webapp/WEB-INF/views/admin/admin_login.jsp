@@ -116,7 +116,7 @@ body{
 
 <html>
 <head>
-<title>관리자 로그인234</title>
+<title>관리자 로그인</title>
 
 </head>
 	<body>
@@ -124,6 +124,8 @@ body{
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
 		</div>
 		
+		<!-- 작성자: 박성준 -->
+		<!-- 관리자 로그인 -->
 		<div class="container">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <div class="account-wall">
@@ -149,6 +151,7 @@ body{
 
 <script type="text/javascript">
 
+// 관리자 로그인 check ajax
 function loginBtn(){
     $.ajax({
         url : "/AdminLogin/LoginCheck",

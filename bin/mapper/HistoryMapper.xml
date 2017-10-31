@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ibmMeeting.Dao.HistoryDao">
 
-    <!-- property : VO 변수명, column : SQL 변수명 -->
+        <!-- property : VO 변수명, column : SQL 변수명 -->
 	<resultMap type="com.ibmMeeting.VO.History" id="history_resultmap">
     	<id column="hst_no" property="hstNo"/>
     	<result column="hst_rsv_comp" property="hstRsvComp"/>
@@ -22,199 +22,77 @@
     	<result column="hst_repeat_period" property="hstRepeatPeriod"/>
     	<result column="hst_setting" property="hstSetting"/>
     	<result column="hst_repeat_no" property="hstRepeatNo"/>
+    	<result column="hst_description" property="hstDescription"/>
    	</resultMap>
  	
  	<!-- 작성자 : 박세연 -->
  	<!-- 새로운 예약 등록시 history table에 등록 -->
 	<insert id="registHistory" parameterType="com.ibmMeeting.VO.History">
 		INSERT INTO HISTORY
-		VALUES (#{hstNo}, #{hstRsvComp}, #{hstRsvTitle}, #{hstDate}, #{hstTotalTime}, #{hstStartTime}, #{hstEndTime}, #{hstRsvState}, #{hstRsvMemNm}, #{hstRsvMemPn}, #{hstRsvMemEm}, #{hstDelPwd}, #{hstRegDate}, #{hstConfNo}, #{hstRepeatPeriod}, #{hstSetting}, #{hstRepeatNo})
+		VALUES (#{hstNo}, #{hstRsvComp}, #{hstRsvTitle}, #{hstDate}, #{hstTotalTime}, #{hstStartTime}, #{hstEndTime}, #{hstRsvState}, #{hstRsvMemNm}, #{hstRsvMemPn}, #{hstRsvMemEm}, #{hstDelPwd}, #{hstRegDate}, #{hstConfNo}, #{hstRepeatPeriod}, #{hstSetting}, #{hstRepeatNo}, #{hstDescription})
 	</insert>
 
-
-
-
-	<!-- 최문정 : 날짜별 History 검색 및 출력(관리자 예약내역페이지) -->
-	<select id="searchHistoryByDate" parameterType="HashMap" resultType="HashMap">
-		SELECT H.HST_DATE,
+	<!-- 작성자 : 최문정 -->
+	<!-- 입력한 기간 이전의 히스토리 삭제 -->
+	<delete id="deleteHistoryByDate" parameterType="String">
+		<![CDATA[
+			DELETE FROM HISTORY WHERE HST_DATE <= #{deleteDate}
+		]]>
+	</delete>
+	
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- 입력 기간 이전의 히스토리 저장 -->
+	<select id="selectAllHistoryByDate" parameterType="String" resultType="HashMap">
+	<![CDATA[
+		SELECT H.HST_NO,
+			   H.HST_RSV_TITLE,
+			   H.HST_DATE,
+			   H.HST_TOTAL_TIME,
 			   H.HST_START_TIME,
 			   H.HST_END_TIME,
 			   C.CONF_NM,
-			   H.HST_RSV_TITLE,
 			   H.HST_RSV_MEM_NM,
 			   H.HST_RSV_MEM_PN,
-			   H.HST_REPEAT_PERIOD,
-			   H.HST_SETTING,
+			   H.HST_RSV_MEM_EM,
+			   H.HST_DEL_PWD,
+			   H.HST_REG_DATE,
 			   H.HST_RSV_STATE,
-			   H.HST_REG_DATE	   
+			   H.HST_REPEAT_PERIOD,
+			   H.HST_SETTING, 
+			   H.HST_REPEAT_NO
+			   
 		FROM HISTORY H, CONFERENCE C
 		WHERE H.HST_CONF_NO = C.CONF_NO
-		AND HST_DATE BETWEEN #{startDate} AND #{endDate}
-		ORDER BY HST_DATE DESC;
-	</select>
-	
-	
-	<!-- 최문정 : 입력한 기간 이전의 히스토리 삭제 -->
-	<select id="deleteHistoryByDate" parameterType="String">
-		<![CDATA[
-			DELETE FROM HISTORY WHERE HST_DATE <= #{deleteDate}
+		AND H.HST_DATE <= #{deleteDate}
+		ORDER BY H.HST_REPEAT_NO ASC, H.HST_DATE ASC 
 		]]>
 	</select>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 반려시 히스토리 데이터 인서트  -->
 
 <select id="reservationDeleteAndInsert" resultType="HashMap">
 	<choose>
 		<when test="repeatNo!=0">
-			INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO) 
-			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'REJECTED',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND  RSV_REPEAT_NO=#{repeatNo};
+			INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO,HST_DESCRIPTION) 
+			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'REJECTED',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO,RSV_DESCRIPTION FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND  RSV_REPEAT_NO=#{repeatNo};
 		</when>
 		
 		<otherwise>
-			INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO) 
-			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'REJECTED',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND RSV_NO=#{reservationNo};
+			INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO,HST_DESCRIPTION) 
+			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'REJECTED',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO,RSV_DESCRIPTION FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND RSV_NO=#{reservationNo};
 		</otherwise>
 	
 	</choose>
 	
 </select>
+
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 반려  -->
 
 
 <select id="reservationDelete" resultType="HashMap">
@@ -237,23 +115,32 @@
 	
 	
 </select>
+
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 승인시 히스토리 데이터 인서트 -->
+
 <select id="reservationUpdateAndInsert" resultType="HashMap">
 	<choose>
 		<when test="repeatNo!=0">
-					INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO) 
-			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'ACCEPT',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND  RSV_REPEAT_NO=#{repeatNo};
+			INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO,HST_DESCRIPTION) 
+			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'ACCEPT',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO,RSV_DESCRIPTION
+			FROM RESERVATION 
+			WHERE RSV_CONFIRM_STATE='N' AND  RSV_REPEAT_NO=#{repeatNo};
 		
 		</when>
 		
 		<otherwise>
-					INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO) 
-			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'ACCEPT',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND RSV_NO=#{reservationNo};
+					INSERT INTO HISTORY (HST_RSV_COMP,HST_RSV_TITLE,HST_DATE,HST_TOTAL_TIME,HST_START_TIME,HST_END_TIME,HST_RSV_STATE,HST_RSV_MEM_NM,HST_RSV_MEM_PN,HST_RSV_MEM_EM,HST_DEL_PWD,HST_REG_DATE,HST_CONF_NO,HST_REPEAT_PERIOD,HST_SETTING,HST_REPEAT_NO,HST_DESCRIPTION) 
+			select RSV_COMP,RSV_TITLE,RSV_DATE,RSV_TOTAL_TIME,RSV_START_TIME,RSV_END_TIME,'ACCEPT',RSV_MEM_NM,RSV_MEM_PN,RSV_MEM_EM,RSV_DEL_PWD,RSV_REG_DATE,RSV_CONF_NO,RSV_REPEAT_PERIOD,RSV_SETTING,RSV_REPEAT_NO,RSV_DESCRIPTION FROM RESERVATION WHERE RSV_CONFIRM_STATE='N' AND RSV_NO=#{reservationNo};
 		
 		</otherwise>
 	
 	</choose>
 	
 </select>
+
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 승인  -->
 
 <select id="reservationUpdate" resultType="HashMap">
 	UPDATE RESERVATION
@@ -272,6 +159,9 @@
 	
 </select>
 
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 전체 조회  -->
+
 <select id="fakeReservation" resultType="HashMap">
 	SELECT * ,RSV_NO as LAST_DATE
 	FROM RESERVATION r,CONFERENCE c
@@ -282,6 +172,10 @@
 	WHERE RSV_REPEAT_NO!=0 AND r.RSV_CONF_NO=c.CONF_NO AND r.RSV_CONFIRM_STATE='N' GROUP BY RSV_REPEAT_NO ;
 </select>
 
+
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 중 반복예약 조회  -->
+
 <select id="repeatReservationHead" resultType="HashMap">
 	SELECT * 
 	FROM RESERVATION r, CONFERENCE c
@@ -290,6 +184,8 @@
 
 </select>
 
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 중 반복예약 상세내역 조회  -->
 
 <select id="repeatReservationInside" parameterType="int" resultType="HashMap">
 			SELECT 
@@ -301,12 +197,16 @@
 			   r.RSV_CONFIRM_STATE,
 			   r.RSV_REPEAT_PERIOD,
 			   r.RSV_REPEAT_NO,
-               c.CONF_NM
+               c.CONF_NM,
+               r.RSV_DESCRIPTION
 		FROM RESERVATION r, CONFERENCE c
 		WHERE RSV_CONFIRM_STATE = 'N' AND RSV_REPEAT_NO=#{repeatNo} AND r.RSV_CONF_NO=c.CONF_NO;
 
 
 </select>
+
+<!-- 작성자 : 고창환 -->
+<!-- 가예약 중 특정시간 초과하는 회의 조회  -->
 
 <select id="overtimeReservation" resultType="HashMap">
 <![CDATA[
@@ -316,44 +216,6 @@
 
 ]]>
 </select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

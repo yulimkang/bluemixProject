@@ -1101,12 +1101,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #18bc9c;
+  color: #464048;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #18bc9c;
+  color: #4a57ec;
   text-decoration: underline;
 }
 a:focus {
@@ -4032,6 +4032,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   line-height: 1.42857143;
   border: 1px solid transparent;
   border-radius: 4px 4px 0 0;
+  color : #18bc9c;
 }
 .nav-tabs > li > a:hover {
   border-color: #ecf0f1 #ecf0f1 #ecf0f1;

@@ -79,6 +79,8 @@
 				  </div>
 				</div>
 				
+				<!--  작성자 : 박성준 -->
+				<!--  끝 시간은 시작시간에 의하여 변경 -->
 				<div class="form-group col-lg-3">
 				  <label class="control-label">끝 시간</label>
 				  <div class="input-group">
@@ -197,7 +199,7 @@
 				  <div>
 					  <div class="input-group">
 					    <span class="input-group-addon input-sm"><i class="fa fa-phone"></i></span>
-					    <input class="form-control input-sm" type="text" id="rsvMemPn" name="rsvMemPn" maxlength=13 value="${param.rsvMemPn }" placeholder="전화번호를 입력하세요" onkeydown="phoneCheck()" onchange ="phoneCheck();" onkeyup="inputDash();memberBanCheck()" readonly>
+					    <input class="form-control input-sm" type="text" id="rsvMemPn" name="rsvMemPn" maxlength=13 value="${param.rsvMemPn }" placeholder="전화번호를 입력하세요"  onkeyup="inputDash();memberBanCheck()" readonly>
 					  </div>
 				  </div>
 				</div>
@@ -278,8 +280,10 @@ var memberBanState = false;
 
 var date = new Date();
 
+// EMAIL CHECK BTN 기본 활성화
 var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 
+// 시작시간또는 끝시간 변경시 , 유효성 검사
 	function dateChange(){
 		var startDateValue = $("#rsvStartDate").val();
 		var endDateValue = $("#rsvEndDate").val();
@@ -292,6 +296,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		}
 	}
 
+	// 사용자 핸드폰 번호 입력시
 	$("#rsvMemPn").keyup(function(event){
 		if (!(event.keyCode >=37 && event.keyCode<=40)) {
 	        var inputVal = $(this).val();
@@ -301,27 +306,14 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		$("#rsvMemPn").val(pn); // - 포함해 실시간 값 업데이트	
 	});
 	
+	// 핸드폰 번호 자동으로 Dash
 	function inputDash(){
 	 	var pn = $("#rsvMemPn").val();
 		pn = pn.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3"); 
 		return pn;
 	}
 	
-	function phoneCheck(){
-		var phoneValue = $("#rsvMemPn").val();
-		
-		if(phoneValue.length<10){
-			$("#phoneCheckSpan").html("올바르지 않은 전화번호형식입니다.");
-			$("#phoneCheckSpan").css("color","red");
-			phoneValiCheck = false;
-		}
-		else{
-			$("#phoneCheckSpan").html("정확한 핸드폰 형식입니다.");
-			$("#phoneCheckSpan").css("color","blue");
-			phoneValiCheck = true;
-		}
-	}
-	
+	// 모든값 입력확인
 	function inputValueAllCheck(){
 		
 		var meetingTitle = $("#rsvTitle").length;
@@ -330,11 +322,8 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		var name = $("#rsvMemNm").length;
 		var email = $("#rsvMemEm").length;
 		var description = $("#rsvDescription").length;
-		
-		if(phoneValiCheck==false){
-			alert("정확한 핸드폰번호를 입력해주세요");
-		}
-		else if(meetingTitle==0 || pwd ==0 || phoneNumber == 0 ||
+
+		if(meetingTitle==0 || pwd ==0 || phoneNumber == 0 ||
 				name == 0 || email ==0 || description == 0){
 			alert("모든 값을 입력해주세요");
 		}
@@ -343,6 +332,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		}
 	}
 	
+	// 사용자 차단확인
 	function memberBanCheck(){
 		
 		var memberPn = $("#rsvMemPn").val();
@@ -366,6 +356,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		});
 	}
 	
+	// 최종 제출
 	function repeatSubmit(){
 		inputValueAllCheck();
 		
@@ -382,6 +373,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		}
 	}
 	
+	// 시작시간 변경시 
 	function startTimeChange(){
          
          /*After select the start time, set the values of the end time*/
@@ -449,7 +441,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 	}
 
 
-
+	// 예약가능한 날짜 확인
 	function reservationCheck() {
 
 		var changeAvailable = [];
@@ -531,6 +523,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 
 	}
 	
+	// 달력에서 정보 삭제
 	function deleteCalendar(){
 		
 		$('#calendar').fullCalendar('removeEvents', function(event) {
@@ -539,6 +532,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 
 	}
 	
+	// 달력에서 정보 삭제
 	function updateCalendar(avaliable,duplicate){
 		
 		$('#calendar').fullCalendar('removeEvents', function(event) {
@@ -567,12 +561,14 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 			}
 	}
 
+	// Pop-Up 임시로 넣어둠
 	function repeatDay() {
 
 		window.open("/RepeatReservation/RepeatDay", "EventFrame",
 				"menubar=no,width=430,height=360,toolbar=no");
 	}
 
+	// 예약확인 후 readOnly 해제
 	function ableInputBox() {
 		$("#rsvColor").removeAttr("readonly");
 		$("#rsvTitle").removeAttr("readonly");
@@ -584,6 +580,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		$("#repeatReservationSubmitBtn").removeAttr("disabled");
 	}
 
+	// 예약확인 하기전 readOnly
 	function disableInputBox() {
 		$("#rsvColor").attr("readonly", true);
 		$("#rsvTitle").attr("readonly", true);
@@ -645,6 +642,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		return maxTime;
 	}
 	
+	// 전체시간 구하는 함수 (예약 총시간)
 	function calTotalTime(){
 
 		var maxTime = getMaxTime();
@@ -716,14 +714,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		}
 	}
 
-	function repeatSetting() {
-
-	}
-
-	function repeatValue() {
-
-	}
-	
+	// fullcalendar 설정
 	$('#calendar').fullCalendar({
 		height:500,
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
@@ -738,60 +729,49 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 	
 	$(document).ready(function(){
 		
-		
 		startTimeChange();
-	
-		/* 
-	 	$("#rsvStartTime").on("change", function(){
-			setTimeDisabled();
-		}); 
-	 	$("#rsvConfNo").on("change", function(){
-			setTimeDisabled();
-		});  */
 	 	
 		//전화번호 입력을 통해 이름과 이메일 자동입력
 		var data = new Array();
 		
 		$("#rsvMemPn").autocomplete({
-		   source: function (request, response) {
-			   $.ajax({
-					url:"/Member/GetMemInfoByPn",
-					type:"post",
-					dataType:"json",
-					data:{"memPn":$("#rsvMemPn").val()},
-					success:function(list){
-						$.each(list, function(i){
-							data[i] = {"pn":this.memPn,
-										   "nm":this.memName,
-										   "em":this.memEm
-							};
-						});
+			   source: function (request, response) {
+				   $.ajax({
+						url:"/Member/GetMemInfoByPn",
+						type:"post",
+						dataType:"json",
+						data:{ "memPn" : request.term },
+						success:function(data){				
+					 	  //data :: JSON list defined
+					 	  response($.map(data, function (item) {
+		 			          return {
+		 									label: item.pn,
+		 				                    value: item.pn,
+		 				                    nm : item.nm,
+		 				                    em : item.em
+		 				               }
+		 			          }));
 							
-				 	  //data :: JSON list defined
-				      response($.map(data, function (value, key) {
-				          return {
-										label: value.pn,
-					                    value: value.pn,
-					                    nm : value.nm,
-					                    em : value.em
-					               }
-				          }));
-						
-					},
-					error:function(request,status,error){
-						alert("Get Member Information Error");
-						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					}
-				});
-		    },
-		    select: function(event, ui) {
-		    	$("#errorPn").empty();
-		    	$("#errorName").empty();
-		    	$("#errorEmail").empty();
-				$("#rsvMemNm").val(ui.item.nm);
-				$("#rsvMemEm").val(ui.item.em);
-			}
-	 	});
+						},
+						error:function(request,status,error){
+							alert("Get Member Information Error");
+							alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						}
+					});
+			    },
+			    select: function(event, ui) {
+			    	$("#errorPn").empty();
+			    	$("#errorName").empty();
+			    	$("#errorEmail").empty();
+					$("#rsvMemNm").val(ui.item.nm);
+					$("#rsvMemEm").val(ui.item.em);
+				}
+		 	});
+		
+		
+		
+		
+
 	});
 	
 </script>

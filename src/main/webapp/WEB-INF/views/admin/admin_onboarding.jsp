@@ -24,7 +24,7 @@
 <html>
 <head>
 
-<title>on_boarding</title>
+<title>관리자 On-Boarding 관리</title>
 
 </head>
 <body id="htmlBody">
@@ -224,10 +224,13 @@
 </html>
 
 <script type="text/javascript">
+
+	//업데이트 인풋 박스 숨기기
 	window.onload = function() {
 		$("#onBoardingUpadateInputBox").hide();
 	}
 
+	//디비에서 값 가져와 수정 박스 디폴트 값주기
 	function updateBtnClick(number, name, phone, email) {
 		document.getElementById("updateNo").value = number;
 		document.getElementById("updateName").value = name;
@@ -240,7 +243,8 @@
 		//css('visibility','visible');
 
 	}
-
+	
+	//입력값 받아와 그 값으로 수정하기
 	function updateStateBtnClick() {
 
 		$.ajax({
@@ -256,7 +260,7 @@
 			}
 		});
 	}
-
+	// 검색조건 받아와 검색하기
 	function searchBtnClick() {
 
 		var searchForm = $("#searchInputBox").val();

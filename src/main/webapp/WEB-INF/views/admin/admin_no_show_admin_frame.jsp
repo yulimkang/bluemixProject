@@ -16,13 +16,8 @@
 <script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-	$(document).ready(function(){
-		$("#noShowTab").attr("class","active");
-	});
-</script>
 
-
+<!-- 세션확인 -->
 <%
 	if(session.getAttribute("id")==null){
 		response.sendRedirect("/");  
@@ -37,14 +32,17 @@
 <body id="htmlBody">
 	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
 
-	<div class="container" id="ddddd">
+	
+		<div class="container" id="ddddd">
 	
 		<jsp:include page="admin_footer.jsp"></jsp:include>
 		
 		<div class="panel panel-default">
-				<div class="panel-body">No-Show 사용자 관리</div>
+				<div class="panel-body">No-Show 관리</div>
 		</div>
 		
+		<!-- 작성자 : 박성준 -->
+		<!-- 탭 선택에 따른 nav 노출 -->
 		<ul class="nav nav-tabs">
 		  <li class="active"><a href="#userNoShow" data-toggle="tab">사용자 No-Show 내역</a></li>
 		  <li><a href="#reservationNoShow" data-toggle="tab">예약 No-Show 내역</a></li>
@@ -59,8 +57,6 @@
 		</div>
 		
 		<br><br>
-		
-		
 		
 	</div>
 	

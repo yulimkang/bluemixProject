@@ -29,9 +29,7 @@
 		    <center>
 		        
 		        <p class="muted">
-		        <a href="https://www.ibm.com"> <img src="/resources/image/ibm_logo.png" style="width:80px"></a>
-		        <a href="https://drive.google.com/file/d/0B5qB3ntA-vJQRE1mdmFVNFFqbzg/view?usp=sharing"> <img src="/resources/image/amore.png" style="width:80px"></a>
-
+		        <a href="https://drive.google.com/file/d/0B5qB3ntA-vJQRE1mdmFVNFFqbzg/view?usp=sharing"> <img src="/resources/image/ibm_logo.png" style="width:80px"></a>
 		        
 		          <strong><br>  Copyright® 박성준, 박세연, 최문정, 고창환 </strong>
 		         

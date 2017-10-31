@@ -30,7 +30,7 @@
 
 <html>
 <head>
-<title>off_boarding</title>
+<title>관리자 Off-Boarding 관리</title>
 
 </head>
 <body id="htmlBody">
@@ -176,10 +176,12 @@
 	
 	$('#')
 	
+	//수정 인풋 박스 숨기기
 	window.onload= function(){
 		$("#onBoardingUpadateInputBox").hide();
 	}
 
+	//디비값 가져와서 수정시에 디폴트값 주기, 클릭시 hide->show
 	function updateBtnClick(number,name,phone,email)
 	{
 		document.getElementById("updateNo").value  = number;
@@ -194,6 +196,7 @@
 
 		
 	}
+	//입력값 받아 업데이트
 	function updateStateBtnClick(){
 		
 		$.ajax({
@@ -209,6 +212,7 @@
 			}
 		});
 	}
+	//검색조건 받아,해당키워드로 검색
 	function searchBtnClick(){
 		
 		var searchForm=$("#searchInputBox").val();

@@ -25,7 +25,7 @@
 
 <html>
 <head>
-<title>관리자 No-Show </title>
+<title>관리자 No-Show 관리</title>
 
 </head>
 <body id="htmlBody">
@@ -46,6 +46,9 @@
 							<th width="15%" style="text-align: center;">예약자</th>
 						</tr>
 					</thead>
+					<!-- 작성자 : 박성준 -->
+					<!-- 특정사용자 noShow Detail 노출 -->
+					<!-- subString이용하여 시간 자르기 -->
 					<tbody>
 						<c:forEach items="${noShowDetail}" var="noShowDetail" varStatus="count">
 							<tr>

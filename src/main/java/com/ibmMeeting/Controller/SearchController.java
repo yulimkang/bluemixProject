@@ -32,7 +32,12 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 	
-	//사용자 검색 기본 페이지
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 사용자 검색페이지에서의 기본 페이지로 이동
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/SearchPage")
 	public String searchPage(HttpServletRequest request ) {
 		
@@ -40,7 +45,18 @@ public class SearchController {
 
 	}
 	
-	//search.jsp 파일로 이동, Search 결과 출력
+
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 사용자 검색에서의 일반예약 출력
+	 * @param request
+	 * @param page
+	 * @param generalSort
+	 * @param inputSearchCont
+	 * @param selectSearchOpt
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/GeneralSearchPage")
 	public String searchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -71,6 +87,18 @@ public class SearchController {
 		return "search/general_search";
 	}
 	
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 사용자 검색페이지에서의 반복예약  출려
+	 * @param request
+	 * @param page
+	 * @param repeatSort
+	 * @param inputSearchCont
+	 * @param selectSearchOpt
+	 * @param map
+	 * @return
+	 */
 	//사용자 검색 반복예약 페이지 출력
 	@RequestMapping("/RepeatSearchPage") 
 	public String repeatSearchPage(HttpServletRequest request, 
@@ -103,7 +131,13 @@ public class SearchController {
 		
 	}
 	
-	//반복예약 상세 내역 출력
+	/**
+	 * 작성자  : 최문정
+	 * 내용 :사용자 검색 페이지에서 반복예약내역 상세보기 출력
+	 * @param request
+	 * @param map
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/ShowRepeatDetail")
 	public ArrayList<HashMap<String,Object>> showRepeatDetail(HttpServletRequest request, ModelMap map ) {
@@ -111,15 +145,17 @@ public class SearchController {
 		String str = request.getParameter("repeatNo");
 		int repeatSeq = Integer.parseInt(str);
 		
-		System.out.println("repeatNo : "+ repeatSeq);
-
-		System.out.println("Controller Search Detail Result : " + searchService.showReservDetail(repeatSeq));
 		return searchService.showReservDetail(repeatSeq);
 		
 	}
 	
 	
-	//Search 내용 입력 시 자동완성
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 검색어 입력 시 자동완성하는 기능
+	 * @param request
+	 * @param response
+	 */
 	@ResponseBody
 	@RequestMapping(value="/SearchAutoComplete")
 	public void searchAutocomplete(HttpServletRequest request, HttpServletResponse response) {
@@ -127,7 +163,6 @@ public class SearchController {
 		response.setCharacterEncoding("UTF-8");
 		String selectOption = request.getParameter("selectSearchOpt");
 		String inputValue = request.getParameter("value");
-		System.out.println("Controller Auto Complete : " + selectOption+", Input Value : "+inputValue);
 		
 		searchService.formAutoComplete(request, response);
 		

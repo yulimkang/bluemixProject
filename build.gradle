@@ -36,5 +36,6 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20160810'
     runtime('mysql:mysql-connector-java') // MySQL 드라이버 제공
     testCompile('org.springframework.boot:spring-boot-starter-test')
-	
+	compile('org.apache.poi:poi-ooxml:3.16') // .xlsx
+    compile('org.apache.poi:poi:3.16') // .xls
 }

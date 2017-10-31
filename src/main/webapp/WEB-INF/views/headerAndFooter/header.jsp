@@ -15,24 +15,24 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" onclick="main()" style="cursor:pointer">IBM 회의실 예약 시스템</a>
+      <a class="navbar-brand" onclick="main()" style="cursor:pointer"><strong>IBM 회의실 예약 시스템</strong></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-        <li><a onClick="repeatReservation()" style="cursor:pointer">반복예약신청</a></li>
+        <li><a onClick="repeatReservation()" style="cursor:pointer"><strong>반복예약신청</strong></a></li>
         <c:choose>
         	<c:when test="${sessionScope.id ne null}">
-        		<li><a onClick="adminSearchPage()" style="cursor:pointer">검색(관리자용)</a></li>
+        		<li><a onClick="adminSearchPage()" style="cursor:pointer"><strong>검색(관리자용)</strong></a></li>
         	</c:when>
         	
         	<c:otherwise>
-        		<li><a onClick="searchPage()" style="cursor:pointer">검색</a></li>
+        		<li><a onClick="searchPage()" style="cursor:pointer"><strong>검색</strong></a></li>
         	</c:otherwise>
         </c:choose>
-		<li><a target="_blank" onclick="admin()" style="cursor:pointer">관리자</a></li>
+		<li><a target="_blank" onclick="admin()" style="cursor:pointer"><strong>관리자</strong></a></li>
 		
 		<c:if test="${sessionScope.id ne null}">
-		   <li><a target="_blank" onclick="logout()" style="color:red; cursor:pointer">로그아웃</a></li>
+		   <li><a target="_blank" onclick="logout()" style="color:red; cursor:pointer"><strong>로그아웃</strong></a></li>
 		</c:if>
       </ul>
     </div>

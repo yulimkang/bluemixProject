@@ -33,7 +33,7 @@ public class AdminHistoryController {
 		
 		ModelAndView reservationHistory = new ModelAndView();
 		reservationHistory.addObject("fakeReservation",historyService.fakeReservation());
-		System.out.println(historyService.fakeReservation());
+		
 		reservationHistory.setViewName("/admin/admin_reservationHistory");
 		
 		
@@ -83,7 +83,7 @@ public class AdminHistoryController {
 	@RequestMapping("/LookInside")
 	public ModelAndView lookInside(HttpServletRequest request){
 		
-		System.out.println("cont");
+		
 		ModelAndView lookInside = new ModelAndView();
 		
 		lookInside.addObject("repeatReservationInside",historyService.lookInside(request));
@@ -98,7 +98,6 @@ public class AdminHistoryController {
 	public ArrayList<HashMap<String,Object>> lookInside(HttpServletRequest request){
 		
 		ArrayList<HashMap<String,Object>> lookInside = historyService.lookInside(request);
-		System.out.println(lookInside);
 		return lookInside;
 	}
 

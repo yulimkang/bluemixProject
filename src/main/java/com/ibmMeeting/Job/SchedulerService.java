@@ -59,7 +59,7 @@ public class SchedulerService {
 	 * 이메일 보낼 대상자들 선정하여 이메일 전송, 회의 예약 30분전 테스트
 	 */
 	@Scheduled(initialDelay = 60000, fixedDelay = 120000)
-	public void otherJob() {
+	public void reservationBeforeEmailSend() {
 
 		//셋팅값에서 이메일 값 가져옴
 		HashMap<String, Object> settingValue = settingDao.settingLoad();

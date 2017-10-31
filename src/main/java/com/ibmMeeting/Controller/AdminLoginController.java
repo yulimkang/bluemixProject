@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibmMeeting.Dao.TestDao;
 import com.ibmMeeting.Service.AdminLoginService;
 import com.ibmMeeting.Service.MeetingRoomManagementService;
 
@@ -18,9 +17,7 @@ import com.ibmMeeting.Service.MeetingRoomManagementService;
 @RequestMapping("/AdminLogin")
 public class AdminLoginController {
 	
-	@Autowired
-	TestDao testDao;
-	
+
 	@Autowired
 	AdminLoginService adminLoginService;
 	

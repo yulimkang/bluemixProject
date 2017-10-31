@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,23 +37,31 @@ public class AdminReservationHistoryListController {
 	@Autowired
 	private SearchService searchService;
 	
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 '예약내역' 페이지로 이동
+	 * @return
+	 */
 	@RequestMapping("/ReservHistory")
 	public String reservHistroyPage(){
 		
 		return "/admin/admin_reservationList";
 	}
 	
-	//이전 예약기록 및 History 삭제
+
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 '예약내역' 페이지에서 입력한 날짜 이전의 기록을 삭제
+	 * @param request
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("/DeleteReservAndHistory")
 	public Integer deleteReservHistory(HttpServletRequest request){
 		
-		String dDate = request.getParameter("deleteDate");
-		System.out.println("Delete Date : "+dDate);
-		
 		int hsitroySuccess = historyService.deleteHistoryByDate(request);
 		int reservSuccess =  reservationService.deleteReservationByDate(request);
-		//reservationService.deleteReservation(request);
 		
 		if(hsitroySuccess == reservSuccess) {
 			return 1;
@@ -62,29 +71,17 @@ public class AdminReservationHistoryListController {
 		
 	}
 	
-	//예약내역 검색
-//	@RequestMapping("/ReservHistory")
-//	public ModelAndView reservHistroyPage(HttpServletRequest request){
-//		
-//		String startDate = request.getParameter("selectStartDate");
-//		String endDate = request.getParameter("selectEndDate");
-//		
-//		ModelAndView showHistory = new ModelAndView();
-//		
-//		showHistory.addObject("searchHistoryResultList", historyService.searchHistoryResult(request));
-//		showHistory.addObject("startDateBack", startDate );
-//		showHistory.addObject("endDateBack", endDate );
-//		//System.out.println(searchService.searchResult(request));
-//		
-//		System.out.println(historyService.searchHistoryResult(request));
-//		
-//		showHistory.setViewName("/admin/admin_reservationList");
-//		
-//		return showHistory;
-//	}
-//	
-	
-	//관리자 예약내역 일반예약 HISTORY 검색
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 '예약내역' 페이지에서 일반예약 History 검색 결과
+	 * @param request
+	 * @param page
+	 * @param sort
+	 * @param selectStartDate
+	 * @param selectEndDate
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/SearchGeneralHistory")
 	public String searchGeneralHistory(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -97,13 +94,7 @@ public class AdminReservationHistoryListController {
 		String sortKind = sort;
 		String startDate = selectStartDate;
 		String endDate = selectEndDate;
-		
-		//String startDate = request.getParameter("selectStartDate");
-		//String endDate = request.getParameter("selectEndDate");
-		
-		
-		System.out.println("Controller : page : " + searchpage + ", sort : " + sortKind +", startDate : "+ startDate + ", endDate : " + endDate);
-		
+	
 		HashMap<String, Object> pagebeanMap = searchService.searchGeneralHistoryResult(request, searchpage, sortKind, startDate, endDate);
 		
 		//변경하기
@@ -123,7 +114,18 @@ public class AdminReservationHistoryListController {
 		return "/admin/admin_reservationList_general";
 	}
 	
-	//관리자 예약내역 반복예약 HISTORY 검색
+
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 '예약내역' 페이지에서 반복예약 History 검색 결과
+	 * @param request
+	 * @param page
+	 * @param sort
+	 * @param selectStartDate
+	 * @param selectEndDate
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/SearchRepeatHistory")
 	public String searchRepeatHistory (HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -137,16 +139,10 @@ public class AdminReservationHistoryListController {
 		String sortKind = sort;
 		String startDate = selectStartDate;
 		String endDate = selectEndDate;
-		
-		//String startDate = request.getParameter("selectStartDate");
-		//String endDate = request.getParameter("selectEndDate");
-		
-		
-		System.out.println("Controller : page : " + searchpage + ", sort : " + sortKind +", startDate : "+ startDate + ", endDate : " + endDate);
+
 		
 		HashMap<String, Object> pagebeanMap = searchService.searchRepeatHistoryResult(request, searchpage, sortKind, startDate, endDate);
 		
-		//변경하기
 		map.addAttribute("searchRepeatHistoryResultList", pagebeanMap.get("repeatHistorySearchResult"));
 		map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
 		map.addAttribute("sort", sortKind);
@@ -154,7 +150,6 @@ public class AdminReservationHistoryListController {
 		map.addAttribute("selectEndDate", endDate);
 
 		map.addAttribute("sortTypeBack", sortKind);
-		
 		map.addAttribute("startDateBack", startDate);
 		map.addAttribute("endDateBack", endDate);
 		
@@ -163,8 +158,15 @@ public class AdminReservationHistoryListController {
 		return "/admin/admin_reservationList_repeat";
 		
 	}
+
 	
-	//반복예약내역 상세보기
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 '예약내역' 페이지에서 반복예약 History 검색 결과 중 상세내역 결과 리턴
+	 * @param request
+	 * @param map
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/ShowRepeatDetail")
 	public ArrayList<HashMap<String,Object>> showRepeatDetail(HttpServletRequest request, ModelMap map ) {
@@ -172,15 +174,22 @@ public class AdminReservationHistoryListController {
 		String str = request.getParameter("repeatNo");
 		int repeatSeq = Integer.parseInt(str);
 		
-		System.out.println("repeatNo : "+ repeatSeq);
-
-		System.out.println("Controller Search Detail Result : " + searchService.showHistDetail(repeatSeq));
 		return searchService.showHistDetail(repeatSeq);
 		
 	}
 	
 	
-	//관리자 예약내역 NOSHOW HISTORY 검색
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 '예약내역' 페이지에서 노쇼(NOSHWO)한 회의목록 출력
+	 * @param request
+	 * @param page
+	 * @param sort
+	 * @param selectStartDate
+	 * @param selectEndDate
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/SearchNoshowHistory")
 	public String searchNoshowHistory (HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -194,16 +203,9 @@ public class AdminReservationHistoryListController {
 		String sortKind = sort;
 		String startDate = selectStartDate;
 		String endDate = selectEndDate;
-		
-		//String startDate = request.getParameter("selectStartDate");
-		//String endDate = request.getParameter("selectEndDate");
-		
-		
-		System.out.println("Controller : page : " + searchpage + ", sort : " + sortKind +", startDate : "+ startDate + ", endDate : " + endDate);
-		
+
 		HashMap<String, Object> pagebeanMap = searchService.searchNoshowHistoryResult(request, searchpage, sortKind, startDate, endDate);
 		
-		//변경하기
 		map.addAttribute("noshowHistorySearchResult", pagebeanMap.get("noshowHistorySearchResult"));
 		map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
 		map.addAttribute("sort", sortKind);
@@ -218,6 +220,25 @@ public class AdminReservationHistoryListController {
 		
 		
 		return "/admin/admin_reservationList_noshow";
+		
+	}
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 입력한 날 이전 기록 엑셀로 저장(History Table, Reservation Table)
+	 * @param request
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/StoreResevHistToExcel") 
+	public ModelAndView storeHistoryToExcel(HttpServletRequest req, HttpServletResponse res) {
+		
+		String dDate = req.getParameter("deleteDate");		
+		HashMap<String, Object> model = historyService.reservHistoryToExcel(req, res, dDate);
+		
+		return new ModelAndView("excelXlsxView", model);
 		
 	}
 	

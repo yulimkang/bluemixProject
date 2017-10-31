@@ -23,13 +23,20 @@ public class MeetingRoomManagementService {
 	@Autowired
 	ReservationDao reservationDao;
 	
-	@Autowired
-	DatabaseSettingService databaseSettingService;
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 회의실 리스트 출력
+	 */
 	public ArrayList<HashMap<String,Object>> meetingRoomList(){
 		return meetingRoomDao.meetingRoomList();
 	}
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 회의실 추가
+	 * 사용자가 선택한 회의실이름과 번호를 받아와 새롭게 추가
+	 */
 	public String meetingRoomAdd(HttpServletRequest request){
 		
 		String roomName = request.getParameter("addMeetingRoomName");
@@ -43,6 +50,11 @@ public class MeetingRoomManagementService {
 		return ConstantCode.SUCCESS_STRING;
 	}
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 회의실 수정
+	 * 사용자가 선택한 회의실이름과 번호, 그리고 시퀀스 번호를 받아와 업데이트
+	 */
 	public String meetingRoomUpdate(HttpServletRequest request){
 		
 		String roomName = request.getParameter("updateMeetingRoomName");
@@ -58,6 +70,11 @@ public class MeetingRoomManagementService {
 		return ConstantCode.SUCCESS_STRING;
 	}
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 회의실 삭제
+	 * 사용자가 선택한 회의실 시퀀스 번호로 삭제
+	 */
 	public String meetingRoomDelete(HttpServletRequest request){
 		
 		Integer meetingRoomSeq = Integer.parseInt(request.getParameter("meetingRoomSeq"));

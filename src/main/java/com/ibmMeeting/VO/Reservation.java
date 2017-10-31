@@ -29,6 +29,7 @@ public class Reservation implements Serializable{
 	private String rsvRepeatPeriod;
 	private String rsvSetting;
 	private int rsvRepeatNo;
+	private String rsvDescription;
 	
 	public Reservation(int rsvNo, String rsvComp, Date rsvDate,
 			Time rsvTotalTime, Time rsvStartTime, Time rsvEndTime,
@@ -36,7 +37,7 @@ public class Reservation implements Serializable{
 			String rsvDelPwd, Date rsvRegDate, String rsvColor,
 			String rsvConfirmState, int rsvRepeatSeq, String rsvEmailCheck,
 			int rsvConfNo, String rsvRepeatPeriod, String rsvSetting,
-			int rsvRepeatNo) {
+			int rsvRepeatNo, String rsvDescription) {
 		super();
 		this.rsvNo = rsvNo;
 		this.rsvComp = rsvComp;
@@ -58,6 +59,7 @@ public class Reservation implements Serializable{
 		this.rsvRepeatPeriod = rsvRepeatPeriod;
 		this.rsvSetting = rsvSetting;
 		this.rsvRepeatNo = rsvRepeatNo;
+		this.rsvDescription = rsvDescription;
 	}
 
 	public Reservation() {
@@ -224,6 +226,14 @@ public class Reservation implements Serializable{
 		this.rsvRepeatNo = rsvRepeatNo;
 	}
 
+	public String getRsvDescription() {
+		return rsvDescription;
+	}
+
+	public void setRsvDescription(String rsvDescription) {
+		this.rsvDescription = rsvDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -237,6 +247,8 @@ public class Reservation implements Serializable{
 		result = prime * result + ((rsvDate == null) ? 0 : rsvDate.hashCode());
 		result = prime * result
 				+ ((rsvDelPwd == null) ? 0 : rsvDelPwd.hashCode());
+		result = prime * result
+				+ ((rsvDescription == null) ? 0 : rsvDescription.hashCode());
 		result = prime * result
 				+ ((rsvEmailCheck == null) ? 0 : rsvEmailCheck.hashCode());
 		result = prime * result
@@ -300,6 +312,11 @@ public class Reservation implements Serializable{
 			if (other.rsvDelPwd != null)
 				return false;
 		} else if (!rsvDelPwd.equals(other.rsvDelPwd))
+			return false;
+		if (rsvDescription == null) {
+			if (other.rsvDescription != null)
+				return false;
+		} else if (!rsvDescription.equals(other.rsvDescription))
 			return false;
 		if (rsvEmailCheck == null) {
 			if (other.rsvEmailCheck != null)
@@ -378,7 +395,7 @@ public class Reservation implements Serializable{
 				+ ", rsvEmailCheck=" + rsvEmailCheck + ", rsvConfNo="
 				+ rsvConfNo + ", rsvRepeatPeriod=" + rsvRepeatPeriod
 				+ ", rsvSetting=" + rsvSetting + ", rsvRepeatNo=" + rsvRepeatNo
-				+ "]";
+				+ ", rsvDescription=" + rsvDescription + "]";
 	}
 	
 }

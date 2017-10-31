@@ -12,9 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.ibmMeeting.Service.AdminSearchService;
 import com.ibmMeeting.Service.SearchService;
 
 
@@ -22,41 +20,16 @@ import com.ibmMeeting.Service.SearchService;
 @RequestMapping("/AdminSearch")
 public class AdminSearchController {
 	
-	@Autowired
-	private AdminSearchService adminSearchService;
 	
 	@Autowired
 	SearchService searchService;
 	
-//	@RequestMapping("/AdminSearchPage")
-//	public String adminSearchPage() {
-//		return "admin/admin_search";
-//	}
-	
-	//adminSearchResultList
-//	@RequestMapping("/AdminSearchPage")
-//	public ModelAndView searchPage(HttpServletRequest request) {
-//		
-//		String selectOpt = request.getParameter("selectSearchOpt");
-//		String searchCont = request.getParameter("inputSearchCont");
-//		
-//		ModelAndView showAdminSearchResult = new ModelAndView();
-//		
-//		showAdminSearchResult.addObject("adminSearchResultList", adminSearchService.adminSearchResult(request));
-//		showAdminSearchResult.addObject("adminRepeatSearchList", adminSearchService.adminRepeatSearchResult(request));
-//		showAdminSearchResult.addObject("selectSearchOptBack", selectOpt);
-//		showAdminSearchResult.addObject("inputSearchContBack", searchCont);
-//		
-//		
-//		System.out.println(adminSearchService.adminSearchResult(request));
-//		
-//		showAdminSearchResult.setViewName("admin/admin_search");
-//		
-//		
-//		return showAdminSearchResult;
-//	}
-	
-	//관리자 검색 일반 페이지
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 페이지에서 예약내역 탭 클릭시 처음 보이는 화면으로 연결
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/AdminSearchPage")
 	public String AdminSearchPage(HttpServletRequest request ) {
 		
@@ -64,7 +37,17 @@ public class AdminSearchController {
 
 	}
 	
-	//관리자 일반예약 검색 기능
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자의 일반예약 검색 기능
+	 * @param request
+	 * @param page
+	 * @param generalSort
+	 * @param inputSearchCont
+	 * @param selectSearchOpt
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/AdminGeneralSearchPage")
 	public String adminSearchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -95,7 +78,18 @@ public class AdminSearchController {
 		return "/admin/admin_search_general";
 	}
 	
-	//관리자 반복예약 검색 기능
+
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 검색의 반복예약 검색 기능
+	 * @param request
+	 * @param page
+	 * @param repeatSort
+	 * @param inputSearchCont
+	 * @param selectSearchOpt
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/AdminRepeatSearchPage") 
 	public String adminRepeatSearchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -108,7 +102,6 @@ public class AdminSearchController {
 			String selectOpt = selectSearchOpt;
 			String searchCont = inputSearchCont;
 			
-			//Service에서 반복예약 출력하는 페이지 따로 만들기
 			HashMap<String, Object> pagebeanMap = searchService.repeatSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
 			
 			
@@ -129,7 +122,13 @@ public class AdminSearchController {
 	
 	
 	
-	//관리자 반복예약 상세내역 출력
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 검색 페이지에서 반복예약내역 검색 시 상세내역 출력
+	 * @param request
+	 * @param map
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/ShowAdminRepeatDetail")
 	public ArrayList<HashMap<String,Object>> showRepeatDetail(HttpServletRequest request, ModelMap map ) {
@@ -137,13 +136,17 @@ public class AdminSearchController {
 		String str = request.getParameter("repeatNo");
 		int repeatSeq = Integer.parseInt(str);
 
-		System.out.println("Controller Search Detail Result : " + searchService.showReservDetail(repeatSeq));
 		return searchService.showReservDetail(repeatSeq);
 		
 	}
 	
 	
-	//Search 내용 입력 시 자동완성
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 관리자 검색 기능에서의 자동완성기능
+	 * @param request
+	 * @param response
+	 */
 	@ResponseBody
 	@RequestMapping(value="/AdminSearchAutoComplete")
 	public void adminSearchAutocomplete(HttpServletRequest request, HttpServletResponse response) {
@@ -151,11 +154,8 @@ public class AdminSearchController {
 		response.setCharacterEncoding("UTF-8");
 		String selectOption = request.getParameter("selectSearchOpt");
 		String inputValue = request.getParameter("value");
-		System.out.println("Controller Auto Complete : " + selectOption+", Input Value : "+inputValue);
 		
 		searchService.formAutoComplete(request, response);
-		
-		//searchService.mempnAutoComplete(request, response);
 		
 	}
 	

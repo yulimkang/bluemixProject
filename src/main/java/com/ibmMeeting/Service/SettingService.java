@@ -20,15 +20,25 @@ public class SettingService {
 	@Autowired
 	AdminDao adminDao;
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 셋팅값 불러오기
+	 */
 	public HashMap<String,Object> settingLoad(){
 		
 		return settingDao.settingLoad();
 	}
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 셋팅값 설정
+	 */
 	public void settingSubmit(HttpServletRequest request){
 		
+		// 사용자가 선택한 셋팅 제목? 
 		String selectSetting = request.getParameter("selectSetting");
 		
+		// 사용자가 입력한 셋팅 값
 		Integer settingValue = Integer.parseInt(request.getParameter("settingValue"));
 		
 		HashMap<String,Object> setting = new HashMap<String,Object>();
@@ -40,7 +50,12 @@ public class SettingService {
 		
 	}
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 사용자의 세션정보를 받아와 비밀번호 변경
+	 */
 	public void passwordChange(HttpServletRequest request,HttpSession session){
+		// session value
 		String id = (String)session.getAttribute("id");
 		String pw = request.getParameter("pw");
 		
@@ -52,7 +67,12 @@ public class SettingService {
 		adminDao.changePassword(loginInformation);
 	}
 	
+	/* 
+	 * 작성자 : 박성준
+	 * 사용자의 세션정보를 받아와 E-Mail 변경
+	 */
 	public void emailChange(HttpServletRequest request,HttpSession session){
+		//sessionValue
 		String id = (String)session.getAttribute("id");
 		String email = request.getParameter("email");
 		

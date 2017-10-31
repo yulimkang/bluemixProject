@@ -21,7 +21,12 @@
 	<select id="getMemInfoByPn" parameterType="string" resultMap="member_resultmap">
 		SELECT mem_name, mem_em, mem_pn
 		FROM MEMBER
-		WHERE mem_pn like CONCAT('%',#{value},'%')
+		
+		<if test="value !=null">
+			WHERE REPLACE(mem_pn, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+		</if>
+		GROUP BY mem_pn
+		
 	</select>
 
 	<!-- 작성자 : 박세연 -->
@@ -49,6 +54,13 @@
 		WHERE mem_pn = #{memPn}
 	</update>
 	
+	<!-- 작성자 : 박세연 -->
+	<!-- 관리자로 로그인시, tooltip에 회원상태(정상/차단)과 noshow 카운트 수 추가하여 보여주기 -->
+	<select id="memInfoByToolTip" parameterType="string" resultMap="member_resultmap">
+		SELECT mem_state, count_warn
+		FROM MEMBER
+		WHERE mem_pn = #{value}
+	</select>
 	
 
 </mapper>

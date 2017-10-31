@@ -4,11 +4,16 @@
 
 <mapper namespace="com.ibmMeeting.Dao.BoardingDao">
 
+	<!-- 작성자 : 고창환 -->
+	<!-- 오프보딩 전체 조회 -->
+
 <select id="offBoardingListAll" resultType ="HashMap">
 	select *
 	from MEMBER
 	where MEM_STATE='차단' OR MEM_STATE='NOSHOWBAN';
 </select>
+<!-- 작성자 : 고창환 -->
+<!-- 온보딩 전체 조회  -->
 
 <select id="BoardingListAll" resultType ="HashMap">
 	select*
@@ -16,13 +21,17 @@
 	where MEM_STATE='정상';
 </select>
 
-<!-- parameterType = "context" 
- -->
+<!-- 작성자 : 고창환 -->
+<!-- 온보딩 이름 검색  -->
+
  <select id="BoardingListName"  resultType ="HashMap" parameterType="String">
 	select *
 	from MEMBER
 	where mem_name =#{selectedName} and MEM_STATE='정상';
 </select>
+
+<!-- 작성자 : 고창환 -->
+<!-- 오프보딩 이름검색  -->
 
  <select id="offBoardingListName"  resultType ="HashMap" parameterType="String">
 	select *
@@ -30,11 +39,17 @@
 	where mem_name =#{selectedName} and (MEM_STATE='차단' or MEM_STATE='NOSHOWBAN') ;
 </select>
 
+<!-- 작성자 : 고창환 -->
+<!-- 온보딩 전화번호 검색  -->
+
 <select id="BoardingListNumber" resultType ="HashMap" parameterType="String">
 	select *
 	from MEMBER 
 	where REPLACE(mem_pn, '-', '') like CONCAT('%',#{selectedNumber},'%') and MEM_STATE='정상';		
 </select>
+
+<!-- 작성자 : 고창환 -->
+<!-- 오프보딩 전화번호 검색  -->
 
 <select id="offBoardingListNumber" resultType ="HashMap" parameterType="String">
 	select *
@@ -42,17 +57,14 @@
 	where REPLACE(mem_pn, '-', '') like CONCAT('%',#{selectedNumber},'%') and MEM_STATE=('차단' or 'noshowban');		
 </select>
 
+<!-- 작성자 : 고창환 -->
+<!-- 온보딩 오프보딩 멤버 정보 수정  -->
+
 <select id="memberUpdate" resultType="HashMap">
 	update MEMBER
 	set mem_name=#{memberName},mem_pn=#{memberPn},mem_em=#{memberEm},mem_comp=#{memberComp},mem_State=#{memberState}
 	where mem_pn=#{memberPn};
 </select>
-
-
-
-
-
-
 
 
 
@@ -193,7 +205,8 @@
 
 <select id="rownumBoarding" resultType ="Integer" parameterType="HashMap">
 SELECT COUNT(*) countRows
-FROM MEMBER;
+FROM MEMBER
+WHERE MEM_STATE='정상';
 </select>
 
 

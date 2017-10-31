@@ -34,6 +34,8 @@
 				</tr>
 			</thead>
 			<tbody>
+			<!-- 작성자 : 박성준 -->
+			<!--JSTL이용한 NoShow 된 회의리스트 노출 -->
 				<c:forEach items="${noShowReservationList}" var="noShowReservationList"
 					varStatus="count">
 					<tr>
@@ -78,6 +80,7 @@ function datePickerChange(){
 	$("#datepicker").datepicker().datepicker("setDate",	date); //defaultDate 설정
 }
 
+// 날짜 변경시 날짜에 맞는 시간 설정
 function dateChange(){
 	
 	var noShowReservationList = new Array();
