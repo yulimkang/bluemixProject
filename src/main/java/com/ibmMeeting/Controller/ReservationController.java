@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -72,9 +74,10 @@ public class ReservationController {
 	 * @param reservation
 	 * @param emailCheckValue
 	 * @return
+	 * @throws MessagingException 
 	 */
 	@RequestMapping("/RegistReservation")
-	public ModelAndView registReservation(@ModelAttribute Reservation reservation, @RequestParam String emailCheckValue, BindingResult errors, ModelMap map){
+	public ModelAndView registReservation(@ModelAttribute Reservation reservation, @RequestParam String emailCheckValue, BindingResult errors, ModelMap map) throws MessagingException{
 
 		//validation
 		RegisterReservationValidator valid = new RegisterReservationValidator();
@@ -367,10 +370,11 @@ public class ReservationController {
 	 * 예약자에게 예약 비밀번호 전송
 	 * @param rsvNo
 	 * @return
+	 * @throws MessagingException 
 	 */
 	@RequestMapping("/SendEmail")
 	@ResponseBody
-	public String sendEmail(@RequestParam int rsvNo){
+	public String sendEmail(@RequestParam int rsvNo) throws MessagingException{
 		
 		reservationService.emailFind(rsvNo);
 		

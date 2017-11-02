@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,7 +46,7 @@ public class AdminHistoryController {
 	 */
 	@ResponseBody
 	@RequestMapping("/ReservationUpdate")
-	public Integer reservationUpdate(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+	public Integer reservationUpdate(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, MessagingException{
 		historyService.reservationUpdate(request);
 		
 		return ConstantCode.SUCCESS;
@@ -57,7 +58,7 @@ public class AdminHistoryController {
 	 */
 	@ResponseBody
 	@RequestMapping("/ReservationDelete")
-	public Integer reservationDelete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+	public Integer reservationDelete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, MessagingException{
 		historyService.reservationDelete(request);
 		
 		return ConstantCode.SUCCESS;

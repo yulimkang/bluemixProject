@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,7 +245,7 @@ public class RepeatReservationService {
 	 * 반복예약 신청
 	 * 사용자가 입력한 값을 받아와 신청
 	 */
-	public Integer repeatReservationSubmit(HttpServletRequest request){
+	public Integer repeatReservationSubmit(HttpServletRequest request) throws MessagingException{
 		
 		String rsvRegDate = commonService.nowTime();
 		String rsvStartTime = request.getParameter("rsvStartTime");

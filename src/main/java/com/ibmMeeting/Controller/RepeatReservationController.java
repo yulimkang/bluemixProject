@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,10 @@ public class RepeatReservationController {
 	/**
 	 * 작성자 : 박성준
 	 * 반복예약 제출
+	 * @throws MessagingException 
 	 */
 	@RequestMapping("/RepeatReservationSubmit")
-	public String repeatReservationSubmit(HttpServletRequest request) throws ParseException{
+	public String repeatReservationSubmit(HttpServletRequest request) throws ParseException, MessagingException{
 		repeatReservationService.repeatReservationSubmit(request);
 		return "/index/index";
 	}

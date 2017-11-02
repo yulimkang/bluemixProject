@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -84,7 +85,7 @@ public class HistoryService {
 	 * 작성자 : 고창환
 	 * 가예약 승인 기능(승인 전 히스토리테이블 인서트)
 	 */
-	public String reservationUpdate(HttpServletRequest request) {
+	public String reservationUpdate(HttpServletRequest request) throws MessagingException {
 		// TODO Auto-generated method stub
 		
 		String reservationNumber=request.getParameter("reservationSeq");
@@ -129,7 +130,7 @@ public class HistoryService {
 	 * 작성자 : 고창환
 	 * 가예약 반려 기능(반려전 히스토리 인서트)
 	 */
-	public String reservationDelete(HttpServletRequest request) {
+	public String reservationDelete(HttpServletRequest request) throws MessagingException {
 		// TODO Auto-generated method stub
 		String reservationNumber=request.getParameter("reservationSeq");
 		String repeatNo=request.getParameter("repeatNo");

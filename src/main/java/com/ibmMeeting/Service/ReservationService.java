@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +64,9 @@ public class ReservationService {
 	 * 예약 등록
 	 * @param reservation
 	 * @param emailCheckValue
+	 * @throws MessagingException 
 	 */
-	public void registReservation(Reservation reservation, String emailCheckValue){
+	public void registReservation(Reservation reservation, String emailCheckValue) throws MessagingException{
 		
 		//객체안 값 설정
 		Date date = new Date();
@@ -285,8 +287,9 @@ public class ReservationService {
 	/**
 	 * 작성자 : 박성준
 	 * 예약 번호를 통해 예약내역의 정보를 받아와 사용자에게 비밀번호를 전송
+	 * @throws MessagingException 
 	 */
-	public void emailFind(int rsvNo){
+	public void emailFind(int rsvNo) throws MessagingException{
 		
 		List<Reservation> reservationInfo = reservationDao.getReservationInfo(rsvNo);
 		

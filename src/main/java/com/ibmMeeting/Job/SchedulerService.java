@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -59,7 +61,7 @@ public class SchedulerService {
 	 * 이메일 보낼 대상자들 선정하여 이메일 전송, 회의 예약 30분전 테스트
 	 */
 	@Scheduled(initialDelay = 60000, fixedDelay = 120000)
-	public void reservationBeforeEmailSend() {
+	public void reservationBeforeEmailSend() throws MessagingException {
 
 		//셋팅값에서 이메일 값 가져옴
 		HashMap<String, Object> settingValue = settingDao.settingLoad();
@@ -77,6 +79,8 @@ public class SchedulerService {
 		HashMap<String, Object> dateInformation = new HashMap<String, Object>();
 		dateInformation.put("nowDate", nowDate);
 		dateInformation.put("nowTime", nowTime);
+		
+		System.out.println(nowTime+nowDate);
 
 		// 셋팅값을 더한시간보다 미팅시작시간이 작고 이메일 체크가 돼 있다면
 		// 그 reservation 값을 가져옴
@@ -92,7 +96,7 @@ public class SchedulerService {
 				String rsvTitle = (String) emailSendUserInfo.get(i).get("RSV_TITLE");
 				String rsvMemNm = (String) emailSendUserInfo.get(i).get("RSV_MEM_NM");
 
-				String subject = "[IBM 회의실] " + rsvMemNm+ "님 " +rsvTitle + " 회의 약 30분 전입니다.";
+				String subject = "[IBM 회의실] " + rsvMemNm+ "님 곧" +rsvTitle + " 회의 시간입니다.";
 				String contentTitle = "회의제목 : " + rsvTitle;
 				String contentStartTime = "회의시작시간 : " + rsvStartTime;
 				String contentConfNm = "회의실 : " + rsvConfNm;

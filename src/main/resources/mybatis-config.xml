@@ -7,7 +7,6 @@
 		<package name="com.ibmMeeting.Dao" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="mapper/TestMapper.xml" />
 		<mapper resource="mapper/AdminMapper.xml" />
 		<mapper resource="mapper/MeetingRoomMapper.xml" />
 		<mapper resource="mapper/BoardingMapper.xml" />

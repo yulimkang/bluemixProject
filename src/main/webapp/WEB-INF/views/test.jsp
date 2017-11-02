@@ -1,20 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"
-	type="text/javascript"></script>
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
-	type="text/css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="/resources/loadingBar/spin.js" />
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
@@ -27,9 +16,17 @@
 
 <BODY id="foo">
 
-	<button type="button" id="one" onclick="startSpinner()">hi</button>
+ ${date.nowDate}
 
-	<button type="button" id="two" onclick="stopSpinner()">2</button>
+  ${date.nowTime}
+  
+  
+ <div class="jumbotron">
+  <table>
+<h1>hi</h1>
+  </table>
+</div>
+  
 
 </BODY>
 </HTML>

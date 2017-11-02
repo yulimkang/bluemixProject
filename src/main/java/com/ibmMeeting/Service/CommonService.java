@@ -3,12 +3,17 @@ package com.ibmMeeting.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import com.ibmMeeting.Constant.ConstantCode;
@@ -64,14 +69,17 @@ public class CommonService {
 	}
 	
 	// 이메일 보내는 함수 구현
-	public void sendEmail(String email, String subject, String content){
+	public void sendEmail(String email, String subject, String content) throws MessagingException{
 		
-		SimpleMailMessage message = new SimpleMailMessage();
-		
-		message.setTo(email); // 받을 이메일
-		message.setSubject(subject); // 제목 
-		message.setText(content); // 내용
-		emailSender.send(message); // 전송
+		  MimeMessage message = emailSender.createMimeMessage();
+		  
+		  message.setFrom("dkumeeting@gmail.com");  
+		  message.addRecipient(RecipientType.TO, new InternetAddress(email));
+		  message.setSubject(subject);
+		  message.setText(content, "utf-8", "html");
+		   
+		  emailSender.send(message);
 	}
+
 
 }
