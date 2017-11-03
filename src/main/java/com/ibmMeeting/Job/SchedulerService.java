@@ -80,7 +80,6 @@ public class SchedulerService {
 		dateInformation.put("nowDate", nowDate);
 		dateInformation.put("nowTime", nowTime);
 		
-		System.out.println(nowTime+nowDate);
 
 		// 셋팅값을 더한시간보다 미팅시작시간이 작고 이메일 체크가 돼 있다면
 		// 그 reservation 값을 가져옴

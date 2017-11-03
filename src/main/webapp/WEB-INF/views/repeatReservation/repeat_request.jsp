@@ -37,7 +37,7 @@
 				  <div>
 				  <div class="input-group">
 				    <span class="input-group-addon input-sm"><i class="fa fa-calendar-check-o"></i></span>
-				    <input class="form-control input-sm" type="text" id="rsvStartDate" name="rsvStartDate" maxlength=45 onchange="startDateChange()">
+				    <input class="form-control input-sm" type="text" id="rsvStartDate" name="rsvStartDate" maxlength=45 onchange="startDateChange(); weekCheckBoxChange()">
 				  </div>
 				  </div>
 				</div>
@@ -111,22 +111,47 @@
 					  <label class="control-label">반복 주기</label>
 					  <div class="input-group">
 					    <span class="input-group-addon input-sm"><i class="fa fa-repeat"></i></span>
-					    <select id="repeatPeriod" name="repeatPeriod" class="form-control input-sm" onchange="repeatPeriodChange()">
-					    	<option value="day">일</option>
-					    	<option value="week">주</option>
+					    <select id="repeatPeriod" name="repeatPeriod" class="form-control input-sm" onchange="repeatPeriodChange(); weekSelectForm()">
+							<option value="week">주</option>
+							<option value="day">일</option>
 					    	<option value="month">월</option>
 					    </select>
 					  </div>
 				</div>
 				
-				<div class="form-group col-lg-3">
-					  <label class="control-label">반복 설정</label>
-					  <div class="input-group">
-					    <span class="input-group-addon input-sm"><i class="fa fa-repeat"></i></span>
-					    <select id="repeatSetting" name="repeatSetting" class="form-control input-sm">
-					    	<option value="day">매일</option>
-					    </select>
-					  </div>
+				<div class="form-group col-lg-3" id="weekSelect">
+					<label class="control-label">반복 요일</label>
+					<div class="input-group" style="margin-top:-5px">
+							
+							<div class="btn-group btn-sm" data-toggle="buttons" onchange="weekSelectCheckBox()">
+								
+								<label class="btn btn-default btn-sm weekBtn" id="weekMonBtn">
+									<input type="checkbox" id="weekMon" name="weekMon" class="weekCheckSelect">
+									월
+								</label>
+					
+								<label class="btn btn-default btn-sm weekBtn" id="weekTueBtn">
+									<input type="checkbox" autocomplete="off" id="weekTue" name="weekTue" class="weekCheckSelect" value="tue">
+									화
+								</label>			
+							
+								<label class="btn btn-default btn-sm weekBtn" id="weekWedBtn">
+									<input type="checkbox" autocomplete="off" id="weekWed" name="weekWed" class="weekCheckSelect">
+									수
+								</label>			
+							
+								<label class="btn btn-default btn-sm weekBtn" id="weekThuBtn">
+									<input type="checkbox" autocomplete="off" id="weekThu" name="weekThu" class="weekCheckSelect">
+									목
+								</label>			
+					
+								<label class="btn btn-default btn-sm weekBtn" id="weekFriBtn">
+									<input type="checkbox" autocomplete="off" id="weekFri" name="weekFri" class="weekCheckSelect">
+									금
+								</label>			
+							</div>
+							
+					</div>
 				</div>
 				
 				<div class="form-group col-lg-3">
@@ -256,8 +281,10 @@
 				</div>
 			</div>
 			
+			
 			<input type = "hidden" id="availableDate" name="availableDate">
 			<input type="hidden" id="rsvTotalTime" name="rsvTotalTime">
+			<input type="hidden" id="checkBoxArray" name="checkBoxArray">
 		</form>
 	</div>
 
@@ -279,6 +306,148 @@ var dateCheck = true;
 var memberBanState = false;
 
 var date = new Date();
+$( "#rsvStartDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
+$( "#rsvEndDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
+
+
+var week = new Array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
+
+$(function() {
+	
+	$("#rsvStartDate").datepicker({});
+	$("#rsvStartDate").datepicker("option", "dateFormat", "yy-mm-dd");
+	$("#rsvStartDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
+	$( "#rsvStartDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
+	
+	
+	$("#rsvEndDate").datepicker();
+	$("#rsvEndDate").datepicker("option", "dateFormat", "yy-mm-dd");
+	$("#rsvEndDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
+	$( "#rsvEndDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
+	
+	weekCheckBoxChange();
+	
+});
+
+function weekCheckBoxChange(){
+	var startDate = new Date($("#rsvStartDate").val());
+	var weekString = week[startDate.getDay()];
+	
+	var checkWeekArray = [];
+	var checkWeekCount = 0;
+	var checkBoxClass = $(".weekCheckSelect");
+	
+	$("#weekMonBtn").attr("class","btn btn-default btn-sm");
+	$("#weekMonBtn").removeAttr("disabled");
+	
+	$("#weekTueBtn").attr("class","btn btn-default btn-sm");
+	$("#weekTueBtn").removeAttr("disabled");
+	
+	$("#weekWedBtn").attr("class","btn btn-default btn-sm");
+	$("#weekWedBtn").removeAttr("disabled");
+	
+	$("#weekThuBtn").attr("class","btn btn-default btn-sm");
+	$("#weekThuBtn").removeAttr("disabled");
+	
+	$("#weekFriBtn").attr("class","btn btn-default btn-sm");
+	$("#weekFriBtn").removeAttr("disabled");
+	
+	
+	for(var i=0; i<checkBoxClass.length; i++){
+		checkBoxClass[i].checked = false;
+		
+	}
+	
+	
+	if(weekString=='mon'){
+		$("#weekMonBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekMonBtn").attr("disabled","disabled");
+		$("#weekMon").prop("checked", "checked")
+		$("#weekMon").attr("readonly","readonly");
+	}
+	else if(weekString=='tue'){
+		$("#weekTueBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekTueBtn").attr("disabled","disabled");
+		$("#weekTue").prop("checked", "checked")
+		$("#weekTue").attr("readonly","readonly");
+	}
+	else if(weekString=='wed'){
+		$("#weekWedBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekWedBtn").attr("disabled","disabled");
+		$("#weekWed").prop("checked", "checked")
+		$("#weekWed").attr("readonly","readonly");
+	}
+	else if(weekString=='thu'){
+		$("#weekThuBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekThuBtn").attr("disabled","disabled");
+		$("#weekThu").prop("checked", "checked")
+		$("#weekThu").attr("readonly","readonly");
+	}
+	else if(weekString=='fri'){
+		$("#weekFriBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekFriBtn").attr("disabled","disabled");
+		$("#weekFri").prop("checked", "checked")
+		$("#weekFri").attr("readonly","readonly");
+	}
+	else{
+		
+	}
+}
+
+
+function weekSelectForm(){
+	
+	var repeatPeroidValue = $('#repeatPeriod option:selected').val();
+	
+	if(repeatPeroidValue=="week"){
+		$("#weekSelect").show();
+	}
+	else{
+		$("#weekSelect").hide();
+	}
+}
+
+
+function weekSelectCheckBox(){
+	
+	var startDate = new Date($("#rsvStartDate").val());
+	var weekString = week[startDate.getDay()];
+	
+	if( $("#weekMon").is(":checked") && weekString!="mon"){
+		$("#weekMonBtn").attr("class","btn btn-info btn-sm active");
+	}
+	else if(weekString!='mon'){
+		$("#weekMonBtn").attr("class","btn btn-default btn-sm");
+	}
+	
+	if( $("#weekTue").is(":checked")  && weekString!="tue" ){
+		$("#weekTueBtn").attr("class","btn btn-info btn-sm active");
+	}
+	else if(weekString!='tue'){
+		$("#weekTueBtn").attr("class","btn btn-default btn-sm");
+	}
+	
+	if( $("#weekWed").is(":checked")  && weekString!="wed" ){
+		$("#weekWedBtn").attr("class","btn btn-info btn-sm active");
+	}
+	else if(weekString!='wed'){
+		$("#weekWedBtn").attr("class","btn btn-default btn-sm");
+	}
+	
+	if( $("#weekThu").is(":checked")  && weekString!="thu" ){
+		$("#weekThuBtn").attr("class","btn btn-info btn-sm active");
+	}
+	else if(weekString!='thu'){
+		$("#weekThuBtn").attr("class","btn btn-default btn-sm");
+	}
+	
+	if( $("#weekFri").is(":checked") && weekString!="fri"){
+		$("#weekFriBtn").attr("class","btn btn-info btn-sm active");
+	}
+	else if(weekString!='fri'){
+		$("#weekFriBtn").attr("class","btn btn-default btn-sm");
+	}
+}
 
 // EMAIL CHECK BTN 기본 활성화
 var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
@@ -413,15 +582,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 	}
 	
 	
-	$(function() {
-		$("#rsvStartDate").datepicker({});
-		$("#rsvStartDate").datepicker("option", "dateFormat", "yy-mm-dd");
-		$("#rsvStartDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
-		
-		$("#rsvEndDate").datepicker();
-		$("#rsvEndDate").datepicker("option", "dateFormat", "yy-mm-dd");
-		$("#rsvEndDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
-	});
+
 	
 	$("#rsvStartDate").datepicker({
 		minDate : date

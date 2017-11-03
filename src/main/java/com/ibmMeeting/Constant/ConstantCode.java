@@ -20,6 +20,12 @@ public class ConstantCode {
 	public static Integer DAYS21 	= 21;
 	public static Integer DAYS28 	= 28;
 	
+	public static Integer MONDAY = 2;
+	public static Integer TUESDAY = 3;
+	public static Integer WEDNESDAY = 4;
+	public static Integer THURSDAY = 5;
+	public static Integer FRIDAY = 6;
+	
 	public static Integer RESERVATION_MAX_MONTH = 2; 
 	public static Integer RESERVATION_MAX_TIME = 5;
 	public static Integer RESERVATION_MAX_MONOPOLY = 5;
