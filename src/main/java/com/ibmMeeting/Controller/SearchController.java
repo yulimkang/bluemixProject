@@ -57,36 +57,36 @@ public class SearchController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("/GeneralSearchPage")
-	public String searchPage(HttpServletRequest request, 
-			@RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam(value="sort", defaultValue="new") String generalSort, 
-			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
-			ModelMap map ) {
-		
-		int searchpage = page;
-		String sortKind = generalSort;
-		String selectOpt = selectSearchOpt;
-		String searchCont = inputSearchCont;
-		
-		HashMap<String, Object> pagebeanMap = searchService.searchResult(request, searchCont, selectOpt , searchpage, sortKind);
-		
-		
-		map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
-		map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
-		map.addAttribute("generalSort", sortKind);
-		map.addAttribute("inputSearchCont", searchCont);
-		map.addAttribute("selectSearchOpt", selectOpt);
-		
-		
-		map.addAttribute("selectSearchOptBack", selectOpt);
-		map.addAttribute("inputSearchContBack", searchCont);
-		map.addAttribute("generalSortTypeBack", sortKind);
-		
-		
-		return "search/general_search";
-	}
-	
+//	@RequestMapping("/GeneralSearchPage")
+//	public String searchPage(HttpServletRequest request, 
+//			@RequestParam(value="page", defaultValue="1") int page, 
+//			@RequestParam(value="sort", defaultValue="new") String generalSort, 
+//			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+//			ModelMap map ) {
+//		
+//		int searchpage = page;
+//		String sortKind = generalSort;
+//		String selectOpt = selectSearchOpt;
+//		String searchCont = inputSearchCont;
+//		
+//		HashMap<String, Object> pagebeanMap = searchService.searchResult(request, searchCont, selectOpt , searchpage, sortKind);
+//		
+//		
+//		map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
+//		map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
+//		map.addAttribute("generalSort", sortKind);
+//		map.addAttribute("inputSearchCont", searchCont);
+//		map.addAttribute("selectSearchOpt", selectOpt);
+//		
+//		
+//		map.addAttribute("selectSearchOptBack", selectOpt);
+//		map.addAttribute("inputSearchContBack", searchCont);
+//		map.addAttribute("generalSortTypeBack", sortKind);
+//		
+//		
+//		return "search/general_search";
+//	}
+//	
 	
 	/**
 	 * 작성자 : 최문정
@@ -100,36 +100,36 @@ public class SearchController {
 	 * @return
 	 */
 	//사용자 검색 반복예약 페이지 출력
-	@RequestMapping("/RepeatSearchPage") 
-	public String repeatSearchPage(HttpServletRequest request, 
-			@RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam(value="sort", defaultValue="new") String repeatSort, 
-			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
-			ModelMap map ) {
-		
-			int searchpage = page;
-			String sortKind = repeatSort;
-			String selectOpt = selectSearchOpt;
-			String searchCont = inputSearchCont;
-			
-			//Service에서 반복예약 출력하는 페이지 따로 만들기
-			HashMap<String, Object> pagebeanMap = searchService.repeatSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
-			
-			
-			map.addAttribute("repeatSearchResultListA", pagebeanMap.get("searchResult"));
-			map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
-			map.addAttribute("generalSort", sortKind);
-			map.addAttribute("inputSearchCont", searchCont);
-			map.addAttribute("selectSearchOpt", selectOpt);
-			
-			
-			map.addAttribute("selectSearchOptBack", selectOpt);
-			map.addAttribute("inputSearchContBack", searchCont);
-			map.addAttribute("repeatSortTypeBack", sortKind);
-		
-		return "search/repeat_search";
-		
-	}
+//	@RequestMapping("/RepeatSearchPage") 
+//	public String repeatSearchPage(HttpServletRequest request, 
+//			@RequestParam(value="page", defaultValue="1") int page, 
+//			@RequestParam(value="sort", defaultValue="new") String repeatSort, 
+//			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+//			ModelMap map ) {
+//		
+//			int searchpage = page;
+//			String sortKind = repeatSort;
+//			String selectOpt = selectSearchOpt;
+//			String searchCont = inputSearchCont;
+//			
+//			//Service에서 반복예약 출력하는 페이지 따로 만들기
+//			HashMap<String, Object> pagebeanMap = searchService.repeatSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
+//			
+//			
+//			map.addAttribute("repeatSearchResultListA", pagebeanMap.get("searchResult"));
+//			map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
+//			map.addAttribute("generalSort", sortKind);
+//			map.addAttribute("inputSearchCont", searchCont);
+//			map.addAttribute("selectSearchOpt", selectOpt);
+//			
+//			
+//			map.addAttribute("selectSearchOptBack", selectOpt);
+//			map.addAttribute("inputSearchContBack", searchCont);
+//			map.addAttribute("repeatSortTypeBack", sortKind);
+//		
+//		return "search/repeat_search";
+//		
+//	}
 	
 	/**
 	 * 작성자  : 최문정
@@ -166,6 +166,54 @@ public class SearchController {
 		
 		searchService.formAutoComplete(request, response);
 		
+		System.out.println("Controller AutoComplete : " + inputValue);
+		
 	}
+	
+	
+	
+	
+	///////////////////////////10월 31일 이후 수정/////////////////////////
+	
+	//사용자 검색 페이지
+	@RequestMapping("/GeneralUserSearchPage")
+	public String generalUserSearchPage(HttpServletRequest request, 
+			@RequestParam(value="page", defaultValue="1") int page, 
+			@RequestParam(value="sort", defaultValue="old") String generalSort, 
+			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			ModelMap map ) {
+		
+			int searchpage = page;
+			String sortKind = generalSort;
+			String selectOpt = selectSearchOpt;
+			String searchCont = inputSearchCont;
+			
+			
+			System.out.println("Controller Sort Check : " + sortKind);
+			
+			HashMap<String, Object> pagebeanMap = searchService.generalUserSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
+			
+			System.out.println("Controller Check LIst : " + pagebeanMap);
+			
+			map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
+			map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
+			map.addAttribute("sort", sortKind);
+			map.addAttribute("inputSearchCont", searchCont);
+			map.addAttribute("selectSearchOpt", selectOpt);
+			
+			
+			map.addAttribute("selectSearchOptBack", selectOpt);
+			map.addAttribute("inputSearchContBack", searchCont);
+			map.addAttribute("sortTypeBack", sortKind);
+		
+		return "/search/general_search";
+		
+	}
+	
+	
+	
+	
+	
+	
 
 }

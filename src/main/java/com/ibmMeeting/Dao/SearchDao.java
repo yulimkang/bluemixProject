@@ -164,4 +164,50 @@ public interface SearchDao {
 	Integer rownumNoshowSelectByDate(HashMap<String,Object> dateInfo);
 	
 	
+	///////////////////////////////////////10월 31일 이후 수정////////////////////////////////////////////////////
+	
+	
+	//일반 사용자 검색, 최신순
+	ArrayList<HashMap<String,Object>> generalUserSelectByAllOrderByNew(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> generalUserSelectByTitleOrderByNew(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> generalUserSelectByMemNMOrderByNew(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> generalUserSelectByMemPNOrderByNew(HashMap<String,Object> searchInfo);
+	
+	//일반 사용자 검색, 오래된 순
+	ArrayList<HashMap<String,Object>> generalUserSelectByAllOrderByOld(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> generalUserSelectByTitleOrderByOld(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> generalUserSelectByMemNMOrderByOld(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> generalUserSelectByMemPNOrderByOld(HashMap<String,Object> searchInfo);
+	
+	
+	//일반 사용자 검색 페이징
+	Integer rownumGeneralUserSelectByAll(String searchCont);
+	Integer rownumGeneralUserSelectByTitle(String searchCont);
+	Integer rownumGeneralUserSelectByMemNM(String searchCont);
+	Integer rownumGeneralUserSelectByMemPN(String searchCont);
+	
+	//일반 사용자 검색 반복내역 출력
+	//ArrayList<HashMap<String,Object>> repeatSearchDetailContentsForGeneralUser(int repeatSeq);
+	
+	
+	//간편검색은 날짜 필요!!!!!!!!!!!!
+	//간편검색
+	ArrayList<HashMap<String,Object>> easySearchSelectByAll(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> easySearchSelectByTitle(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> easySearchSelectByMemNM(HashMap<String,Object> searchInfo);
+	ArrayList<HashMap<String,Object>> easySearchSelectByMemPN(HashMap<String,Object> searchInfo);
+	
+	//간편검섹 페이징
+	Integer rownumEasySearchSelectByAll(HashMap<String, Object> searchInfo);
+	Integer rownumEasySearchSelectByTitle(HashMap<String, Object> searchInfo);
+	Integer rownumEasySearchSelectByMemNM(HashMap<String, Object> searchInfo);
+	Integer rownumEasySearchSelectByMemPN(HashMap<String, Object> searchInfo);
+	
+	//간편 검색 반복내역 출력(왜냐하면 날짜가 있어야 하기 때문에)
+	ArrayList<HashMap<String,Object>> repeatSearchDetailContentsForEasySearch(HashMap<String, Object> searchInfo);
+	
+	//테스트용
+	ArrayList<HashMap<String,Object>> test(HashMap<String, Object> searchInfo);
+	
+	
 }

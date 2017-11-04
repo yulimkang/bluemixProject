@@ -74,6 +74,8 @@ public class AdminSearchController {
 		map.addAttribute("inputSearchContBack", searchCont);
 		map.addAttribute("generalSortTypeBack", sortKind);
 		
+		System.out.println("Admin Controller 일반예약내역 결과 : " + pagebeanMap);
+		
 		
 		return "/admin/admin_search_general";
 	}
@@ -115,6 +117,8 @@ public class AdminSearchController {
 			map.addAttribute("selectSearchOptBack", selectOpt);
 			map.addAttribute("inputSearchContBack", searchCont);
 			map.addAttribute("repeatSortTypeBack", sortKind);
+			
+			System.out.println("Admin Controller 반복예약내역 결과 : " + pagebeanMap);
 		
 		return "/admin/admin_search_repeat";
 		

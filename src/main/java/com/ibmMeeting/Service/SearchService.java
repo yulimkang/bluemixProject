@@ -58,6 +58,8 @@ public class SearchService {
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
+				
+				System.out.println("일반 반복예약 검색 결과 개수 : "+totalCount);
 
 			}else if(selectOpt.equals("all") && generalSort.equals("old")){
 				
@@ -73,6 +75,8 @@ public class SearchService {
 				
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
+				
+				System.out.println("일반 반복예약 검색 결과 개수 : "+totalCount);
 				
 			}else if(selectOpt.equals("title") && generalSort.equals("new")) {
 				
@@ -167,6 +171,8 @@ public class SearchService {
 			}
 			
 		}
+		
+		System.out.println("Service 관리자 검색 전체 결과 리스트 : " + searchResult);
 				
 		return map;
 
@@ -611,6 +617,174 @@ public class SearchService {
 		
 		return map;
 		
+	}
+	
+	
+	
+	
+	
+	
+	/////////////////////////////////////////10월 31이후 수정//////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	//일반 사용자 검색 결과 출력
+	public HashMap<String, Object> generalUserSearchResult(HttpServletRequest request, String searchCont, String selectOpt, int page, String generalSort) {
+		
+		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
+		
+		HashMap<String,Object> searchInfo = new HashMap<String,Object>();
+		HashMap<String, Object> map =  new HashMap<String, Object>();
+
+		if(request.getParameter("selectSearchOpt")!=null){
+						
+			if(selectOpt.equals("all") && generalSort.equals("new")) {
+				
+				//'전체'옵션 검색, 최신순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByAll(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);	
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+
+				searchResult =  searchDao.generalUserSelectByAllOrderByNew(searchInfo);
+				//searchResult =  searchDao.test(searchInfo);
+
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 전체 검색 개수 : "+ totalCount);
+
+			}else if(selectOpt.equals("all") && generalSort.equals("old")){
+				
+				//'전체'옵션 검색, 오래된 순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByAll(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByAllOrderByOld(searchInfo);
+				
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 전체 검색 개수 : "+ totalCount);
+				
+			}else if(selectOpt.equals("title") && generalSort.equals("new")) {
+				
+				//'회의제목' 옵션, 최신순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByTitle(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByTitleOrderByNew(searchInfo);
+				
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 회의제목 검색 개수 : "+ totalCount);
+				
+			}else if(selectOpt.equals("title") && generalSort.equals("old")){
+				
+				//'회의제목' 옵션, 오래된 순 정렬 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByTitle(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);	
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByTitleOrderByOld(searchInfo);
+				
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 회의제목 검색 개수 : "+ totalCount);
+				
+			}else if(selectOpt.equals("mem_nm") && generalSort.equals("new")) {
+				
+				//'예약자 이름' 옵션, 최신 순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByMemNM(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);	
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByMemNMOrderByNew(searchInfo);
+
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 예약자 이름 검색 개수 : "+ totalCount);
+				
+			}else if(selectOpt.equals("mem_nm") && generalSort.equals("old")) {
+				
+				//'예약자 이름' 옵션, 오래된 순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByMemNM(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);	
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByMemNMOrderByOld(searchInfo);
+				
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 예약자 이름 검색 개수 : "+ totalCount);
+
+			}else if(selectOpt.equals("mem_pn") && generalSort.equals("new")) {
+				
+				//예약자 번호, 최신순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByMemPN(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);		
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByMemPNOrderByNew(searchInfo);
+				
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 예약자 번호 검색 개수 : "+ totalCount);
+
+			}else if(selectOpt.equals("mem_pn") && generalSort.equals("old")) {
+				
+				//예약자 번호, 최신순 정렬
+				int totalCount = searchDao.rownumGeneralUserSelectByMemPN(searchCont);
+				PagingBean pageBean = new PagingBean(totalCount, page);	
+				
+				searchInfo.put("value", searchCont);
+				searchInfo.put("startPage", pageBean.getBeginItemInPage());
+				searchInfo.put("endPage", pageBean.getEndItemInPage());
+				
+				searchResult =  searchDao.generalUserSelectByMemPNOrderByOld(searchInfo);
+				
+				map.put("pageBean", pageBean);
+				map.put("searchResult", searchResult);
+				
+				System.out.println("Service 예약자 번호 검색 개수 : "+ totalCount);
+				
+			}
+			
+		}
+		
+		System.out.println("Service Check LIst : " + searchResult);
+				
+		return map;
+
 	}
 	
 	
