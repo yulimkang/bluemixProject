@@ -55,6 +55,8 @@ public class RepeatReservationService {
 		ArrayList<String> availableDate = new ArrayList<String>();
 		// 불가능한 날짜
 		ArrayList<String> duplicateDate = new ArrayList<String>();
+		// 주간날짜 temp
+		ArrayList<String> weekTempDate = new ArrayList<String>();
 		
 		// JSP에서 받아온 값들 HashMap에 저장
 		HashMap<String, Object> repeatInformation = new HashMap<String, Object>();
@@ -118,11 +120,19 @@ public class RepeatReservationService {
 				duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
 
 				 // 개수가 0 개라면 사용가능한 날짜배열에 사용가능한 날짜 넣어줌
-				if (duplicateCount == ConstantCode.ZERO) {
+				if(duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY 
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY 
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY 
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY 
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY){
 					availableDate.add(transFormat.format(startCal.getTime()));
 					reservationAvailableCount++;
 				// 개수가 0개 이상이라면 불가능하기에 불가능한 날짜배열에 불가능한 날짜 정보 넣어줌
-				} else {
+				} else if(duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY 
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY 
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY 
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY 
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY){
 					duplicateDate.add(transFormat.format(startCal.getTime()));
 					reservationDuplicateCount++;
 					compareTotalCount++;
@@ -137,100 +147,107 @@ public class RepeatReservationService {
 			// 반복주기가 '주' 라면 도는 방식은 위와 같음
 		} else if (repeatPeriod.equals("week")) {
 			
+			System.out.println("check1232131");
+			
+			Calendar startTempCal = startCal; 
+			Calendar endTempCal = endCal; 
+			
+			
 			while (true) {
 				dateCompare = startCal.compareTo(endCal);
 				// startDateFormat > endDateFormat
 				if (dateCompare > ConstantCode.ZERO) {
 					break;
 				}
-				duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
 				
-				if(duplicateCount==ConstantCode.ZERO){
+				if(startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
+						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null
+						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null
+						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null
+						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null) {
+					
+					duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
+				}
+				
+				
+				if(duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null
+						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null){
 					availableDate.add(transFormat.format(startCal.getTime()));
 					reservationAvailableCount++;
 				}
-				else{
+				else if(duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null
+						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null){
 					duplicateDate.add(transFormat.format(startCal.getTime()));
 					reservationDuplicateCount++;
 					compareTotalCount++;
 				}
 				
-				// 반복 설정값에따라 더하는 값이 다름
-				if (repeatSetting.equals("1week")) {
-					startCal.add(startCal.DATE, ConstantCode.DAYS7);
-				} else if (repeatSetting.equals("2week")) {
-					startCal.add(startCal.DATE, ConstantCode.DAYS14);
-				} else if (repeatSetting.equals("3week")) {
-					startCal.add(startCal.DATE, ConstantCode.DAYS21);
-				} else if (repeatSetting.equals("4week")) {
-					startCal.add(startCal.DATE, ConstantCode.DAYS28);
-				} else {
-					System.out.println("error");
-					break;
-				}
+				startCal.add(startCal.DATE, ConstantCode.DAYS1);
 				repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
+				
+				
+				
 			}
 			// 반복주기가 월이라면
 		} else if (repeatPeriod.equals("month")) {
 
-			// 반복주기가 주(ex 매달 첫째주 목요일)
-			if (repeatSetting.equals("monthWeekRepeat")) {
-				String week = String.valueOf(startCal.get(Calendar.WEEK_OF_MONTH));
-				int weekNum = startCal.get(Calendar.DAY_OF_WEEK);
-				String dayOfTheWeek = weekDay[weekNum + ConstantCode.ONE];
+			int weekNum = startCal.get(Calendar.DAY_OF_WEEK);
 
-				while (true) {
-					dateCompare = startCal.compareTo(endCal);
-					if (dateCompare > ConstantCode.ZERO) {
-						break;
+			while (true) {
+				dateCompare = startCal.compareTo(endCal);
+				if (dateCompare > ConstantCode.ZERO) {
+					break;
+				} else {
+					duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
+
+					if (duplicateCount == ConstantCode.ZERO) {
+						availableDate.add(transFormat.format(startCal.getTime()));
+						reservationAvailableCount++;
 					} else {
-						duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
-						
-						if(duplicateCount==ConstantCode.ZERO){
-							availableDate.add(transFormat.format(startCal.getTime()));
-							reservationAvailableCount++;
-						}
-						else{
-							duplicateDate.add(transFormat.format(startCal.getTime()));
-							reservationDuplicateCount++;
-							compareTotalCount++;
-						}
-
-						startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR));
-						startCal.set(Calendar.MONTH,startCal.get(Calendar.MONTH) + ConstantCode.ONE);
-						startCal.set(Calendar.WEEK_OF_MONTH,startCal.get(Calendar.WEEK_OF_MONTH));
-						startCal.set(Calendar.DAY_OF_WEEK, weekNum);
-						repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
+						duplicateDate.add(transFormat.format(startCal.getTime()));
+						reservationDuplicateCount++;
+						compareTotalCount++;
 					}
+					startCal.set(Calendar.YEAR, startCal.get(Calendar.YEAR));
+					startCal.set(Calendar.MONTH, startCal.get(Calendar.MONTH) + ConstantCode.ONE);
+					startCal.set(Calendar.WEEK_OF_MONTH, startCal.get(Calendar.WEEK_OF_MONTH));
+					startCal.set(Calendar.DAY_OF_WEEK, weekNum);
+					repeatInformation.put("startDate", transFormat.format(startCal.getTime()));
 				}
 			}
 
-			// 반복주기가 월 특정일 (ex : 매달 17일)
-			else if (repeatSetting.equals("monthDayRepeat")) {
-				while (true) {
-					dateCompare = startCal.compareTo(endCal);
-					if (dateCompare > ConstantCode.ZERO) {
-						break;
-					} else {
-						duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
-						
-						if(duplicateCount==ConstantCode.ZERO){
-							availableDate.add(transFormat.format(startCal.getTime()));
-							reservationAvailableCount++;
-						}
-						else{
-							duplicateDate.add(transFormat.format(startCal.getTime()));
-							reservationDuplicateCount++;
-							compareTotalCount++;
-						}
-							
-						startCal.set(Calendar.YEAR,startCal.get(Calendar.YEAR));
-						startCal.set(Calendar.MONTH,startCal.get(Calendar.MONTH)+ ConstantCode.ONE);
-						repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
-						
-					}
-				}
-			}
+//			// 반복주기가 월 특정일 (ex : 매달 17일)
+//			else if (repeatSetting.equals("monthDayRepeat")) {
+//				while (true) {
+//					dateCompare = startCal.compareTo(endCal);
+//					if (dateCompare > ConstantCode.ZERO) {
+//						break;
+//					} else {
+//						duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
+//						
+//						if(duplicateCount==ConstantCode.ZERO){
+//							availableDate.add(transFormat.format(startCal.getTime()));
+//							reservationAvailableCount++;
+//						}
+//						else{
+//							duplicateDate.add(transFormat.format(startCal.getTime()));
+//							reservationDuplicateCount++;
+//							compareTotalCount++;
+//						}
+//							
+//						startCal.set(Calendar.YEAR,startCal.get(Calendar.YEAR));
+//						startCal.set(Calendar.MONTH,startCal.get(Calendar.MONTH)+ ConstantCode.ONE);
+//						repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
+//						
+//					}
+//				}
+//			}
 		}
 		
 		// 큰 Array에 되는날짜와 안되는 날짜를 add
@@ -240,6 +257,7 @@ public class RepeatReservationService {
 		return reservationRepeatArray;
 	}
 	
+
 	/* 
 	 * 작성자 : 박성준
 	 * 반복예약 신청
