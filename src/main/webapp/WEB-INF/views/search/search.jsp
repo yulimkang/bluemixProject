@@ -40,18 +40,8 @@
 					<option value="mem_pn">전화번호</option>
 				</select>
 			</div>
-			<div class="col-lg-5">
+			<div class="col-lg-7">
 				<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){searchFormSubmit();}"/>
-			</div>
-			<div class="col-lg-2">
-				<div class="radio">
-          			<label>
-						<input type="radio" name="searchKind" value="general" checked="checked">일반예약
-					</label>
-					<label>
-						<input type="radio" name="searchKind" value="repeat">반복예약
-					</label>
-				</div>
 			</div>
 			
 			<div class="col-lg-2">
@@ -102,7 +92,7 @@ $(function(){
             //자동완성 기능에서 클릭했을 때, 일반예약을 기본으로 함
             select:function(event, id) {
     			$("#inputSearchCont").val(id.item.label);
-            	$("#searchForm").attr("action","/Search/GeneralSearchPage");
+           		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
         		$("#searchForm").submit();
             }
         
@@ -125,21 +115,12 @@ $(function(){
 function searchFormSubmit(){
 	var searchOpt = $("#selectSearchOpt").val();
 	var searchContent=$("#inputSearchCont").val();
-	var searchKind = $(":input:radio[name=searchKind]:checked").val();
+
 	
 	if(searchContent.length>0){
 		
-		if(searchKind == "general") {
-			//일반예약 검색일 때
-			$("#searchForm").attr("action","/Search/GeneralSearchPage");
-			$("#searchForm").submit();
-			
-		}else if(searchKind == "repeat") {
-			//반복예야 검색일 때
-			$("#searchForm").attr("action","/Search/RepeatSearchPage");
-			$("#searchForm").submit();
-			
-		}
+		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
+		$("#searchForm").submit();
 
 	}
 	else{

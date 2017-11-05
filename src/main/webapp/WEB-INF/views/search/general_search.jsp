@@ -30,87 +30,156 @@
 		<br>
 		
 		
-		<div class="col-lg-12">
+		
 		  <form name="searchForm" id="searchForm" method="post" action="">
-			<div class="col-lg-3">
-				<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
-					<option value="all">전체</option>
-					<option value="title">회의제목</option>
-					<option value="mem_nm">예약자</option>
-					<option value="mem_pn">전화번호</option>
-				</select>
-			</div>
-			<div class="col-lg-5">
-				<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){searchFormSubmit();}"  />
-			</div>
-			<div class="col-lg-2">
-				<div class="radio">
-          			<label>
-						<input type="radio" name="searchKind" value="general" checked="checked">일반예약
-					</label>
-					<label>
-						<input type="radio" name="searchKind" value="repeat" >반복예약
-					</label>
+			  <div class="col-lg-12">
+				<div class="col-lg-3">
+					<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
+						<option value="all">전체</option>
+						<option value="title">회의제목</option>
+						<option value="mem_nm">예약자</option>
+						<option value="mem_pn">전화번호</option>
+					</select>
+				</div>
+				<div class="col-lg-7">
+					<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){searchFormSubmit();}"  />
+				</div>
+				
+				<div class="col-lg-2">
+					<button type="button" class="pull-right btn btn-primary" onclick="searchFormSubmit()">검색</button>
 				</div>
 			</div>
-			<div class="col-lg-2">
-				<button type="button" class="pull-right btn btn-primary" onclick="searchBtn()">검색</button>
-			</div>
-
-		<br><br><br><br><br>
-			
-		<ul class="nav nav-tabs">
-			  <li id="tab1" class="active" onclick="searchFormSubmit()"><a href="#" data-toggle="tab" aria-expanded="false" >일반예약</a></li>
-			  <li id="tab2" class="" onclick="repeatSearchFormSubmit()" ><a href="#" data-toggle="tab" aria-expanded="false">반복예약</a></li>
-		</ul> <br>
-			
-
+	
+			<br><br><br><br><br>
+							
+	
 			<div class="panel panel-default">
-				<div class="panel-body">일반예약 검색 결과</div>
+				<div class="panel-body">검색 결과</div>
+			</div><br>
+		
+		
+			<div class="col-lg-3">
+				<select class="form-control"  name="sort" id="sort" onchange="searchFormSubmit()">
+							<option value="old">오래된 순</option>
+							<option value="new">최신순</option>
+				</select>
 			</div>
 		
-		<br>
-		 <div class="col-lg-3">
-			<select class="form-control"  name="sort" id="sort" onchange="searchFormSubmit()">
-						<option value="new">최신순</option>
-						<option value="old">오래된 순</option>
-			</select>
-		</div>
+		</form>
 		
-			</form>
-		</div>
 		 
 		
 		
 		
 		<br><br><br><br><br>
 		<div id="searchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
-			<table class="table table-hover text-center" style="text-align:center;">
+			<table class="table table-hover text-center" style="text-align:left;">
 				<thead>
 					<tr>
-						<th width="10%" style="text-align: center;">회의날짜</th>
-						<th width="25%" style="text-align: center;">회의시간</th>
-						<th width="15%" style="text-align: center;">회의실</th>
-						<th width="20%" style="text-align: center;">회의제목</th>		
-						<th width="10%" style="text-align: center;">예약자</th>
-						<th width="20%" style="text-align: center;">전화번호</th>
+						<th width="15%" style="text-align:left;">회의날짜</th>
+						<th width="12%" style="text-align:left;">회의시간</th>
+						<th width="15%" style="text-align:left;">회의실</th>
+						<th width="25%" style="text-align:left;">회의제목</th>		
+						<th width="10%" style="text-align:left;">예약자</th>
+						<th width="13%" style="text-align:left;">전화번호</th>
+						<th width="10%" style="text-align:left;">반복예약</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${requestScope.searchResultListA}" var="searchResultList">
-						<tr>
-							<td width="10%">${searchResultList.rsv_date}</td>
-							<td width="25%"><c:out value="${fn:substring(searchResultList.rsv_start_time,0,5)}"/> ~
-							<c:out value="${fn:substring(searchResultList.rsv_end_time,0,5)}"/></td>
-							<td width="15%">${searchResultList.conf_nm}</td>
-							<td width="20%"><a onclick="searchToCal(${searchResultList.rsv_no});">${searchResultList.rsv_title}</a></td>				<!-- 하이퍼링크 -->
-							<td width="10%">${searchResultList.rsv_mem_nm}</td>
-							<td width="20%">${searchResultList.rsv_mem_pn}</td>
-						</tr>
+						<c:choose>
+							<%-- 일반예약내역 --%>
+							<c:when test="${searchResultList.	RSV_REPEAT_NO eq 0}">
+							
+								<tr>
+									<td width="15%">${searchResultList.RSV_DATE} ${searchResultList.DAYOFTHEWEEK}</td>
+									<td width="12%"><c:out value="${fn:substring(searchResultList.RSV_START_TIME,0,5)}"/> ~
+									<c:out value="${fn:substring(searchResultList.RSV_END_TIME,0,5)}"/></td>
+									<td width="15%">${searchResultList.CONF_NM}</td>
+									
+									<c:choose>
+										<c:when test="${searchResultList.	RSV_CONFIRM_STATE ne 'N'}">
+											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">${searchResultList.RSV_TITLE}</a></td>
+										</c:when>
+										<c:otherwise>
+											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">(승인대기중)${searchResultList.RSV_TITLE}</a></td>
+										</c:otherwise>
+									</c:choose>
+									
+									<td width="10%">${searchResultList.RSV_MEM_NM}</td>
+									<td width="13%">${searchResultList.RSV_MEM_PN}</td>
+									<td width="10%"></td>
+								</tr>
+							
+							</c:when>
+							
+							<%-- 반복예약내역 --%> 
+							<c:otherwise>
+								
+								<tr>
+									<td width="15%">${searchResultList.RSV_DATE} ${searchResultList.DAYOFTHEWEEK}</td>
+									<td width="12%"><c:out value="${fn:substring(searchResultList.RSV_START_TIME,0,5)}"/> ~
+									<c:out value="${fn:substring(searchResultList.RSV_END_TIME,0,5)}"/></td>
+									<td width="15%">${searchResultList.CONF_NM}</td>
+									
+									<c:choose>
+										<c:when test="${searchResultList.	RSV_CONFIRM_STATE ne 'N'}">
+											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">${searchResultList.RSV_TITLE}</a></td>
+										</c:when>
+										<c:otherwise>
+											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">(승인대기중)${searchResultList.RSV_TITLE}</a></td>
+										</c:otherwise>
+									</c:choose>
+									
+									<td width="10%">${searchResultList.RSV_MEM_NM}</td>
+									<td width="13%">${searchResultList.RSV_MEM_PN}</td>
+									<td width="10%"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#reservDetail" onClick="showRepeatDetail(${searchResultList.RSV_REPEAT_NO} )">상세보기</button></td>
+								</tr>
+							
+							</c:otherwise>
+						</c:choose>
+					
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
+		
+		<!--  상세내역 모달 -->
+		<div class="modal fade" id="reservDetail">
+			<div class="modal-dialog" style="width:80%">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title">상세내역</h4>
+					</div>
+
+					<div class="modal-body">
+						<div class="table-responsive">
+							<table class="table table-hover text-center"
+								style="text-align:left;" id="modalTable">
+								<thead>
+									<tr>
+										<!-- 회의 종료일, 반복 주기 넣어 놓기-->
+										<th width="10%" style="text-align:left">회의날짜</th>
+										<th width="30%" style="text-align:left">회의시간</th>
+										<th width="10%" style="text-align:left">회의실</th>
+										<th width="20%" style="text-align:left">회의제목</th>
+										<th width="10%" style="text-align:left">예약자</th>
+										<th width="20%" style="text-align:left">전화번호</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
 
 	
 	<%-- ################### 페이징 ################ --%>
@@ -118,13 +187,13 @@
 
 	<%-- 첫 페이지로 이동 --%>
 	<p align="center">
-		<a href="/Search/GeneralSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">첫 페이지</a>
+		<a href="/Search/GeneralUserSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">첫 페이지</a>
 
 		<%-- 이전 페이지 그룹 처리 --%>
 		<c:choose>
 			<c:when test="${requestScope.pageBean.previousPageGroup }">
 				<%-- 이전 페이지 그룹이 있다면 isPreviousPageGroup() 호출 --%>
-				<a href="/Search/GeneralSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">◀</a>
+				<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">◀</a>
 			</c:when>
 			<c:otherwise>
 			◀
@@ -137,7 +206,7 @@
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page }">
 					<!-- 현재 페이지가 아니라면 -->
-					<a href="/Search/GeneralSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">${page }&nbsp;&nbsp;</a>
+					<a href="/Search/GeneralUserSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">${page }&nbsp;&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 				[${page }]  <%-- &nbsp;는 공백을 나타냄 --%>
@@ -150,7 +219,7 @@
 			<c:when test="${requestScope.pageBean.nextPageGroup }">
 				<%-- isNextPageGroup() 호출 --%>
 				<a
-					href="/Search/GeneralSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">▶</a>
+					href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">▶</a>
 				<%-- getEndPage()에서 리턴된 값 넣기 --%>
 			</c:when>
 			<c:otherwise>
@@ -159,7 +228,7 @@
 		</c:choose>
 
 		<!-- 마지막 페이지로 이동 -->
-		<a href="/Search/GeneralSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">마지막
+		<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">마지막
 			페이지</a>
 	</p>
 	
@@ -209,7 +278,7 @@ $(function(){
             //자동완성 기능에서 클릭했을 때
             select:function(event, id) {
     			$("#inputSearchCont").val(id.item.label);
-            	$("#searchForm").attr("action","/Search/GeneralSearchPage");
+            	$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
         		$("#searchForm").submit();
             }
         
@@ -224,7 +293,7 @@ $(function(){
  $(function() {
 	 $("#selectSearchOpt").val("${selectSearchOptBack}");
 	 $("#inputSearchCont").val("${inputSearchContBack}");
-	 $("#sort").val("${generalSortTypeBack}");
+	 $("#sort").val("${sort}");
  });
 
  /**
@@ -237,8 +306,7 @@ function searchFormSubmit(){
 	var searchKind = $("#searchKind").val();
 		
 	if(searchContent.length>0){		
-				
-		$("#searchForm").attr("action","/Search/GeneralSearchPage");
+		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
 		$("#searchForm").submit();
 		
 	}
@@ -248,53 +316,56 @@ function searchFormSubmit(){
 	
 }
 
-/**
- * 작성자 : 최문정
- * 내용 : Form에서 입력받은 값 RepeatSearchPage Contorller로 전송
- */
-function repeatSearchFormSubmit(){
-	var searchOpt = $("#selectSearchOpt").val();
-	var searchContent=$("#inputSearchCont").val();
-		
-	if(searchContent.length>0){		
-				
-		$("#searchForm").attr("action","/Search/RepeatSearchPage");
-		$("#searchForm").submit();
-		
-	}
-	else{
-		alert("내용을 입력해 주세요.");
-	}
-	
-}
 
 /**
  * 작성자 : 최문정
- * 내용 : Form에서 입력받은 값 검색 결과 선택에 따라 Contorller로 전송
+ * 내용 : 반복예약 상세내용 리스트를 모달로 띄움
  */
-function searchBtn() {
-	var searchOpt = $("#selectSearchOpt").val();
-	var searchContent=$("#inputSearchCont").val();
-	var searchKind = $(":input:radio[name=searchKind]:checked").val();
+function showRepeatDetail(repeatNo) {
 	
-	if(searchContent.length>0){
-		
-		if(searchKind == "general") {
-			//일반예약 검색일 때
-			$("#searchForm").attr("action","/Search/GeneralSearchPage");
-			$("#searchForm").submit();
+	var table = document.getElementById('modalTable');
+	var detailViewArray = new Array();
+	
+	$.ajax({
+		url : "/Search/ShowRepeatDetail",
+		dataType : "json",
+		type : "POST",
+		data : { "repeatNo" : repeatNo },
+		success : function(data) {
+			detailViewArray = data;
+
+			for(var i = table.rows.length - 1; i > 0; i--)
+	         {
+	             table.deleteRow(i);
+	         }
 			
-		}else if(searchKind == "repeat") {
-			//반복예야 검색일 때
-			$("#searchForm").attr("action","/Search/RepeatSearchPage");
-			$("#searchForm").submit();
+			//회의날짜, 회의 시간, 회의실, 회의제목, 예약자, 예약자 번호
+			for(var i =0; i<data.length; i++){
 			
+				var startTime= detailViewArray[i].rsv_start_time;
+				var endTime= detailViewArray[i].rsv_end_time;
+				
+				var st = startTime.substring(0, 5);
+				var et = endTime.substring(0, 5);
+
+				var row = table.insertRow();
+				row.insertCell(0).innerHTML = detailViewArray[i].rsv_date;
+				row.insertCell(1).innerHTML = st + "~" + et;
+				row.insertCell(2).innerHTML = detailViewArray[i].conf_nm;
+				row.insertCell(3).innerHTML = '<a onclick="searchToCal(' + detailViewArray[i].rsv_no + ');">' + detailViewArray[i].rsv_title + '</a>';
+				row.insertCell(4).innerHTML = detailViewArray[i].rsv_mem_nm;
+				row.insertCell(5).innerHTML = detailViewArray[i].rsv_mem_pn;
+				
+				
+				
+			}
+		},
+		error : function(request, status, error) {
+			alert("code : "+request.status + "\n" + "error : " + error);
 		}
 		
-	}
-	else{
-		alert("내용을 입력해 주세요.");
-	}
+	});
+
 }
 
 /* 작성자 : 박세연 
@@ -302,7 +373,9 @@ function searchBtn() {
  */
 function searchToCal(rsvNo){
 	
-	$("#rsvNo").val(rsvNo);
+	rsvNoInt = parseInt(rsvNo);
+
+	$("#rsvNo").val(rsvNoInt);
 	$("#testForm").submit();
 	
 }

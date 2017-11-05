@@ -1003,5 +1003,812 @@
 		AND H.HST_RSV_STATE = 'NOSHOW'
 	</select>
 	
+	
+	
+	<!-- 10월 31일 이후 수정 -->
+	<!-- 일반 사용자 검색 결과 출력 쿼리 -->
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '전체'옵션으로 검색한 결과, 최신순 -->
+	<select id="generalUserSelectByAllOrderByNew"  parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND (REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+				OR R.RSV_MEM_NM = #{value}
+				OR REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND (REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			OR R.RSV_MEM_NM = #{value}
+			OR REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE DESC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}	
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '전체'옵션으로 검색한 결과, 오래된 순 -->
+	<select id="generalUserSelectByAllOrderByOld"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND (REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+				OR R.RSV_MEM_NM = #{value}
+				OR REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND R.RSV_REPEAT_NO = 0
+				AND (REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+				OR R.RSV_MEM_NM = #{value}
+				OR REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE ASC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}	
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '회의제목' 옵션으로 검색한 결과, 최신순-->
+	<select id="generalUserSelectByTitleOrderByNew"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND R.RSV_REPEAT_NO = 0
+				AND REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE DESC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}	
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '회의제목' 옵션으로 검색한 결과, 오래된 순-->
+	<select id="generalUserSelectByTitleOrderByOld"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND R.RSV_REPEAT_NO = 0
+				AND REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE ASC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}	
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '예약자 이름' 옵션으로 검색한 결과, 최신순-->
+	<select id="generalUserSelectByMemNMOrderByNew"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND R.RSV_MEM_NM = #{value}
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND R.RSV_MEM_NM = #{value}
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE DESC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '예약자 이름' 옵션으로 검색한 결과, 오래된 순-->
+	<select id="generalUserSelectByMemNMOrderByOld"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND R.RSV_MEM_NM = #{value}
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND R.RSV_MEM_NM = #{value}
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE ASC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '예약자 번호' 옵션으로 검색한 결과, 최신순-->
+	<select id="generalUserSelectByMemPNOrderByNew"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE DESC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}	
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '예약자 번호' 옵션으로 검색한 결과, 오래된 순-->
+	<select id="generalUserSelectByMemPNOrderByOld"  parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM (
+		SELECT @RNUM := @RNUM +1 AS ROWNUM, A.*
+		FROM (
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_NO,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION,
+			CASE WEEKDAY(R.RSV_DATE) 
+				WHEN '0' THEN '(월)'
+				WHEN '1' THEN '(화)'
+				WHEN '2' THEN '(수)'
+				WHEN '3' THEN '(목)'
+				WHEN '4' THEN '(금)'
+				WHEN '5' THEN '(토)'
+				WHEN '6' THEN '(일)'
+				END AS DAYOFTHEWEEK
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE ASC
+			) A, (SELECT @RNUM := 0) B) C
+		WHERE C.ROWNUM BETWEEN #{startPage} AND #{endPage}
+	</select>
+	
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- 일반 사용자 검색 '전체 옵션', 페이징을 위한 검색 개수 -->
+	<select id="rownumGeneralUserSelectByAll" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM (SELECT * 
+		FROM RESERVATION R
+		
+		<if test="value !=null" >
+			WHERE (REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			OR R.RSV_MEM_NM = #{value}
+			OR REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+		</if>
+		
+		UNION ALL
+		
+		SELECT  *
+		FROM RESERVATION R
+		
+		<if test="value !=null" >
+			WHERE R.RSV_REPEAT_NO = 0
+			AND (REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+			OR R.RSV_MEM_NM = #{value}
+			OR REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%'))
+		</if>) RESULT
+	</select>
+	
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- 일반 사용자 검색 '회의제목 옵션', 페이징을 위한 검색 개수 -->
+	<select id="rownumGeneralUserSelectByTitle" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM (SELECT * 
+		FROM RESERVATION R, CONFERENCE C 
+		
+		<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+		</if>
+		GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+		
+		UNION ALL
+		
+		SELECT  *
+		FROM RESERVATION R, CONFERENCE C 
+		
+		<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND REPLACE(R.RSV_TITLE, ' ', '') like CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+		</if>) RESULT
+	</select>
+	
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- 일반 사용자 검색 '예약자 이름 옵션', 페이징을 위한 검색 개수 -->
+	<select id="rownumGeneralUserSelectByMemNM" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM (SELECT * 
+		FROM RESERVATION R, CONFERENCE C 
+		
+		<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_MEM_NM = #{value}
+		</if>
+		GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+		
+		UNION ALL
+		
+		SELECT  *
+		FROM RESERVATION R, CONFERENCE C 
+		
+		<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND R.RSV_MEM_NM = #{value}
+		</if>) RESULT
+	</select>
+	
+	<!--  작성자 : 최문정 -->
+	<!-- 일반 사용자 검색 '예악자 번호 옵션', 페이징을 위한 검색 개수 -->
+	<select id="rownumGeneralUserSelectByMemPN" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM (SELECT * 
+		FROM RESERVATION R, CONFERENCE C 
+		
+		<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+		</if>
+		GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+		
+		UNION ALL
+		
+		SELECT  *
+		FROM RESERVATION R, CONFERENCE C 
+		
+		<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND REPLACE(R.RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+		</if>) RESULT
+	</select>
+	
+	
+	
+	<!-- 일반 사용자 검색 내역 중 반복예약 내역 출력 -->
+	<!-- 위의 것 갔다 쓰기 -->
+	
+	
+	
+	<!-- 간편검색 내역 -->
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '전체' 옵션으로 검색한 결과-->
+	<select id="easySearchSelectByAll"  parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '회의제목' 옵션으로 검색한 결과-->
+	<select id="easySearchSelectByTitle"  parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '예약자 이름' 옵션으로 검색한 결과-->
+	<select id="easySearchSelectByMemNM"  parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	<!-- 작성자 : 최문정 -->
+	<!-- '예악자 번호' 옵션으로 검색한 결과-->
+	<select id="easySearchSelectByMemPN"  parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	
+	
+	<!-- 간편검색 페이징을 위한 검색 개수, '전체'옵션 -->
+	<select id="rownumEasySearchSelectByAll" resultType="Integer" parameterType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	<!-- 간편검색 페이징을 위한 검색 개수, '전체'옵션 -->
+	<select id="rownumEasySearchSelectByTitle" resultType="Integer" parameterType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	<!-- 간편검색 페이징을 위한 검색 개수, '전체'옵션 -->
+	<select id="rownumEasySearchSelectByMemNM" resultType="Integer" parameterType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	<!-- 간편검색 페이징을 위한 검색 개수, '전체'옵션 -->
+	<select id="rownumEasySearchSelectByMemPN" resultType="Integer" parameterType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+
+	
+	<!-- 간편 검색 내역 중 반복예약 내역 출력 -->
+	<select id="repeatSearchDetailContentsForEasySearch"  parameterType="HashMap" resultType="HashMap">
+	SELECT * FROM RESERVATOIN
+	</select>
+	
+	
+	<select id="test" parameterType="HashMap" resultType="HashMap">
+			SELECT * FROM
+			(SELECT MIN(R.RSV_DATE) RSV_DATE,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+				WHERE R.RSV_CONF_NO = C.CONF_NO
+				AND R.RSV_MEM_NM = #{value}
+			</if>
+			GROUP BY R.RSV_REPEAT_NO HAVING R.RSV_REPEAT_NO != 0
+			
+			UNION ALL
+			
+			SELECT R.RSV_DATE,
+			R.RSV_START_TIME,
+			R.RSV_END_TIME,
+			R.RSV_TITLE,
+			R.RSV_MEM_NM,
+			R.RSV_MEM_PN,
+			R.RSV_CONFIRM_STATE,
+			C.CONF_NM,
+			R.RSV_REPEAT_PERIOD,
+			R.RSV_SETTING,
+			R.RSV_REPEAT_NO,
+			R.RSV_DESCRIPTION
+			FROM RESERVATION R, CONFERENCE C 
+			
+			<if test="value !=null" >
+			WHERE R.RSV_CONF_NO = C.CONF_NO
+			AND R.RSV_REPEAT_NO = 0
+			AND R.RSV_MEM_NM = #{value}
+			</if>) RESULT
+			ORDER BY RESULT.RSV_DATE DESC
+	</select>
+	
 
 </mapper>
