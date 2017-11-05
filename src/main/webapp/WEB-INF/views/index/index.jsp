@@ -50,7 +50,15 @@
 	<br>
 		<div class="container">
 		<div>
-			<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px">
+		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
+		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
+		
+		<!--  	어떻게 input box 안에 넣지?
+	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+		 -->	
+			
+		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
 		</div>
 			
 			<div id="calendar"></div><br>
@@ -710,7 +718,7 @@ function deleteRsv(){
 	
 }
 
-//회의실 독점 방지 - 같은 이름+같은 제목 (+ 대소문자 구별없이 ex) hi = HI, + 스페이스바로 구별되지 않게 (ex. '회의' = '회    의' ))
+//회의실 독점 방지 - 같은 이름+같은 제목 (+ 스페이스바로 구별되지 않게 (ex. '회의' = '회    의' ))
 function preventMonopoly(){
 	$.ajax({
 		url:"/Reservation/PreventMonopoly",
@@ -719,7 +727,9 @@ function preventMonopoly(){
 		async: false,
 		data:{
 			"rsvTitle":$("#rsvTitle").val(),
-			"rsvMemPn":$("#rsvMemPn").val()
+			"rsvMemPn":$("#rsvMemPn").val(),
+			"rsvDate":$("#rsvDate").val(),
+			"rsvTotalTime":$("#rsvTotalTime").val()
 		},
 		success:function(count){	
 			$("#monopolyCount").val(count);
@@ -1008,8 +1018,21 @@ $(document).ready(function(){
 	      error : function(request, status, error) {
 	      }
 	   });
+	   
 
+	var today = new Date().getDate();
+	$("#todayDate").text(today);   
+	$("#todayDate").on("click", function(){
+		$('#calendar').fullCalendar('today');
+	});
+	   
+	$("#prev").on("click", function(){
+		 $('#calendar').fullCalendar('prev');
+	});  
 	
+	$("#next").on("click", function(){
+		$('#calendar').fullCalendar('next');
+	});
 	
 	//시작시간 < 종료시간
  	$("#rsvStartTime").on("change", function(){
@@ -1379,9 +1402,9 @@ $(document).ready(function(){
 		 		
 	//	windowResize:true,
 		header: {
-			left: 'prev,next',
+			left: 'none',
 			center: 'title',
-			right: 'today'
+			right: 'none'
 		},
 		views: {
 			agendaTwoDay: {
@@ -1929,6 +1952,8 @@ $(document).ready(function(){
 		font-size:small; /* 1em : 기본 크기의 1배수 크기 */
 		color: red;
 	}
+	
+	.calendar-text { margin-top: .6em; }
 	
 </style>
 

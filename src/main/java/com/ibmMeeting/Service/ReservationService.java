@@ -181,13 +181,15 @@ public class ReservationService {
 	 * @param rsvMemPn
 	 * @return
 	 */
-	public int preventMonopoly(String rsvTitle, String rsvMemPn){
+	public int preventMonopoly(String rsvTitle, String rsvMemPn, String rsvDate, String rsvTotalTime){
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("rsvTitle", rsvTitle);
 		map.put("rsvMemPn", rsvMemPn);
-		map.put("rsvMaxTime", ConstantCode.RESERVATION_MAX_TIME);
-		
+		map.put("rsvMaxTime", ConstantCode.RESERVATION_MAX_MONOPOLY);
+		map.put("rsvDate", rsvDate);
+		map.put("rsvTotalTime", rsvTotalTime);
+
 		int count = reservationDao.preventMonopoly(map);
 
 		return count;

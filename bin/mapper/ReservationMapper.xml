@@ -103,11 +103,11 @@
 	<select id="preventMonopoly" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM RESERVATION
-		WHERE RSV_DATE Between DATE_ADD(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-2) * -1 DAY)
-				AND DATE_ADD(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-6) * -1 DAY) 
-				AND TIME_FORMAT(RSV_TOTAL_TIME, '%H') > #{rsvMaxTime}
-				AND rsv_title LIKE #{rsvTitle} OR replace(RSV_TITLE,' ','') = replace(#{rsvTitle},' ','')
-				AND rsv_mem_pn = #{rsvMemPn}
+		WHERE RSV_DATE Between DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-2) * -1 DAY)
+				AND DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-6) * -1 DAY)
+                AND rsv_mem_pn = #{rsvMemPn}
+                AND TIME_FORMAT(#{rsvTotalTime}, '%H') >= #{rsvMaxTime}
+                AND replace(RSV_TITLE,' ','') = replace(#{rsvTitle},' ','')
 	</select>
 	
 	<!-- 작성자 : 박세연 -->
