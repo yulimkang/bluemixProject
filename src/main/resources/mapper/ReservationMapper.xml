@@ -100,13 +100,13 @@
 	
 	<!-- 작성자 : 박세연 -->
 	<!-- 회의실 독점 방지, 한 주 : 월~금 -->
-	<select id="preventMonopoly" parameterType="map" resultType="int">
-		SELECT COUNT(*)
+	<select id="preventMonopoly" parameterType="map" resultMap="reservation_resultmap">
+		SELECT rsv_total_time
 		FROM RESERVATION
 		WHERE RSV_DATE Between DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-2) * -1 DAY)
 				AND DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-6) * -1 DAY)
                 AND rsv_mem_pn = #{rsvMemPn}
-                AND TIME_FORMAT(#{rsvTotalTime}, '%H') >= #{rsvMaxTime}
+           <!--      AND TIME_FORMAT(#{rsvTotalTime}, '%H') >= #{rsvMaxTime} -->
                 AND replace(RSV_TITLE,' ','') = replace(#{rsvTitle},' ','')
 	</select>
 	

@@ -29,7 +29,8 @@ public interface ReservationDao {
 	
 	void modifyRsvByDrop(HashMap<String, Object> map);
 	
-	int preventMonopoly(HashMap<String, Object> map);
+	//int preventMonopoly(HashMap<String, Object> map);
+	List<Reservation> preventMonopoly(HashMap<String, Object> map);
 	
 	List<Reservation> controlStartTime(HashMap<String, Object> map);
 

@@ -216,10 +216,9 @@ public class ReservationController {
 	@ResponseBody
 	public String preventMonopoly(@RequestParam String rsvTitle, @RequestParam String rsvMemPn, @RequestParam String rsvDate, @RequestParam String rsvTotalTime){
 	
-		int count = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime);
-		String cnt = Integer.toString(count);
+		String over = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime);
 		
-		return cnt;
+		return over;
 	}
 	
 	/**

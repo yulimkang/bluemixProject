@@ -53,10 +53,11 @@
 		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
 		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
 		
-		<!--  	어떻게 input box 안에 넣지?
+		<!--  	어떻게 input box 안에 넣지?-->
+	<!-- 
 	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
 	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-		 -->	
+	 -->	 	
 			
 		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
 		</div>
@@ -385,7 +386,7 @@ function calTotalTime(){
 		if(duration.substr(0,2) != "00"){
  	 		min = "30"
  	 	}
-		duration = "00:"+min+":00";
+		duration = "0:"+min+":00";
 		
 	}else if(duration.length == 5){
  		if(duration.substr(1,2) != "00"){
@@ -544,9 +545,9 @@ function checkForm(){
 	preventMonopoly();
 	var count = $("#monopolyCount").val();
 
-	//이 값이 3이상이면 가예약상태
-	if(count >= 2){
-		if(!confirm("이번주에 "+maxTime+"시간 이상 예약을 3번이상 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
+	//이 값이 "T"이면 가예약상태
+	if(count == "T"){
+		if(!confirm("이번주에 "+maxTime*3+"시간 이상 예약을 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
 			submit = "N";
 			$('#calendar').fullCalendar('refetchEvents');
 			return false;
@@ -1679,13 +1680,13 @@ $(document).ready(function(){
 	    			$("#rsvConfirmState").val("N");
 	    		}
 	    	}
-	     
+	    
 	    	preventMonopoly();
 	    	var count = $("#monopolyCount").val();
-	    	
-	    	//이 값이 3이상이면 가예약상태
-	    	if(count >= 2){
-	    		if(!confirm("이번주에 "+maxTime+"시간 이상 예약을 3번이상 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
+
+	    	//이 값이 "T"이면 가예약상태
+	    	if(count == "T"){
+	    		if(!confirm("이번주에 "+maxTime*3+"시간 이상 예약을 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
 	    			$('#calendar').fullCalendar('refetchEvents');
 	    			return false;
 	    		}else{
