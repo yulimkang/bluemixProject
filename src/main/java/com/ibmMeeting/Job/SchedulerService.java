@@ -1,8 +1,10 @@
 package com.ibmMeeting.Job;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -61,9 +63,8 @@ public class SchedulerService {
 	 * 이메일 보낼 대상자들 선정하여 이메일 전송, 회의 예약 30분전 테스트
 	 */
 	@Scheduled(initialDelay = 60000, fixedDelay = 120000)
-	public void reservationBeforeEmailSend() throws MessagingException {
+	public void reservationBeforeEmailSend() throws MessagingException, ParseException {
 
-		//셋팅값에서 이메일 값 가져옴
 		HashMap<String, Object> settingValue = settingDao.settingLoad();
 		Integer emailTime = (Integer) settingValue.get("SET_EMAIL_TIME");
 
@@ -91,18 +92,65 @@ public class SchedulerService {
 				Integer rsvNumber = (Integer) emailSendUserInfo.get(i).get("RSV_NO");
 				String rsvMemberEmail = (String) emailSendUserInfo.get(i).get("RSV_MEM_EM");
 				String rsvConfNm = (String) emailSendUserInfo.get(i).get("CONF_NM");
-				Time rsvStartTime = (Time) emailSendUserInfo.get(i).get("RSV_START_TIME");
+				Time rsvStartTime =  (Time) emailSendUserInfo.get(i).get("RSV_START_TIME");
+				Time rsvEndTime = (Time) emailSendUserInfo.get(i).get("RSV_END_TIME");
 				String rsvTitle = (String) emailSendUserInfo.get(i).get("RSV_TITLE");
 				String rsvMemNm = (String) emailSendUserInfo.get(i).get("RSV_MEM_NM");
-
-				String subject = "[IBM 회의실] " + rsvMemNm+ "님 곧" +rsvTitle + " 회의 시간입니다.";
-				String contentTitle = "회의제목 : " + rsvTitle;
-				String contentStartTime = "회의시작시간 : " + rsvStartTime;
-				String contentConfNm = "회의실 : " + rsvConfNm;
-				String contentURL = ConstantCode.URL;
-				String contentTotal = contentTitle+"\n"+ contentStartTime+"\n"+ contentConfNm +"\n"+ contentURL;
+				Date rsvDate = (Date) emailSendUserInfo.get(i).get("RSV_DATE");
+				String rsvDateString = commonService.DateToString(rsvDate);
+				String rsvDayOfTheWeek = commonService.dayOfTheWeek(rsvDateString);
 				
-				commonService.sendEmail(rsvMemberEmail, subject, contentTotal);
+				String rsvStartTimeChange = commonService.timeToString(rsvStartTime);
+				String rsvEndTimeChange = commonService.timeToString(rsvEndTime);
+
+				String subject = "[예약 Reminder] " + rsvMemNm+ "님의 " +rsvTitle + " 회의 " + Integer.toString(emailTime) + "분 전입니다.";
+				
+				String content = 
+						"<html>\r\n" + 
+						"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n" + 
+						"<head>\r\n" + 
+						"\r\n" + 
+						"\r\n" + 
+						"</head>\r\n" + 
+						"<body>\r\n" + 
+						"\r\n" + 
+						"<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n" + 
+						"	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n" + 
+						"	<br>\r\n" + 
+						"	<hr size=\"2\" noshade>\r\n" + 
+						"	<p>안녕하세요</p> \r\n" + 
+						"	<p>"+rsvMemNm +"님의 회의가 "+ Integer.toString(emailTime)+"분 후에 있을 예정이오니, 참고 바랍니다.</p>\r\n" + 
+						"	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n" + 
+						"		<tr>\r\n" + 
+						"			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n" + 
+						"			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">"+rsvTitle+"</td>\r\n" + 
+						"		</tr>\r\n" + 
+						"		\r\n" + 
+						"		<tr>\r\n" + 
+						"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n" + 
+						"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvDate + " (" + rsvDayOfTheWeek + ')' + "</td>\r\n" + 
+						"		</tr>\r\n" + 
+						"		\r\n" + 
+						"		<tr>\r\n" + 
+						"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n" + 
+						"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + 
+						"		</tr>\r\n" + 
+						"		\r\n" + 
+						"		<tr>\r\n" + 
+						"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n" + 
+						"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfNm + "</td>\r\n" + 
+						"		</tr>\r\n" + 
+						"\r\n" + 
+						"\r\n" + 
+						"	</table>\r\n" + 
+						"	\r\n" + 
+						"	</div>\r\n" + 
+						"</body>\r\n" + 
+						"</html>";
+				
+				
+				
+				commonService.sendEmail(rsvMemberEmail, subject, content);
 				
 				schedulerDao.eMailSendStateUpdate(rsvNumber);
 			}

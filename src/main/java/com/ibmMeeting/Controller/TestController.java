@@ -1,6 +1,10 @@
 package com.ibmMeeting.Controller;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -41,34 +45,16 @@ public class TestController {
 	SchedulerDao schedulerDao;
 	
 	@RequestMapping("/check")
-	public ModelAndView searchPage(HttpServletRequest request) throws MessagingException {
+	public ModelAndView searchPage(HttpServletRequest request) throws MessagingException, ParseException {
 		
 		ModelAndView test = new ModelAndView();
 
-		// 셋팅값에서 이메일 값 가져옴
-		HashMap<String, Object> settingValue = settingDao.settingLoad();
-		Integer emailTime = (Integer) settingValue.get("SET_EMAIL_TIME");
-
-		// 현재시간에 이메일 셋팅값을 더함
-		Calendar nowTimeCal = Calendar.getInstance();
-		int hour = nowTimeCal.get(Calendar.HOUR_OF_DAY);
-		int min = nowTimeCal.get(Calendar.MINUTE);
-
-		String nowDate = commonService.nowTime();
-		String nowTime = Integer.toString(hour) + ":" + Integer.toString(min) + ":00";
-
-		HashMap<String, Object> dateInformation = new HashMap<String, Object>();
-		dateInformation.put("nowDate", nowDate);
-		dateInformation.put("nowTime", nowTime);
-
-		test.addObject("date", dateInformation);
+		
 		test.setViewName("test");
 		
 		
-		String html = "<html><body><h1>Testing</h1><p>This is a <b>test</b> message.</p></body></html> ";
-		
-		
-		commonService.sendEmail("sungjun0204@naver.com","hello",html);
+		//셋팅값에서 이메일 값 가져옴
+				
 		
 		return test;
 
