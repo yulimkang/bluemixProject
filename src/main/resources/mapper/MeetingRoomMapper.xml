@@ -53,6 +53,11 @@
     	FROM CONFERENCE
     	ORDER BY conf_order ASC
     </select>
-
+    
+    <select id="meetingRoomName" parameterType="Integer" resultType="String">
+    	SELECT CONF_NM
+    	FROM CONFERENCE
+    	WHERE CONF_NO = #{confNo}
+    </select>
    
 </mapper>

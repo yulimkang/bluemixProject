@@ -1,6 +1,7 @@
 package com.ibmMeeting.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,7 +47,7 @@ public class AdminHistoryController {
 	 */
 	@ResponseBody
 	@RequestMapping("/ReservationUpdate")
-	public Integer reservationUpdate(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, MessagingException{
+	public Integer reservationUpdate(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, MessagingException, ParseException{
 		historyService.reservationUpdate(request);
 		
 		return ConstantCode.SUCCESS;
@@ -58,7 +59,7 @@ public class AdminHistoryController {
 	 */
 	@ResponseBody
 	@RequestMapping("/ReservationDelete")
-	public Integer reservationDelete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, MessagingException{
+	public Integer reservationDelete(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, MessagingException, ParseException{
 		historyService.reservationDelete(request);
 		
 		return ConstantCode.SUCCESS;

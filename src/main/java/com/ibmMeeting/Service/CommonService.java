@@ -19,6 +19,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.ibmMeeting.Constant.ConstantCode;
+import com.ibmMeeting.Dao.MeetingRoomDao;
 import com.ibmMeeting.Dao.ReservationDao;
 
 @Service
@@ -26,6 +27,9 @@ public class CommonService {
 	
 	@Autowired
 	ReservationDao reservationDao;
+	
+	@Autowired
+	MeetingRoomDao meetingRoomDao;
 	
 	@Autowired
 	public JavaMailSender emailSender;
@@ -133,6 +137,11 @@ public class CommonService {
 		
 		return dateString;
 
+	}
+	
+	public String confName(int confNo) {
+		
+		return meetingRoomDao.meetingRoomName(confNo);
 	}
 
 

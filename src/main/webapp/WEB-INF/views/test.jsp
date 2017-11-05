@@ -12,7 +12,9 @@
 <body>
 
 <div class="container" style="display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;">
-	<img src="https://i.imgur.com/rOpAzMk.png">
+	<a href="http://bluemixb.mybluemix.net/">
+		<img src="https://i.imgur.com/rOpAzMk.png">
+	</a>
 	<br>
 	<hr size="2" noshade>
 	<p>안녕하세요</p> 

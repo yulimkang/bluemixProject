@@ -56,6 +56,7 @@ public interface BoardingDao {
 	//전체 로우넘 카운트
 	Integer rownumBoarding();
 	
+	HashMap<String,Object> reservationAndUserInfo(Integer rsvNo);
 	
 	
 }

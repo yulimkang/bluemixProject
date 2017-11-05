@@ -263,14 +263,14 @@ public class RepeatReservationService {
 	 * 반복예약 신청
 	 * 사용자가 입력한 값을 받아와 신청
 	 */
-	public Integer repeatReservationSubmit(HttpServletRequest request) throws MessagingException{
+	public Integer repeatReservationSubmit(HttpServletRequest request) throws MessagingException, ParseException{
 		
 		String rsvRegDate = commonService.nowTime();
 		String rsvStartTime = request.getParameter("rsvStartTime");
 		String rsvEndTime = request.getParameter("rsvEndTime");
-		String rsvConfNo = request.getParameter("rsvConfName");
+		Integer rsvConfNo = Integer.parseInt(request.getParameter("rsvConfName"));
 		String repeatPeriod = request.getParameter("repeatPeriod");
-		String repeatSetting = request.getParameter("repeatSetting");
+		String repeatSetting = "x";
 		String rsvColor = request.getParameter("rsvColor");
 		String rsvTitle = request.getParameter("rsvTitle");
 		String rsvDelPwd = request.getParameter("rsvDelPwd");
@@ -346,17 +346,66 @@ public class RepeatReservationService {
 			
 		}
 		
+		String firstDay = availableDates[ConstantCode.ZERO];
+		String endDay = availableDates[availableDates.length- ConstantCode.ONE];
+		String firstDayOfTheWeek = commonService.dayOfTheWeek(firstDay);
+		String endDayOfTheWeek = commonService.dayOfTheWeek(endDay);
+		
+		String rsvStartTimeChange = rsvStartTime.substring(0,5);
+		String rsvEndTimeChange = rsvEndTime.substring(0,5);
+		
+		String rsvConfName = commonService.confName(rsvConfNo);
+
 		// 이메일 전송
 		String adminEmail = adminDao.getAdminEmail();
-			
-		String subject = "[IBM 회의실] 반복예약 신청이 접수됐습니다.";
-		String contentTitle = "회의제목 : " + rsvTitle;
-		String contentStartTime = "회의시작시간 : " + rsvStartTime;
-		String contentInformation = rsvMemNm+ "님이 " + rsvRegDate + " 날짜 반복예약 신청하셨습니다.";
-		String contentURL = ConstantCode.URL;
-		String contentTotal = contentTitle+"\n"+ "\n "+ contentStartTime + "\n "+ contentInformation+"\n"+ " " +contentURL;
 		
-		commonService.sendEmail(adminEmail, subject, contentTotal);
+		String subject = "[반복 예약 신청] " + rsvMemNm+ "님이 " +rsvTitle + " 회의를 반복예약 신청하셨습니다. ";
+		
+		String content = 
+				"<html>\r\n" + 
+				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n" + 
+				"<head>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"</head>\r\n" + 
+				"<body>\r\n" + 
+				"\r\n" + 
+				"<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n" +
+				"   <a href=\"http://bluemixb.mybluemix.net/\">" +
+				"	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + 
+				"	<br>\r\n" + 
+				"	<hr size=\"2\" noshade>\r\n" + 
+				"	<p>안녕하세요</p> \r\n" + 
+				"	<p>"+ rsvMemNm+ "님이 " +rsvTitle + " 회의를 반복예약 신청하셨습니다.</p>\r\n" + 
+				"	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n" + 
+				"			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">"+rsvTitle+"</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + firstDay + " (" + firstDayOfTheWeek + ") ~ " + endDay + " (" + endDayOfTheWeek + ")" + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfName + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"	</table>\r\n" + 
+				"	\r\n" + 
+				"	</div>\r\n" + 
+				"</body>\r\n" + 
+				"</html>";
+		
+		commonService.sendEmail(adminEmail, subject, content);
 		
 		return ConstantCode.SUCCESS;
 	}

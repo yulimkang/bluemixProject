@@ -75,9 +75,10 @@ public class ReservationController {
 	 * @param emailCheckValue
 	 * @return
 	 * @throws MessagingException 
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/RegistReservation")
-	public ModelAndView registReservation(@ModelAttribute Reservation reservation, @RequestParam String emailCheckValue, BindingResult errors, ModelMap map) throws MessagingException{
+	public ModelAndView registReservation(@ModelAttribute Reservation reservation, @RequestParam String emailCheckValue, BindingResult errors, ModelMap map) throws MessagingException, ParseException{
 
 		//validation
 		RegisterReservationValidator valid = new RegisterReservationValidator();

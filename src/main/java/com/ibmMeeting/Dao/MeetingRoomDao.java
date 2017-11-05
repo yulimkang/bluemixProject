@@ -22,7 +22,7 @@ public interface MeetingRoomDao {
 	void meetingRoomAdd(HashMap<String,Object> meetingRoomAdd);			// 회의실 추가
 	void meetingRoomUpdate(HashMap<String,Object> meetingRoomUpdate); 	// 회의실 수정
 	void meetingRoomDelete(Integer meetingRoomSeq);						// 회의실 삭제
-	
+	String meetingRoomName(Integer confNo);
 	/**
 	 * 작성자 : 박세연
 	 * DB에 등록된 회의실들 정보 가져오기

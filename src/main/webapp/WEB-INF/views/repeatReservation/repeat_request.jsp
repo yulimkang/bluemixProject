@@ -366,25 +366,25 @@ function weekCheckBoxChange(){
 		$("#weekMon").attr("readonly","readonly");
 	}
 	else if(weekString=='tue'){
-		$("#weekTueBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekTueBtn").attr("class","btn btn-primary btn-sm active");
 		$("#weekTueBtn").attr("disabled","disabled");
 		$("#weekTue").prop("checked", "checked")
 		$("#weekTue").attr("readonly","readonly");
 	}
 	else if(weekString=='wed'){
-		$("#weekWedBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekWedBtn").attr("class","btn btn-warning btn-sm active");
 		$("#weekWedBtn").attr("disabled","disabled");
 		$("#weekWed").prop("checked", "checked")
 		$("#weekWed").attr("readonly","readonly");
 	}
 	else if(weekString=='thu'){
-		$("#weekThuBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekThuBtn").attr("class","btn btn-danger btn-sm active");
 		$("#weekThuBtn").attr("disabled","disabled");
 		$("#weekThu").prop("checked", "checked")
 		$("#weekThu").attr("readonly","readonly");
 	}
 	else if(weekString=='fri'){
-		$("#weekFriBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekFriBtn").attr("class","btn btn-success btn-sm active");
 		$("#weekFriBtn").attr("disabled","disabled");
 		$("#weekFri").prop("checked", "checked")
 		$("#weekFri").attr("readonly","readonly");
@@ -421,28 +421,28 @@ function weekSelectCheckBox(){
 	}
 	
 	if( $("#weekTue").is(":checked")  && weekString!="tue" ){
-		$("#weekTueBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekTueBtn").attr("class","btn btn-primary btn-sm active");
 	}
 	else if(weekString!='tue'){
 		$("#weekTueBtn").attr("class","btn btn-default btn-sm");
 	}
 	
 	if( $("#weekWed").is(":checked")  && weekString!="wed" ){
-		$("#weekWedBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekWedBtn").attr("class","btn btn-warning btn-sm active");
 	}
 	else if(weekString!='wed'){
 		$("#weekWedBtn").attr("class","btn btn-default btn-sm");
 	}
 	
 	if( $("#weekThu").is(":checked")  && weekString!="thu" ){
-		$("#weekThuBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekThuBtn").attr("class","btn btn-danger btn-sm active");
 	}
 	else if(weekString!='thu'){
 		$("#weekThuBtn").attr("class","btn btn-default btn-sm");
 	}
 	
 	if( $("#weekFri").is(":checked") && weekString!="fri"){
-		$("#weekFriBtn").attr("class","btn btn-info btn-sm active");
+		$("#weekFriBtn").attr("class","btn btn-success btn-sm active");
 	}
 	else if(weekString!='fri'){
 		$("#weekFriBtn").attr("class","btn btn-default btn-sm");
