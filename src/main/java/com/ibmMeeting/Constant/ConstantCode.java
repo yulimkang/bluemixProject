@@ -45,5 +45,8 @@ public class ConstantCode {
 	public static String NOT = "N";
 	public static String URL = "http://bluemixb.mybluemix.net/";
 	
+	
+	public static String EMAILHEADER = "<HTML>";
+	
 
 }

@@ -67,4 +67,38 @@ public interface ReservationDao {
 	 */
 	void deleteReservationByDate(String deleteDate);
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	HashMap<String,Object> firstDayAndLastDay (Integer rsvNo);
+	
 }

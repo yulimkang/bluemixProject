@@ -1,9 +1,10 @@
 package com.ibmMeeting.Service;
 
+import java.sql.Time;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Constant.ConstantCode;
+import com.ibmMeeting.Dao.BoardingDao;
 import com.ibmMeeting.Dao.HistoryDao;
 import com.ibmMeeting.Dao.MeetingRoomDao;
 import com.ibmMeeting.Dao.ReservationDao;
@@ -31,6 +32,9 @@ public class HistoryService {
 	
 	@Autowired
 	ReservationDao reservationDao;
+	
+	@Autowired
+	BoardingDao boardingDao;
 	
 	@Autowired
 	CommonService commonService;
@@ -85,7 +89,7 @@ public class HistoryService {
 	 * 작성자 : 고창환
 	 * 가예약 승인 기능(승인 전 히스토리테이블 인서트)
 	 */
-	public String reservationUpdate(HttpServletRequest request) throws MessagingException {
+	public String reservationUpdate(HttpServletRequest request) throws MessagingException, ParseException {
 		// TODO Auto-generated method stub
 		
 		String reservationNumber=request.getParameter("reservationSeq");
@@ -112,16 +116,85 @@ public class HistoryService {
 		 */
 		
 		Integer reservationNo = Integer.parseInt(reservationNumber);
-		List<Reservation> reservation = reservationDao.getReservationInfo(reservationNo);
 		
-		String email = reservation.get(ConstantCode.ZERO).getRsvMemEm();
-		String subject = "[IBM회의실] " + reservation.get(ConstantCode.ZERO).getRsvMemNm() + "님 예약이 승인됐습니다.";
-		String contentTitle = "회의제목 : " + reservation.get(ConstantCode.ZERO).getRsvTitle();
-		String contentTime = "회의시간 : " + reservation.get(ConstantCode.ZERO).getRsvStartTime() + " : " + reservation.get(ConstantCode.ZERO).getRsvEndTime();
-		String contentURL = ConstantCode.URL;	
-		String content = contentTitle + "\n" + contentTime +"\n" +contentURL;
+		HashMap<String,Object> reservationAndUserInfo = boardingDao.reservationAndUserInfo(reservationNo);
+		String rsvEmail = (String) reservationAndUserInfo.get("RSV_MEM_EM");
+		String rsvMemNm = (String) reservationAndUserInfo.get("RSV_MEM_NM");
+		String rsvTitle = (String) reservationAndUserInfo.get("RSV_TITLE");
+		Time rsvStartTime = (Time) reservationAndUserInfo.get("RSV_START_TIME");
+		Time rsvEndTime = (Time) reservationAndUserInfo.get("RSV_END_TIME");
+		Integer rsvConfNo = (Integer) reservationAndUserInfo.get("RSV_CONF_NO");
+		String rsvConfNm = commonService.confName(rsvConfNo);
 		
-		commonService.sendEmail(email, subject, content);
+		String rsvStartTimeFormat = commonService.timeToString(rsvStartTime);
+		String rsvEndTimeFormat = commonService.timeToString(rsvEndTime);
+		
+		String rsvStartTimeChange = rsvStartTimeFormat.substring(0,5);
+		String rsvEndTimeChange = rsvEndTimeFormat.substring(0,5);
+		HashMap<String,Object> dateInfo = reservationDao.firstDayAndLastDay(reservationNo);
+		Date firstDay = (Date) dateInfo.get("firstDay");
+		String firstDayString = commonService.DateToString(firstDay);
+		String firstDayOfTheWeek = commonService.dayOfTheWeek(firstDayString);
+		Date lastDay = (Date) dateInfo.get("lastDay");
+		String lastDayString = commonService.DateToString(lastDay);
+		String lastDayOfTheWeek = commonService.dayOfTheWeek(lastDayString);
+		
+		String dateInfoString;
+		if((Integer) reservationAndUserInfo.get("RSV_REPEAT_NO")==0) {
+			dateInfoString = firstDay + " (" + firstDayOfTheWeek;
+		}else {
+			dateInfoString = firstDay + " (" + firstDayOfTheWeek +") ~ " + lastDay + "(" + lastDayOfTheWeek; 
+		}
+		
+		
+		String subject = "[회의실 예약 승인] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 승인됐습니다";
+		
+		String content = 
+				"<html>\r\n" + 
+				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n" + 
+				"<head>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"</head>\r\n" + 
+				"<body>\r\n" + 
+				"\r\n" + 
+				"<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n" +
+				"   <a href=\"http://bluemixb.mybluemix.net/\">" +
+				"	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + 
+				"	<br>\r\n" + 
+				"	<hr size=\"2\" noshade>\r\n" + 
+				"	<p>안녕하세요</p> \r\n" + 
+				"	<p>"+"[회의실 예약 승인] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 승인됐습니다"+ 
+				"	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n" + 
+				"			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">"+rsvTitle+"</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + dateInfoString + ')' + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfNm + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"	</table>\r\n" + 
+				"	\r\n" + 
+				"	</div>\r\n" + 
+				"</body>\r\n" + 
+				"</html>";
+		
+		
+		commonService.sendEmail(rsvEmail, subject, content);
 		
 		return "success";
 		
@@ -130,7 +203,7 @@ public class HistoryService {
 	 * 작성자 : 고창환
 	 * 가예약 반려 기능(반려전 히스토리 인서트)
 	 */
-	public String reservationDelete(HttpServletRequest request) throws MessagingException {
+	public String reservationDelete(HttpServletRequest request) throws MessagingException, ParseException {
 		// TODO Auto-generated method stub
 		String reservationNumber=request.getParameter("reservationSeq");
 		String repeatNo=request.getParameter("repeatNo");
@@ -150,21 +223,90 @@ public class HistoryService {
 		
 		
 		/*
-		 * 가예약 및 반복예약 승인 메일
+		 * 가예약 및 반복예약 거절 메일
 		 * 작성자 : 박성준
 		 */
 		
-		Integer reservationNo = Integer.parseInt(reservationNumber);
-		List<Reservation> reservation = reservationDao.getReservationInfo(reservationNo);
+Integer reservationNo = Integer.parseInt(reservationNumber);
 		
-		String email = reservation.get(ConstantCode.ZERO).getRsvMemEm();
-		String subject = "[IBM회의실] " + reservation.get(ConstantCode.ZERO).getRsvMemNm() + "님 예약이 거절됐습니다.";
-		String contentTitle = "회의제목 : " + reservation.get(ConstantCode.ZERO).getRsvTitle();
-		String contentTime = "회의시간 : " + reservation.get(ConstantCode.ZERO).getRsvStartTime() + " : " + reservation.get(ConstantCode.ZERO).getRsvEndTime();
-		String contentURL = ConstantCode.URL;	
-		String content = contentTitle + "\n" + contentTime +"\n" +contentURL;
+		HashMap<String,Object> reservationAndUserInfo = boardingDao.reservationAndUserInfo(reservationNo);
+		String rsvEmail = (String) reservationAndUserInfo.get("RSV_MEM_EM");
+		String rsvMemNm = (String) reservationAndUserInfo.get("RSV_MEM_NM");
+		String rsvTitle = (String) reservationAndUserInfo.get("RSV_TITLE");
+		Time rsvStartTime = (Time) reservationAndUserInfo.get("RSV_START_TIME");
+		Time rsvEndTime = (Time) reservationAndUserInfo.get("RSV_END_TIME");
+		Integer rsvConfNo = (Integer) reservationAndUserInfo.get("RSV_CONF_NO");
+		String rsvConfNm = commonService.confName(rsvConfNo);
 		
-		commonService.sendEmail(email, subject, content);
+		String rsvStartTimeFormat = commonService.timeToString(rsvStartTime);
+		String rsvEndTimeFormat = commonService.timeToString(rsvEndTime);
+		
+		String rsvStartTimeChange = rsvStartTimeFormat.substring(0,5);
+		String rsvEndTimeChange = rsvEndTimeFormat.substring(0,5);
+		HashMap<String,Object> dateInfo = reservationDao.firstDayAndLastDay(reservationNo);
+		Date firstDay = (Date) dateInfo.get("firstDay");
+		String firstDayString = commonService.DateToString(firstDay);
+		String firstDayOfTheWeek = commonService.dayOfTheWeek(firstDayString);
+		Date lastDay = (Date) dateInfo.get("lastDay");
+		String lastDayString = commonService.DateToString(lastDay);
+		String lastDayOfTheWeek = commonService.dayOfTheWeek(lastDayString);
+		
+		String dateInfoString;
+		if((Integer) reservationAndUserInfo.get("RSV_REPEAT_NO")==0) {
+			dateInfoString = firstDay + " (" + firstDayOfTheWeek;
+		}else {
+			dateInfoString = firstDay + " (" + firstDayOfTheWeek +") ~ " + lastDay + "(" + lastDayOfTheWeek; 
+		}
+		
+		
+		String subject = "[회의실 예약 반려] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 반려됐습니다";
+		
+		String content = 
+				"<html>\r\n" + 
+				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n" + 
+				"<head>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"</head>\r\n" + 
+				"<body>\r\n" + 
+				"\r\n" + 
+				"<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n" +
+				"   <a href=\"http://bluemixb.mybluemix.net/\">" +
+				"	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + 
+				"	<br>\r\n" + 
+				"	<hr size=\"2\" noshade>\r\n" + 
+				"	<p>안녕하세요</p> \r\n" + 
+				"	<p>"+"[회의실 예약 반려] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 반려됐습니다"+ 
+				"	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n" + 
+				"			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">"+rsvTitle+"</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + dateInfoString + ')' + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"		\r\n" + 
+				"		<tr>\r\n" + 
+				"			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n" + 
+				"			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfNm + "</td>\r\n" + 
+				"		</tr>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"	</table>\r\n" + 
+				"	\r\n" + 
+				"	</div>\r\n" + 
+				"</body>\r\n" + 
+				"</html>";
+		
+		
+		commonService.sendEmail(rsvEmail, subject, content);
 		
 		historyDao.reservationDelete(reservationDelete);
 		historyDao.reservationDeleteAndInsert(reservationDeleteAndInsert);

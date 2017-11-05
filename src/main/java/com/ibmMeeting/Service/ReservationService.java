@@ -1,6 +1,7 @@
 package com.ibmMeeting.Service;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,8 +66,9 @@ public class ReservationService {
 	 * @param reservation
 	 * @param emailCheckValue
 	 * @throws MessagingException 
+	 * @throws ParseException 
 	 */
-	public void registReservation(Reservation reservation, String emailCheckValue) throws MessagingException{
+	public void registReservation(Reservation reservation, String emailCheckValue) throws MessagingException, ParseException{
 		
 		//객체안 값 설정
 		Date date = new Date();
@@ -81,15 +83,79 @@ public class ReservationService {
 		//만약 key값을 이용해서 사이트명을 구분한다면 바뀌어야 할 코드
 		reservation.setRsvComp(ConstantCode.COMPANY_NAME);
 		
-		String email = adminDao.getAdminEmail();
-		String subject = "[IBM회의실] " + reservation.getRsvMemNm() + "님이 가예약을 신청하셨습니다.";
-		String contentTitle = "회의제목 : " + reservation.getRsvTitle();
-		String contentTime = "회의시간 : " + reservation.getRsvStartTime() + " : " + reservation.getRsvEndTime();
-		String contentURL = ConstantCode.URL;	
-		String content = contentTitle + "\n" + contentTime +"\n" +contentURL;
+		
+		String rsvMemNm = reservation.getRsvMemNm();
+		String rsvTitle = reservation.getRsvTitle();
+		Time rsvStartTime = reservation.getRsvStartTime();
+		Time rsvEndTime = reservation.getRsvEndTime();
+		String rsvConfNm = commonService.confName(reservation.getRsvConfNo());
+		Date rsvDate = reservation.getRsvDate();
+		String rsvDateString = commonService.DateToString(rsvDate);
+		String rsvDateOfTheWeek = commonService.dayOfTheWeek(rsvDateString);
+		String rsvStartTimeChange = commonService.timeToString(rsvStartTime).substring(0,5);
+		String rsvEndTimeChange = commonService.timeToString(rsvEndTime).substring(0,5);
+		
+		
+		String email = reservation.getRsvMemEm();
+		
+		String subject;
+		String content;
 		
 		if(reservation.getRsvConfirmState()=="N"){
+			email = adminDao.getAdminEmail();
+			subject = "[가예약]" + rsvMemNm + "님의"  + rsvTitle + " 회의가 가예약 신청됐습니다. ";
+			
+			content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
+					+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
+					+ "<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n"
+					+ "   <a href=\"http://bluemixb.mybluemix.net/\">"
+					+ "	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + "	<br>\r\n"
+					+ "	<hr size=\"2\" noshade>\r\n" + "	<p>안녕하세요</p> \r\n" + "	"
+					+ "<p>" + rsvMemNm + "님의 회의실 예약이 아래와 같이 가예약 신청됐습니다."
+					+ "	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n"
+					+ "		<tr>\r\n"
+					+ "			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n"
+					+ "			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">" + rsvTitle
+					+ "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+					+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n"
+					+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvDateString + "(" + rsvDateOfTheWeek + ")"  + "</td>\r\n" + "		</tr>\r\n"
+					+ "		\r\n" + "		<tr>\r\n"
+					+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n"
+					+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+					+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n"
+					+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfNm
+					+ "</td>\r\n" + "		</tr>\r\n" + "\r\n" + "\r\n" + "	</table>\r\n" + "	\r\n" + "	</div>\r\n"
+					+ "</body>\r\n" + "</html>";
 			commonService.sendEmail(email, subject, content);
+		}
+		else {
+			
+			subject = "[예약완료] " + rsvMemNm + "님의 " + rsvTitle + " 회의가 예약되었습니다. ";
+
+			content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
+					+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
+					+ "<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n"
+					+ "   <a href=\"http://bluemixb.mybluemix.net/\">"
+					+ "	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + "	<br>\r\n"
+					+ "	<hr size=\"2\" noshade>\r\n" + "	<p>안녕하세요</p> \r\n" + "	"
+					+ "<p>" + rsvMemNm + "님의 회의실 예약이 아래와 같이 완료되었습니다."
+					+ "	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n"
+					+ "		<tr>\r\n"
+					+ "			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n"
+					+ "			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">" + rsvTitle
+					+ "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+					+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n"
+					+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvDateString + "(" + rsvDateOfTheWeek + ")"  + "</td>\r\n" + "		</tr>\r\n"
+					+ "		\r\n" + "		<tr>\r\n"
+					+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n"
+					+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+					+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n"
+					+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfNm
+					+ "</td>\r\n" + "		</tr>\r\n" + "\r\n" + "\r\n" + "	</table>\r\n" + "	\r\n" + "	</div>\r\n"
+					+ "</body>\r\n" + "</html>";
+			
+			commonService.sendEmail(email, subject, content);
+			
 		}
 		
 		//insert
@@ -100,7 +166,7 @@ public class ReservationService {
 	/**
 	 * 작성자 : 박세연
 	 * 비밀번호 확인을 위해 등록된 각 예약NO의 비밀번호 가져오기
-	 * @param rsvNo
+	 * @param rsvNo	
 	 * @return
 	 */
 	public String getPwd(int rsvNo){
@@ -333,13 +399,29 @@ public class ReservationService {
 		String reservationTitle = reservationInfo.get(ConstantCode.ZERO).getRsvTitle();
 		String reservationPw = reservationInfo.get(ConstantCode.ZERO).getRsvDelPwd();
 		
-		String subject = "[IBM 회의실] " + memberName+ "님 비밀번호 확인부탁드립니다";
-		String contentTitle = "회의 :" + reservationTitle;
-		String contentMain = "비밀번호 : " + reservationPw;
-		String contentURL = ConstantCode.URL;
-		String contentTotal = contentTitle+"\n"+ contentMain+"\n"+ contentURL;
 		
-		commonService.sendEmail(rsvMemberEmail, subject, contentTotal);
+		
+		String subject = "[가예약]" + memberName + "님의"  + reservationTitle + " 회의 비밀번호를 확인해주세요 ";
+		
+		String content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
+				+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
+				+ "<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n"
+				+ "   <a href=\"http://bluemixb.mybluemix.net/\">"
+				+ "	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + "	<br>\r\n"
+				+ "	<hr size=\"2\" noshade>\r\n" + "	<p>안녕하세요</p> \r\n" + "	"
+				+ "<p>" + memberName + "님의 비밀번호는 다음과 같습니다."
+				+ "	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n"
+				+ "		<tr>\r\n"
+				+ "			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n"
+				+ "			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">" + reservationTitle
+				+ "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+				+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">비밀번호 </td>\r\n"
+				+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + reservationPw + "</td>\r\n" + "		</tr>\r\n"
+				+ "		\r\n" + "		<tr>\r\n"
+				+ "</body>\r\n" + "</html>";
+		
+		commonService.sendEmail(rsvMemberEmail, subject, content);
+		
 		
 	}
 	

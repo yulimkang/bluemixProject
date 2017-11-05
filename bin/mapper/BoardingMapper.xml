@@ -158,7 +158,12 @@
 		SET MEM_STATE = #{MEM_STATE}, COUNT_WARN=#{COUNT_WARN}, MEM_BANDAY=#{MEM_BANDAY}
 		WHERE MEM_PN = #{MEM_PN}
 	</update>
-
+	
+	<select id="reservationAndUserInfo" parameterType="Integer" resultType="HashMap">
+		select *
+		FROM RESERVATION,MEMBER
+		where RESERVATION.rsv_no = #{rsvNo} and RESERVATION.RSV_MEM_PN = MEMBER.MEM_PN;
+	</select>
 
 
 

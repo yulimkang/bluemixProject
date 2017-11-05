@@ -230,5 +230,82 @@
 			ORDER BY R.RSV_REPEAT_NO ASC, R.RSV_DATE ASC
 	]]>
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="firstDayAndLastDay" parameterType = "Integer" resultType="HashMap">
+		select min(rsv_date) as firstDay, max(rsv_date) as lastDay
+		FROM RESERVATION
+		where rsv_repeat_no = (select rsv_repeat_no
+								from reservation
+								where rsv_no=#{rsvNo})
+	
+	</select>
+	
+	
 
 </mapper>

@@ -1,64 +1,51 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-<TITLE>New Document</TITLE>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
 
-</HEAD>
 
-<BODY id="foo">
+</head>
+<body>
 
- ${date.nowDate}
+<div class="container" style="display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;">
+	<a href="http://bluemixb.mybluemix.net/">
+		<img src="https://i.imgur.com/rOpAzMk.png">
+	</a>
+	<br>
+	<hr size="2" noshade>
+	<p>안녕하세요</p> 
+	<p>홍길동님의 회의실 예약이 아래와 같이 완료되었습니다.</p>
+	<table style="text-align: center;border: 1px solid black;border-collapse: collapse;">
+		<tr>
+			<td style="width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;">회의 제목 </td>
+			<td style="width: 400px;border: 1px solid black;border-collapse: collapse;">제목입니당</td>
+		</tr>
+		
+		<tr>
+			<td style="font-weight: bold;border: 1px solid black;border-collapse: collapse;">회의 일자 </td>
+			<td style="border: 1px solid black;border-collapse: collapse;">2017-11-02 목</td>
+		</tr>
+		
+		<tr>
+			<td style="font-weight: bold;border: 1px solid black;border-collapse: collapse;">회의 시간 </td>
+			<td style="border: 1px solid black;border-collapse: collapse;">오후 04:30 - 오후 05:30 </td>
+		</tr>
+		
+		<tr>
+			<td style="font-weight: bold;border: 1px solid black;border-collapse: collapse;">회의 장소 </td>
+			<td style="border: 1px solid black;border-collapse: collapse;">에스프레소</td>
+		</tr>
 
-  ${date.nowTime}
-  
-  
- <div class="jumbotron">
-  <table>
-<h1>hi</h1>
-  </table>
-</div>
-  
 
-</BODY>
-</HTML>
-
-<script>
-
-var spinner = null;
-function startSpinner() {
-    var opts = {
-        lines: 12, // The number of lines to draw
-        length: 10, // The length of each line
-        width: 4, // The line thickness
-        radius: 10, // The radius of the inner circle
-        color: '#000', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false// Whether to render a shadow
-    };
- 
-    var target = document.getElementById('foo');
-    if (spinner == null) {
-        spinner = new Spinner(opts).spin(target);
-    }
-}
- 
-function stopSpinner() {
-    if (spinner != null) {
-        spinner.stop();
-        spinner = null;
-    }
-}
-</script>
+	</table>
+	
+	</div>
+</body>
+</html>
 
 
 

@@ -1,6 +1,10 @@
 package com.ibmMeeting.Service;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.mail.MessagingException;
@@ -12,11 +16,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import com.ibmMeeting.Constant.ConstantCode;
+import com.ibmMeeting.Dao.MeetingRoomDao;
 import com.ibmMeeting.Dao.ReservationDao;
 
 @Service
@@ -24,6 +27,9 @@ public class CommonService {
 	
 	@Autowired
 	ReservationDao reservationDao;
+	
+	@Autowired
+	MeetingRoomDao meetingRoomDao;
 	
 	@Autowired
 	public JavaMailSender emailSender;
@@ -79,6 +85,63 @@ public class CommonService {
 		  message.setText(content, "utf-8", "html");
 		   
 		  emailSender.send(message);
+	}
+	
+	public String dayOfTheWeek(String date) throws ParseException {
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date rsvDateTypeChange = transFormat.parse(date);
+		Calendar rsvDateCal = Calendar.getInstance();
+		rsvDateCal.setTime(rsvDateTypeChange);
+		
+		String dayOfTheWeek = null;
+		
+		switch(rsvDateCal.get(Calendar.DAY_OF_WEEK)) {
+		case 1:
+			dayOfTheWeek = "일";
+			break;
+		case 2:
+			dayOfTheWeek = "월";
+		case 3:
+			dayOfTheWeek = "화";
+			break;
+		case 4:
+			dayOfTheWeek = "수";
+			break;
+		case 5:
+			dayOfTheWeek = "목";
+		case 6:
+			dayOfTheWeek = "금";
+		case 7:
+			dayOfTheWeek = "토";
+		}
+		
+		return dayOfTheWeek;
+	}
+	
+	public String timeToString(Time time) throws ParseException {
+		
+		DateFormat df = new SimpleDateFormat("HH:mm");
+
+		Date today = time;        
+		String reportDate = df.format(today);
+
+		
+		return reportDate;
+	}
+	
+	public String DateToString(Date date) {
+		Date from = new Date();
+
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = transFormat.format(from);
+		
+		return dateString;
+
+	}
+	
+	public String confName(int confNo) {
+		
+		return meetingRoomDao.meetingRoomName(confNo);
 	}
 
 
