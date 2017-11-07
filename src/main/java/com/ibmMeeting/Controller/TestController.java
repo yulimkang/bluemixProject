@@ -51,6 +51,7 @@ public class TestController {
 
 		
 		test.setViewName("test");
+		System.out.println("123123213");
 		
 		
 		//셋팅값에서 이메일 값 가져옴
