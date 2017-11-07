@@ -12,75 +12,133 @@ import com.ibmMeeting.Dao.ReservationDao;
 
 @Service
 public class ExcelInputService {
-	
+
 	@Autowired
 	HistoryDao historyDao;
-	
+
 	@Autowired
 	ReservationDao reservationDao;
-	
-	public HashMap<String,Object> excelInput(){
-		
-		ArrayList<HashMap<String, Object>> historyResult = historyDao.selectAllHistoryByDate("2017-11-07");
-		ArrayList<HashMap<String, Object>> ReservationResult = reservationDao.selectAllReservationByDate("2017-11-07");
-		
-		HashMap<String,Object> model = new HashMap<String,Object>();
-		List<String> headers = new ArrayList<String>();
-		
-		List<List<String>> results = new ArrayList<List<String>>();
-		
-		model.put("sheetname", "hello");
-		
-		headers.add("HistoryNo");
-		headers.add("회의제목");
-		headers.add("회의날짜");
-		headers.add("회의시작시간");
-		headers.add("회의종료시간");
-		headers.add("총회의시간");
-		headers.add("회의실");
-		headers.add("예약자 이름");
-		headers.add("예약자 핸드폰 번호");
-		headers.add("예약자 이메일");
-		headers.add("예약 비밀번호");
-		headers.add("회의 등록/수정일");
-		headers.add("예약상태");
-		headers.add("반복예약기간");
-		headers.add("반복주기설정");
-		headers.add("반복Seq");
-		
-		model.put("headers", headers);
-		
-		System.out.println(historyResult.size());
-		
-		for(int i=0; i<historyResult.size(); i++){
-			
+
+	public HashMap<String, Object> historyExcelInput() {
+
+		ArrayList<HashMap<String, Object>> reservationList = reservationDao
+				.selectAllReservationByDate("2017-11-07");
+		ArrayList<HashMap<String, Object>> historyList = historyDao
+				.selectAllHistoryByDate("2017-11-07");
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		List<String> rsvHeaders = new ArrayList<String>();
+
+		List<List<String>> rsvResults = new ArrayList<List<String>>();
+
+		model.put("rsvSheetName", "예약내역");
+
+		System.out.println(model.get("rsvSheetName") + "11111111111111");
+
+		rsvHeaders.add("HistoryNo");
+		rsvHeaders.add("회의제목");
+		rsvHeaders.add("회의날짜");
+		rsvHeaders.add("회의시작시간");
+		rsvHeaders.add("회의종료시간");
+		rsvHeaders.add("총회의시간");
+		rsvHeaders.add("회의실");
+		rsvHeaders.add("예약자 이름");
+		rsvHeaders.add("예약자 핸드폰 번호");
+		rsvHeaders.add("예약자 이메일");
+		rsvHeaders.add("예약 비밀번호");
+		rsvHeaders.add("회의 등록/수정일");
+		rsvHeaders.add("예약상태");
+		rsvHeaders.add("반복예약기간");
+		rsvHeaders.add("반복주기설정");
+		rsvHeaders.add("반복Seq");
+
+		model.put("rsvHeaders", rsvHeaders);
+
+		System.out.println(reservationList.size());
+
+		for (int i = 0; i < reservationList.size(); i++) {
+
 			List<String> cell = new ArrayList<String>();
-			
-			cell.add(historyResult.get(i).get("HST_NO").toString());
-			cell.add(historyResult.get(i).get("HST_RSV_TITLE").toString());
-			cell.add(historyResult.get(i).get("HST_DATE").toString());
-			cell.add(historyResult.get(i).get("HST_START_TIME").toString().substring(0, 5));
-			cell.add(historyResult.get(i).get("HST_END_TIME").toString().substring(0, 5));
-			cell.add(historyResult.get(i).get("HST_TOTAL_TIME").toString().substring(0, 5));
-			cell.add(historyResult.get(i).get("CONF_NM").toString());
-			cell.add(historyResult.get(i).get("HST_RSV_MEM_NM").toString());
-			cell.add(historyResult.get(i).get("HST_RSV_MEM_PN").toString());
-			cell.add(historyResult.get(i).get("HST_RSV_MEM_EM").toString());
-			cell.add(historyResult.get(i).get("HST_DEL_PWD").toString());
-			cell.add(historyResult.get(i).get("HST_REG_DATE").toString());
-			cell.add(historyResult.get(i).get("HST_RSV_STATE").toString());
-			cell.add(historyResult.get(i).get("HST_REPEAT_PERIOD").toString());
-			cell.add(historyResult.get(i).get("HST_SETTING").toString());
-			cell.add(historyResult.get(i).get("HST_REPEAT_NO").toString());
-			results.add(cell);
+
+			cell.add(reservationList.get(i).get("RSV_NO").toString());
+			cell.add(reservationList.get(i).get("RSV_TITLE").toString());
+			cell.add(reservationList.get(i).get("RSV_DATE").toString());
+			cell.add(reservationList.get(i).get("RSV_START_TIME").toString()
+					.substring(0, 5));
+			cell.add(reservationList.get(i).get("RSV_END_TIME").toString()
+					.substring(0, 5));
+			cell.add(reservationList.get(i).get("RSV_TOTAL_TIME").toString()
+					.substring(0, 5));
+			cell.add(reservationList.get(i).get("CONF_NM").toString());
+			cell.add(reservationList.get(i).get("RSV_MEM_NM").toString());
+			cell.add(reservationList.get(i).get("RSV_MEM_PN").toString());
+			cell.add(reservationList.get(i).get("RSV_MEM_EM").toString());
+			cell.add(reservationList.get(i).get("RSV_DEL_PWD").toString());
+			cell.add(reservationList.get(i).get("RSV_REG_DATE").toString());
+			cell.add(reservationList.get(i).get("RSV_CONFIRM_STATE").toString());
+			cell.add(reservationList.get(i).get("RSV_EMAIL_CHECK").toString());
+			cell.add(reservationList.get(i).get("RSV_REPEAT_PERIOD").toString());
+			cell.add(reservationList.get(i).get("RSV_SETTING").toString());
+			cell.add(reservationList.get(i).get("RSV_REPEAT_NO").toString());
+
+			rsvResults.add(cell);
 		}
-		
-		System.out.println(results);
-		
-		model.put("results",results);
-		
+
+		model.put("rsvResults", rsvResults);
+
+		List<String> hstHeaders = new ArrayList<String>();
+		List<List<String>> hstResults = new ArrayList<List<String>>();
+
+		model.put("hstSheetname", "예약기록");
+
+		hstHeaders.add("HistoryNo");
+		hstHeaders.add("회의제목");
+		hstHeaders.add("회의날짜");
+		hstHeaders.add("회의시작시간");
+		hstHeaders.add("회의종료시간");
+		hstHeaders.add("총회의시간");
+		hstHeaders.add("회의실");
+		hstHeaders.add("예약자 이름");
+		hstHeaders.add("예약자 핸드폰 번호");
+		hstHeaders.add("예약자 이메일");
+		hstHeaders.add("예약 비밀번호");
+		hstHeaders.add("회의 등록/수정일");
+		hstHeaders.add("예약상태");
+		hstHeaders.add("반복예약기간");
+		hstHeaders.add("반복주기설정");
+		hstHeaders.add("반복Seq");
+
+		model.put("hstHeaders", hstHeaders);
+
+		for (int i = 0; i < historyList.size(); i++) {
+
+			List<String> cell = new ArrayList<String>();
+
+			cell.add(historyList.get(i).get("HST_NO").toString());
+			cell.add(historyList.get(i).get("HST_RSV_TITLE").toString());
+			cell.add(historyList.get(i).get("HST_DATE").toString());
+			cell.add(historyList.get(i).get("HST_START_TIME").toString()
+					.substring(0, 5));
+			cell.add(historyList.get(i).get("HST_END_TIME").toString()
+					.substring(0, 5));
+			cell.add(historyList.get(i).get("HST_TOTAL_TIME").toString()
+					.substring(0, 5));
+			cell.add(historyList.get(i).get("CONF_NM").toString());
+			cell.add(historyList.get(i).get("HST_RSV_MEM_NM").toString());
+			cell.add(historyList.get(i).get("HST_RSV_MEM_PN").toString());
+			cell.add(historyList.get(i).get("HST_RSV_MEM_EM").toString());
+			cell.add(historyList.get(i).get("HST_DEL_PWD").toString());
+			cell.add(historyList.get(i).get("HST_REG_DATE").toString());
+			cell.add(historyList.get(i).get("HST_RSV_STATE").toString());
+			cell.add(historyList.get(i).get("HST_REPEAT_PERIOD").toString());
+			cell.add(historyList.get(i).get("HST_SETTING").toString());
+			cell.add(historyList.get(i).get("HST_REPEAT_NO").toString());
+
+			hstResults.add(cell);
+		}
+		model.put("hstResults", hstResults);
+
 		return model;
-		
+
 	}
 
 }

@@ -65,5 +65,47 @@ public class MyExcelView extends AbstractExcelView
             }
             currentRow++;
         }
+        
+        
+        String hstSheetName = (String)model.get("hstSheetName");
+        System.out.println(hstSheetName);
+        List<String> hstHeaders = (List<String>)model.get("rsvHeaders");
+        List<List<String>> hstResults = (List<List<String>>)model.get("rsvResults");
+        List<String> hstNumericColumns = new ArrayList<String>();
+        if (model.containsKey("numericcolumns"))
+        	hstNumericColumns = (List<String>)model.get("numericcolumns");
+        //BUILD DOC
+        HSSFSheet hstSheet = workbook.createSheet(hstSheetName);
+        hstSheet.setDefaultColumnWidth((short) 12);
+        int hstCurrentRow = 0;
+        short hstCurrentColumn = 0;
+        //CREATE STYLE FOR HEADER
+        HSSFCellStyle hstHeaderStyle = workbook.createCellStyle();
+        HSSFFont hstHeaderFont = workbook.createFont();
+        hstHeaderStyle.setFont(hstHeaderFont); 
+        //POPULATE HEADER COLUMNS
+        HSSFRow hstHeaderRow = hstSheet.createRow(hstCurrentRow);
+        for(String header:hstHeaders){
+            HSSFRichTextString text = new HSSFRichTextString(header);
+            HSSFCell cell = hstHeaderRow.createCell(hstCurrentColumn); 
+            cell.setCellStyle(hstHeaderStyle);
+            cell.setCellValue(text);
+            System.out.println(text);
+            hstCurrentColumn++;
+        }
+        //POPULATE VALUE ROWS/COLUMNS
+        hstCurrentColumn++;//exclude header
+        for(List<String> result: hstResults){
+        	System.out.println(hstCurrentColumn);
+        	hstCurrentColumn = 0;
+            HSSFRow row = hstSheetName.createRow(hstCurrentColumn);
+            for(String value : result){//used to count number of columns
+                HSSFCell cell = row.createCell(hstCurrentColumn);
+                    HSSFRichTextString text = new HSSFRichTextString(value);                
+                    cell.setCellValue(text);                    
+                    hstCurrentColumn++;
+            }
+            currentRow++;
+        } 
     }
 }

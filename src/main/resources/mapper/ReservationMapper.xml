@@ -301,7 +301,7 @@
 		select min(rsv_date) as firstDay, max(rsv_date) as lastDay
 		FROM RESERVATION
 		where rsv_repeat_no = (select rsv_repeat_no
-								from reservation
+								from RESERVATION
 								where rsv_no=#{rsvNo})
 	
 	</select>
