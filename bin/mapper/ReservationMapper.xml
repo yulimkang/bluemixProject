@@ -231,9 +231,13 @@
 	]]>
 	</select>
 	
-	
-	
-	
+	<!-- 작성자 : 박세연 -->
+	<!-- 예약내역의 예약제목 가져오기 -->
+	<select id="getRsvedTitle" parameterType="int" resultType="string">
+		SELECT rsv_title
+		FROM RESERVATION
+		WHERE rsv_no = #{rsvNo}	
+	</select>
 	
 	
 	

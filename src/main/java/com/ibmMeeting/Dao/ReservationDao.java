@@ -44,6 +44,7 @@ public interface ReservationDao {
 	
 	List<Reservation> showInfoByTooltip(int rsvNo);
 	
+	String getRsvedTitle(int rsvNo);
 	
 	/* 
 	 * 작성자 : 박성준

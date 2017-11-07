@@ -50,14 +50,15 @@
 	<br>
 		<div class="container">
 		<div>
-		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
-		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
 		
+		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
 		<!--  	어떻게 input box 안에 넣지?-->
-	<!-- 
+	 
 	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
 	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	 -->	 	
+	 	 	
+		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
+		
 			
 		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
 		</div>
@@ -998,6 +999,25 @@ function autoRefresh_div(){
    $('#calendar').fullCalendar('refetchEvents');
 }
 
+function getRsvedTitle(rsvNo){
+	
+	$.ajax({
+		url:"/Reservation/GetRsvedTitle",
+		type:"post",
+		dataType:"text",
+		data : { "rsvNo":rsvNo },
+		async:false,
+		success:function(title){		
+			$("#rsvTitle").val(title);
+		},
+		error:function(request,status,error){
+			alert("Get Reservation Title Error");
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+	
+}
+
 			
 $(document).ready(function(){
 	
@@ -1681,6 +1701,16 @@ $(document).ready(function(){
 	    		}
 	    	}
 	    
+	    	getRsvedTitle(event.id);
+	    	/////////////////////////////////////////////////////////////////////////
+	    	//rsvTitle, rsvMemPn, rsvDate, rsvTotalTime 값얻어야 한다.
+	    	alert($("#rsvTitle").val()); // 얘만 없음
+	    	alert($("#rsvMemPn").val());
+	    	alert($("#rsvDate").val());
+	    	alert($("#rsvTotalTime").val());
+	    	
+	    	
+	    	
 	    	preventMonopoly();
 	    	var count = $("#monopolyCount").val();
 
