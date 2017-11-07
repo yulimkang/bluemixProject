@@ -195,9 +195,10 @@ public class ExcelXlsxView extends AbstractXlsxView {
 		Date date = new Date();
 		String storeDate = dateformat.format(date);
 		
-		response.setHeader("Content-Disposition", "attachment; filename=C:/("+storeDate+")"+deleteDate+"이전기록.xlsx");
+		response.setContentType("Application/Msexcel");
+		response.setHeader("Content-Disposition", "attachment; filename=abcd-excel.xls");
 
-		String filePathAndName = "../("+storeDate+")"+deleteDate+"before.xlsx";
+		String filePathAndName = "C:/("+storeDate+")"+deleteDate+"이전기록.xlsx";
 		
 		FileOutputStream fileout = new FileOutputStream(filePathAndName);
 		workbook.write(fileout);
