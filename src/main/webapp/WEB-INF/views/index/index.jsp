@@ -52,15 +52,15 @@
 		<div>
 		
 		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
-		<!--  	어떻게 input box 안에 넣지?-->
-	 
-	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	 	 	
 		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
 		
 			
 		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
+		<!--  	어떻게 input box 안에 넣지?-->
+	 
+	    	<!-- 	<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+	 	 	 -->
 		</div>
 			
 			<div id="calendar"></div><br>
