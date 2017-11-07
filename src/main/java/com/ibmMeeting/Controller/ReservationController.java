@@ -217,10 +217,9 @@ public class ReservationController {
 	@ResponseBody
 	public String preventMonopoly(@RequestParam String rsvTitle, @RequestParam String rsvMemPn, @RequestParam String rsvDate, @RequestParam String rsvTotalTime){
 	
-		int count = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime);
-		String cnt = Integer.toString(count);
+		String over = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime);
 		
-		return cnt;
+		return over;
 	}
 	
 	/**
@@ -410,6 +409,21 @@ public class ReservationController {
 		List<Reservation> list = reservationService.showInfoByTooltip(rsvNo);
 		
 		return list;
+	}
+	
+	/**
+	 * 작성자 : 박세연
+	 * 등록된 예약의 제목 가져오기
+	 * @param rsvNo
+	 * @return
+	 */
+	@RequestMapping("/GetRsvedTitle")
+	@ResponseBody
+	public String getRsvedTitle(@RequestParam int rsvNo){
+		
+		String title = reservationService.getRsvedTitle(rsvNo);
+		
+		return title;
 	}
 	
 }

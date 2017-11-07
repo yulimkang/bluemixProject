@@ -50,18 +50,17 @@
 	<br>
 		<div class="container">
 		<div>
+		
 		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
 		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
-		<div class="col-xs-1">
-		<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	    		</div>
-		<!--  	어떻게 input box 안에 넣지?
-	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-		 -->	
+		
 			
 		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
+		<!--  	어떻게 input box 안에 넣지?-->
+	 
+	    	<!-- 	<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+	 	 	 -->
 		</div>
 			
 			<div id="calendar"></div><br>
@@ -388,7 +387,7 @@ function calTotalTime(){
 		if(duration.substr(0,2) != "00"){
  	 		min = "30"
  	 	}
-		duration = "00:"+min+":00";
+		duration = "0:"+min+":00";
 		
 	}else if(duration.length == 5){
  		if(duration.substr(1,2) != "00"){
@@ -547,9 +546,9 @@ function checkForm(){
 	preventMonopoly();
 	var count = $("#monopolyCount").val();
 
-	//이 값이 3이상이면 가예약상태
-	if(count >= 2){
-		if(!confirm("이번주에 "+maxTime+"시간 이상 예약을 3번이상 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
+	//이 값이 "T"이면 가예약상태
+	if(count == "T"){
+		if(!confirm("이번주에 "+maxTime*3+"시간 이상 예약을 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
 			submit = "N";
 			$('#calendar').fullCalendar('refetchEvents');
 			return false;
@@ -998,6 +997,25 @@ function getRsvConfirmStateVal(rsvNo){
 
 function autoRefresh_div(){
    $('#calendar').fullCalendar('refetchEvents');
+}
+
+function getRsvedTitle(rsvNo){
+	
+	$.ajax({
+		url:"/Reservation/GetRsvedTitle",
+		type:"post",
+		dataType:"text",
+		data : { "rsvNo":rsvNo },
+		async:false,
+		success:function(title){		
+			$("#rsvTitle").val(title);
+		},
+		error:function(request,status,error){
+			alert("Get Reservation Title Error");
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+	
 }
 
 			
@@ -1682,13 +1700,23 @@ $(document).ready(function(){
 	    			$("#rsvConfirmState").val("N");
 	    		}
 	    	}
-	     
+	    
+	    	getRsvedTitle(event.id);
+	    	/////////////////////////////////////////////////////////////////////////
+	    	//rsvTitle, rsvMemPn, rsvDate, rsvTotalTime 값얻어야 한다.
+	    	alert($("#rsvTitle").val()); // 얘만 없음
+	    	alert($("#rsvMemPn").val());
+	    	alert($("#rsvDate").val());
+	    	alert($("#rsvTotalTime").val());
+	    	
+	    	
+	    	
 	    	preventMonopoly();
 	    	var count = $("#monopolyCount").val();
-	    	
-	    	//이 값이 3이상이면 가예약상태
-	    	if(count >= 2){
-	    		if(!confirm("이번주에 "+maxTime+"시간 이상 예약을 3번이상 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
+
+	    	//이 값이 "T"이면 가예약상태
+	    	if(count == "T"){
+	    		if(!confirm("이번주에 "+maxTime*3+"시간 이상 예약을 진행 중이셔서 가예약됩니다. 진행하시겠습니까?")){
 	    			$('#calendar').fullCalendar('refetchEvents');
 	    			return false;
 	    		}else{

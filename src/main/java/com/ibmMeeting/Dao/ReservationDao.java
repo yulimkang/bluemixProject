@@ -29,7 +29,8 @@ public interface ReservationDao {
 	
 	void modifyRsvByDrop(HashMap<String, Object> map);
 	
-	int preventMonopoly(HashMap<String, Object> map);
+	//int preventMonopoly(HashMap<String, Object> map);
+	List<Reservation> preventMonopoly(HashMap<String, Object> map);
 	
 	List<Reservation> controlStartTime(HashMap<String, Object> map);
 
@@ -43,6 +44,7 @@ public interface ReservationDao {
 	
 	List<Reservation> showInfoByTooltip(int rsvNo);
 	
+	String getRsvedTitle(int rsvNo);
 	
 	/* 
 	 * 작성자 : 박성준
