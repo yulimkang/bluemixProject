@@ -52,7 +52,10 @@
 		<div>
 		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
 		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
-		
+		<div class="col-xs-1">
+		<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+	    		</div>
 		<!--  	어떻게 input box 안에 넣지?
 	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
 	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
@@ -1896,11 +1899,11 @@ $(document).ready(function(){
 
 </script>
 <style>
-
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 	body {	
 		margin: 0;
 		padding: 0;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-family: 'Jeju Gothic', serif;
 		font-size: 15px;
 	}
 

@@ -246,6 +246,7 @@ hr.fc-divider {
 	text-align: center;
 	border-style: solid;
 	border-width: 1px;
+	border:none;
 	padding: 0;
 	height:2.0em;
 	background-color:none;
