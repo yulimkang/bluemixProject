@@ -211,9 +211,63 @@ public class SearchController {
 	}
 	
 	
+	//사용자 간편검색 페이지
+//		@RequestMapping("/EasySearch")
+//		public String generalEasySearchPage(HttpServletRequest request, 
+//				@RequestParam(value="page", defaultValue="1") int page, 
+//				@RequestParam(value="easyInputSearchCont", defaultValue="") String easyInputSearchCont, 
+//				@RequestParam(value="easySelectSearchOpt", defaultValue="all") String easySelectSearchOpt,
+//				ModelMap map ) {
+//			
+//				int searchpage = page;
+//				String selectOpt = easySelectSearchOpt;
+//				String searchCont = easyInputSearchCont;
+//				
+//				HashMap<String, Object> pagebeanMap = searchService.easySearchResult(request, searchCont, selectOpt , searchpage);
+//				
+//				System.out.println("Controller Check LIst Easy Search : " + pagebeanMap);
+//				
+//				map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
+//				map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
+//				map.addAttribute("easyInputSearchCont", searchCont);
+//				map.addAttribute("easySelectSearchOpt", selectOpt);
+//				
+//				
+//				map.addAttribute("easySelectSearchOptBack", selectOpt);
+//				map.addAttribute("easyInputSearchContBack", searchCont);
+//			
+//			return "/headerAndFooter/header";
+//			
+//		}
 	
-	
-	
-	
+		@ResponseBody
+		@RequestMapping(value="/EasySearch")
+		public ArrayList<HashMap<String,Object>> generalEasySearchPage(HttpServletRequest request) {
+			
+				String selectOpt = request.getParameter("easySelectSearchOpt");
+				String searchCont = request.getParameter("easyInputSearchCont");
+				
+//				HashMap<String, Object> pagebeanMap = searchService.easySearchResult(request, searchCont, selectOpt);
+//				
+//				System.out.println("Controller Check LIst Easy Search : " + pagebeanMap);
+//				
+//				map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
+//				map.addAttribute("easyInputSearchCont", searchCont);
+//				map.addAttribute("easySelectSearchOpt", selectOpt);
+//				
+//				
+//				map.addAttribute("easySelectSearchOptBack", selectOpt);
+//				map.addAttribute("easyInputSearchContBack", searchCont);
+			
+			return searchService.easySearchResult(request, searchCont, selectOpt);
+			
+		}
+		
+//		@RequestMapping("/Test")
+//		public String testLink() {
+//			return "/search/easy_search";
+//		}
+//	
+
 
 }

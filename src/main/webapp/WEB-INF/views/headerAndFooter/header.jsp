@@ -15,9 +15,85 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" onclick="main()" style="cursor:pointer"><strong>IBM 회의실 예약 시스템</strong></a>
+      <a class="navbar-brand" onclick="main()" style="cursor:pointer;"><strong>IBM 회의실 예약 시스템</strong></a>
     </div>
+
     <div class="collapse navbar-collapse" id="myNavbar">
+    
+    <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
+    	<div id="navSearch">
+	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:50%; margin-top:1%; margin-bottom:1%;margin-left:8%;">
+	    		<div class="col-xs-2" style="padding:0px;">
+		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
+							<option value="e_all">전체</option>
+							<option value="e_title">회의제목</option>
+							<option value="e_mem_nm">예약자</option>
+							<option value="e_mem_pn">전화번호</option>
+					</select>
+				</div>
+				
+				<div class="col-xs-8" style="padding:0px;">
+		    		<input type="text" name="easyInputSearchCont" id="easyInputSearchCont" placeholder="간편검색" class="form-control" style="height:5%;font-size:80%;padding:0px">
+		    	</div>
+		    	
+		    	<div class="col-xs-2" style="padding:0px;">
+					<c:choose>
+					
+			    		<c:when test="${sessionScope.id ne null}">
+			      			<button type="button" data-toggle="modal" data-target="#easySearchResult" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+		    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+			      		</c:when>
+			      		
+			      		<c:otherwise>
+			      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+		    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+			      		</c:otherwise>
+			      		
+		      		</c:choose>
+		      	</div>
+		      	
+	    	</form>
+    	</div>
+    	
+    	
+    	<!--  간편검색 모달 -->
+    	<div class="modal fade" id="easySearchResult" >
+	    	<div class="modal-dialog" style="width:80%;background-color:white;'">
+	    		<div class="modal-content">
+	    		
+	    			<div class="modal-header">
+						<h4 class="modal-title">간편검색 상세내역</h4>
+					</div>
+					
+					<div class="modal-body" id="result">
+<!-- 						<div class="table-responsive"> -->
+<!-- 							<table id="easySearchTable" class="table table-hover text-center" style="text-align:left;text-size:90%"> -->
+							
+<!-- 								<thead> -->
+<!-- 									<tr> -->
+<!-- 										<th width="15%" style="text-align:left;">회의날짜</th> -->
+<!-- 										<th width="12%" style="text-align:left;">회의시간</th> -->
+<!-- 										<th width="15%" style="text-align:left;">회의실</th> -->
+<!-- 										<th width="25%" style="text-align:left;">회의제목</th>		 -->
+<!-- 										<th width="10%" style="text-align:left;">예약자</th> -->
+<!-- 										<th width="13%" style="text-align:left;">전화번호</th> -->
+<!-- 										<th width="10%" style="text-align:left;">반복예약</th> -->
+<!-- 									</tr> -->
+<!-- 								</thead> -->
+<!-- 								<tbody> -->
+							
+<!-- 									<tr> -->
+<!-- 									</tr> -->
+	
+<!-- 								</tbody> -->
+<!-- 							</table> -->
+<!-- 					 </div> -->
+				</div> 
+	    		</div>
+	    	</div>
+    	</div>
+    	<!-- 여기까지 간편검색 -->
+
         <ul class="nav navbar-nav navbar-right">
         <li><a onClick="repeatReservation()" style="cursor:pointer"><strong>반복예약신청</strong></a></li>
         <c:choose>

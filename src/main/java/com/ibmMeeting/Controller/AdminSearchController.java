@@ -165,5 +165,35 @@ public class AdminSearchController {
 	
 	
 	
+	@RequestMapping("/AdminEasySearch")
+	public String adminEasySearchPage(HttpServletRequest request, 
+			@RequestParam(value="page", defaultValue="1") int page, 
+			@RequestParam(value="easyInputSearchCont", defaultValue="") String inputSearchCont, 
+			@RequestParam(value="easySelectSearchOpt", defaultValue="all") String selectSearchOpt,
+			ModelMap map ) {
+		
+//		int searchpage = page;
+//		String selectOpt = selectSearchOpt;
+//		String searchCont = inputSearchCont;
+//		
+//		HashMap<String, Object> pagebeanMap = searchService.searchResult(request, searchCont, selectOpt , searchpage);
+//		
+//		
+//		map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
+//		map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
+//		map.addAttribute("inputSearchCont", searchCont);
+//		map.addAttribute("selectSearchOpt", selectOpt);
+//		
+//		
+//		map.addAttribute("selectSearchOptBack", selectOpt);
+//		map.addAttribute("inputSearchContBack", searchCont);
+//		
+//		System.out.println("Admin Controller 일반예약내역 결과 : " + pagebeanMap);
+		
+		
+		return "/admin/admin_search_general";
+	}
+	
+	
 	
 }

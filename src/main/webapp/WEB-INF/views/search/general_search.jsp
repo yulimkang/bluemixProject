@@ -73,7 +73,7 @@
 		
 		<br><br><br><br><br>
 		<div id="searchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
-			<table class="table table-hover text-center" style="text-align:left;">
+			<table class="table table-hover text-center" style="text-align:left;text-size:90%">
 				<thead>
 					<tr>
 						<th width="15%" style="text-align:left;">회의날짜</th>
