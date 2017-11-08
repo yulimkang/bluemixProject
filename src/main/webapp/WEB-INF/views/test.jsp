@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    pageEncoding="UTF-8"%>
+    
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"
+	type="text/javascript"></script>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"
+	type="text/css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>
 
 
 <html>
@@ -11,41 +23,30 @@
 </head>
 <body>
 
-<div class="container" style="display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;">
-	<a href="http://bluemixb.mybluemix.net/">
-		<img src="https://i.imgur.com/rOpAzMk.png">
-	</a>
-	<br>
-	<hr size="2" noshade>
-	<p>¾È³çÇÏ¼¼¿ä</p> 
-	<p>È«±æµ¿´ÔÀÇ È¸ÀÇ½Ç ¿¹¾àÀÌ ¾Æ·¡¿Í °°ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.</p>
-	<table style="text-align: center;border: 1px solid black;border-collapse: collapse;">
-		<tr>
-			<td style="width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;">È¸ÀÇ Á¦¸ñ </td>
-			<td style="width: 400px;border: 1px solid black;border-collapse: collapse;">Á¦¸ñÀÔ´Ï´ç</td>
-		</tr>
-		
-		<tr>
-			<td style="font-weight: bold;border: 1px solid black;border-collapse: collapse;">È¸ÀÇ ÀÏÀÚ </td>
-			<td style="border: 1px solid black;border-collapse: collapse;">2017-11-02 ¸ñ</td>
-		</tr>
-		
-		<tr>
-			<td style="font-weight: bold;border: 1px solid black;border-collapse: collapse;">È¸ÀÇ ½Ã°£ </td>
-			<td style="border: 1px solid black;border-collapse: collapse;">¿ÀÈÄ 04:30 - ¿ÀÈÄ 05:30 </td>
-		</tr>
-		
-		<tr>
-			<td style="font-weight: bold;border: 1px solid black;border-collapse: collapse;">È¸ÀÇ Àå¼Ò </td>
-			<td style="border: 1px solid black;border-collapse: collapse;">¿¡½ºÇÁ·¹¼Ò</td>
-		</tr>
+ë‚ ì§œ : <input type="text" id="wantDate" name="wantDate"> <button type="button" onclick="excelDownload()">ë‹¤ìš´ë¡œë“œ</button>
 
 
-	</table>
-	
-	</div>
+
 </body>
 </html>
+
+<script>
+
+function excelDownload(){
+	
+	
+	var wantDate = $("#wantDate").val();
+	
+	$.ajax({
+		type:"POST",
+		url:"Test/a",
+		dataType:"text",
+		data:{"wantDate" : wantDate}
+	})
+	
+}
+</script>
+
 
 
 

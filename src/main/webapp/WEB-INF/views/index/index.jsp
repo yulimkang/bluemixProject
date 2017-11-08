@@ -50,16 +50,17 @@
 	<br>
 		<div class="container">
 		<div>
+		
 		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
 		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
 		
-		<!--  	어떻게 input box 안에 넣지?-->
-	<!-- 
-	    		<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	 -->	 	
 			
 		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
+		<!--  	어떻게 input box 안에 넣지?-->
+	 
+	    	<!-- 	<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+	 	 	 -->
 		</div>
 			
 			<div id="calendar"></div><br>
@@ -542,7 +543,7 @@ function checkForm(){
 		}
 	}
  
-	preventMonopoly();
+	preventMonopoly($("#rsvNo").val());
 	var count = $("#monopolyCount").val();
 
 	//이 값이 "T"이면 가예약상태
@@ -720,7 +721,7 @@ function deleteRsv(){
 }
 
 //회의실 독점 방지 - 같은 이름+같은 제목 (+ 스페이스바로 구별되지 않게 (ex. '회의' = '회    의' ))
-function preventMonopoly(){
+function preventMonopoly(rsvNo){
 	$.ajax({
 		url:"/Reservation/PreventMonopoly",
 		type:"post",
@@ -730,7 +731,8 @@ function preventMonopoly(){
 			"rsvTitle":$("#rsvTitle").val(),
 			"rsvMemPn":$("#rsvMemPn").val(),
 			"rsvDate":$("#rsvDate").val(),
-			"rsvTotalTime":$("#rsvTotalTime").val()
+			"rsvTotalTime":$("#rsvTotalTime").val(),
+			"rsvNo":rsvNo
 		},
 		success:function(count){	
 			$("#monopolyCount").val(count);
@@ -996,6 +998,25 @@ function getRsvConfirmStateVal(rsvNo){
 
 function autoRefresh_div(){
    $('#calendar').fullCalendar('refetchEvents');
+}
+
+function getRsvedTitle(rsvNo){
+	
+	$.ajax({
+		url:"/Reservation/GetRsvedTitle",
+		type:"post",
+		dataType:"text",
+		data : { "rsvNo":rsvNo },
+		async:false,
+		success:function(title){		
+			$("#rsvTitle").val(title);
+		},
+		error:function(request,status,error){
+			alert("Get Reservation Title Error");
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+	
 }
 
 			
@@ -1681,7 +1702,8 @@ $(document).ready(function(){
 	    		}
 	    	}
 	    
-	    	preventMonopoly();
+	    	getRsvedTitle(event.id);
+	    	preventMonopoly(event.id);
 	    	var count = $("#monopolyCount").val();
 
 	    	//이 값이 "T"이면 가예약상태
@@ -1897,11 +1919,11 @@ $(document).ready(function(){
 
 </script>
 <style>
-
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 	body {	
 		margin: 0;
 		padding: 0;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-family: 'Jeju Gothic', serif;
 		font-size: 15px;
 	}
 

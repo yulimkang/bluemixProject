@@ -101,7 +101,7 @@
 	<!-- 작성자 : 박세연 -->
 	<!-- 회의실 독점 방지, 한 주 : 월~금 -->
 	<select id="preventMonopoly" parameterType="map" resultMap="reservation_resultmap">
-		SELECT rsv_total_time
+		SELECT rsv_total_time, rsv_no
 		FROM RESERVATION
 		WHERE RSV_DATE Between DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-2) * -1 DAY)
 				AND DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-6) * -1 DAY)
@@ -227,13 +227,17 @@
 			FROM RESERVATION R, CONFERENCE C
 			WHERE R.RSV_CONF_NO = C.CONF_NO
 			AND RSV_DATE <= #{deleteDate}
-			ORDER BY R.RSV_REPEAT_NO ASC, R.RSV_DATE ASC
+			ORDER BY R.RSV_NO ASC, R.RSV_DATE ASC
 	]]>
 	</select>
 	
-	
-	
-	
+	<!-- 작성자 : 박세연 -->
+	<!-- 예약내역의 예약제목 가져오기 -->
+	<select id="getRsvedTitle" parameterType="int" resultType="string">
+		SELECT rsv_title
+		FROM RESERVATION
+		WHERE rsv_no = #{rsvNo}	
+	</select>
 	
 	
 	
@@ -301,7 +305,7 @@
 		select min(rsv_date) as firstDay, max(rsv_date) as lastDay
 		FROM RESERVATION
 		where rsv_repeat_no = (select rsv_repeat_no
-								from reservation
+								from RESERVATION
 								where rsv_no=#{rsvNo})
 	
 	</select>

@@ -247,50 +247,34 @@ public class ReservationService {
 	 * @param rsvMemPn
 	 * @return
 	 */
-	public String preventMonopoly(String rsvTitle, String rsvMemPn, String rsvDate, String rsvTotalTime){
+	public String preventMonopoly(String rsvTitle, String rsvMemPn, String rsvDate, String rsvTotalTime, int rsvNo){
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("rsvTitle", rsvTitle);
 		map.put("rsvMemPn", rsvMemPn);
-//		map.put("rsvMaxTime", ConstantCode.RESERVATION_MAX_MONOPOLY);
 		map.put("rsvDate", rsvDate);
-//		map.put("rsvTotalTime", rsvTotalTime);
 
-	//	int count = reservationDao.preventMonopoly(map);
-
-		System.out.println("---------독점방ㅈ;---------");
 		List<Reservation> list = reservationDao.preventMonopoly(map);
 		int total = 0;
-		System.out.println("==변환==");
 		for(Reservation r : list){ //이미 DB에 등록된 예약들의 총 시간 구하기
-//			System.out.println(s.getRsvTotalTime());
 			String totalTime = r.getRsvTotalTime().toString();
-			System.out.println("String : "+totalTime);
-			System.out.println(totalTime.substring(0,2));
-	//		System.out.println("22 : "+totalTime.substring(2,2));
-			System.out.println("32 : "+totalTime.substring(3,5));
-			
-			total = total + Integer.parseInt(totalTime.substring(0,2)) * 60 + Integer.parseInt(totalTime.substring(3,5));
-			
+
+			if(r.getRsvNo() != rsvNo){ //수정 중일 때, 이미 등록된 시간과 현재 수정 중 총 소요시간을 두번 합산하지 않기 위해서
+				total = total + Integer.parseInt(totalTime.substring(0,2)) * 60 + Integer.parseInt(totalTime.substring(3,5));
+			}
 		}
 		
-		System.out.println(total);
-		System.out.println("현재");
-		System.out.println(rsvTotalTime);
 		total = total + Integer.parseInt(rsvTotalTime.substring(0,1)) * 60 + Integer.parseInt(rsvTotalTime.substring(2,4));
-		System.out.println(":totooottal");
-		System.out.println(total);
 		
 		int max = ConstantCode.RESERVATION_MAX_MONOPOLY * 60 * 3;
-		System.out.println("max : "+ max);
+		
 		String over = "";
 		if(total >= max){ //한 주에 독점방지 시간 이상일 때, 5시간(설정값) * 3
 			over = "T";
 		}else{ //아닐 때
 			over = "F";
 		}
-		System.out.println("res");
-		System.out.println(over);
+		
 		return over;
 	}
 	
@@ -451,5 +435,17 @@ public class ReservationService {
 		return list;
 	}
 	
+	/**
+	 * 작성자 : 박세연
+	 * 등록된 예약의 제목 가져오기
+	 * @param rsvNo
+	 * @return
+	 */
+	public String getRsvedTitle(int rsvNo){
+		
+		String title = reservationDao.getRsvedTitle(rsvNo);
+		
+		return title;
+	}
 	
 }

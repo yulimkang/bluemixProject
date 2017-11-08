@@ -185,9 +185,7 @@ public interface SearchDao {
 	Integer rownumGeneralUserSelectByTitle(String searchCont);
 	Integer rownumGeneralUserSelectByMemNM(String searchCont);
 	Integer rownumGeneralUserSelectByMemPN(String searchCont);
-	
-	//일반 사용자 검색 반복내역 출력
-	//ArrayList<HashMap<String,Object>> repeatSearchDetailContentsForGeneralUser(int repeatSeq);
+
 	
 	
 	//간편검색은 날짜 필요!!!!!!!!!!!!
@@ -197,11 +195,11 @@ public interface SearchDao {
 	ArrayList<HashMap<String,Object>> easySearchSelectByMemNM(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> easySearchSelectByMemPN(HashMap<String,Object> searchInfo);
 	
-	//간편검섹 페이징
-	Integer rownumEasySearchSelectByAll(HashMap<String, Object> searchInfo);
-	Integer rownumEasySearchSelectByTitle(HashMap<String, Object> searchInfo);
-	Integer rownumEasySearchSelectByMemNM(HashMap<String, Object> searchInfo);
-	Integer rownumEasySearchSelectByMemPN(HashMap<String, Object> searchInfo);
+	//간편검색 페이징
+	Integer rownumEasySearchSelectByAll(HashMap<String, Object> easyInfo);
+	Integer rownumEasySearchSelectByTitle(HashMap<String, Object> easyInfo);
+	Integer rownumEasySearchSelectByMemNM(HashMap<String, Object> easyInfo);
+	Integer rownumEasySearchSelectByMemPN(HashMap<String, Object> easyInfo);
 	
 	//간편 검색 반복내역 출력(왜냐하면 날짜가 있어야 하기 때문에)
 	ArrayList<HashMap<String,Object>> repeatSearchDetailContentsForEasySearch(HashMap<String, Object> searchInfo);

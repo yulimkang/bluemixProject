@@ -1,22 +1,16 @@
 package com.ibmMeeting.Controller;
 
-import java.sql.Time;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Dao.SchedulerDao;
@@ -24,6 +18,8 @@ import com.ibmMeeting.Dao.SearchDao;
 import com.ibmMeeting.Dao.SettingDao;
 import com.ibmMeeting.Service.CommonService;
 import com.ibmMeeting.Service.SearchService;
+import com.ibmMeeting.excel.ExcelInputService;
+import com.ibmMeeting.excel.MyExcelView;
 
 @Controller
 @RequestMapping("/Test")
@@ -44,20 +40,22 @@ public class TestController {
 	@Autowired
 	SchedulerDao schedulerDao;
 	
+	@Autowired
+	ExcelInputService excelInputService;
+	
+	@RequestMapping("/a")
+	public String testPage(){
+		return "test";
+	}
+
+	@ResponseBody
 	@RequestMapping("/check")
-	public ModelAndView searchPage(HttpServletRequest request) throws MessagingException, ParseException {
-		
-		ModelAndView test = new ModelAndView();
-
-		
-		test.setViewName("test");
-		
-		
-		//셋팅값에서 이메일 값 가져옴
-				
-		
-		return test;
-
+	public ModelAndView searchPage(HttpServletRequest request,HttpServletResponse response) throws MessagingException, ParseException {
+		System.out.println("checkOK");
+		HashMap<String, Object> model = excelInputService.historyExcelInput(request);
+		response.setContentType("application/ms-excel");
+		response.setHeader("Content-disposition","attachment; filename=myfile.xls");
+		return new ModelAndView(new MyExcelView(), model);
 	}
 
 }

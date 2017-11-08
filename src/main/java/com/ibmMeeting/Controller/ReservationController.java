@@ -215,9 +215,9 @@ public class ReservationController {
 	 */
 	@RequestMapping("/PreventMonopoly")
 	@ResponseBody
-	public String preventMonopoly(@RequestParam String rsvTitle, @RequestParam String rsvMemPn, @RequestParam String rsvDate, @RequestParam String rsvTotalTime){
+	public String preventMonopoly(@RequestParam String rsvTitle, @RequestParam String rsvMemPn, @RequestParam String rsvDate, @RequestParam String rsvTotalTime, @RequestParam int rsvNo){
 	
-		String over = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime);
+		String over = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime, rsvNo);
 		
 		return over;
 	}
@@ -409,6 +409,22 @@ public class ReservationController {
 		List<Reservation> list = reservationService.showInfoByTooltip(rsvNo);
 		
 		return list;
+	}
+	
+	/**
+	 * 작성자 : 박세연
+	 * 등록된 예약의 제목 가져오기
+	 * @param rsvNo
+	 * @return
+	 */
+	@RequestMapping("/GetRsvedTitle")
+	@ResponseBody
+	public String getRsvedTitle(@RequestParam int rsvNo){
+		
+		System.out.println("제목 가지러 가자");
+		String title = reservationService.getRsvedTitle(rsvNo);
+		
+		return title;
 	}
 	
 }
