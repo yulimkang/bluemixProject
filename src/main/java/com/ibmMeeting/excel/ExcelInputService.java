@@ -21,18 +21,14 @@ public class ExcelInputService {
 
 	public HashMap<String, Object> historyExcelInput() {
 
-		ArrayList<HashMap<String, Object>> reservationList = reservationDao
-				.selectAllReservationByDate("2017-11-07");
-		ArrayList<HashMap<String, Object>> historyList = historyDao
-				.selectAllHistoryByDate("2017-11-07");
+		ArrayList<HashMap<String, Object>> reservationList = reservationDao.selectAllReservationByDate("2017-11-07");
+		ArrayList<HashMap<String, Object>> historyList = historyDao.selectAllHistoryByDate("2017-11-07");
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		List<String> rsvHeaders = new ArrayList<String>();
 
 		List<List<String>> rsvResults = new ArrayList<List<String>>();
 
 		model.put("rsvSheetName", "예약내역");
-
-		System.out.println(model.get("rsvSheetName") + "11111111111111");
 
 		rsvHeaders.add("HistoryNo");
 		rsvHeaders.add("회의제목");
@@ -47,13 +43,11 @@ public class ExcelInputService {
 		rsvHeaders.add("예약 비밀번호");
 		rsvHeaders.add("회의 등록/수정일");
 		rsvHeaders.add("예약상태");
+		rsvHeaders.add("이메일 전송");
 		rsvHeaders.add("반복예약기간");
-		rsvHeaders.add("반복주기설정");
 		rsvHeaders.add("반복Seq");
 
 		model.put("rsvHeaders", rsvHeaders);
-
-		System.out.println(reservationList.size());
 
 		for (int i = 0; i < reservationList.size(); i++) {
 
@@ -77,7 +71,6 @@ public class ExcelInputService {
 			cell.add(reservationList.get(i).get("RSV_CONFIRM_STATE").toString());
 			cell.add(reservationList.get(i).get("RSV_EMAIL_CHECK").toString());
 			cell.add(reservationList.get(i).get("RSV_REPEAT_PERIOD").toString());
-			cell.add(reservationList.get(i).get("RSV_SETTING").toString());
 			cell.add(reservationList.get(i).get("RSV_REPEAT_NO").toString());
 
 			rsvResults.add(cell);
@@ -88,7 +81,7 @@ public class ExcelInputService {
 		List<String> hstHeaders = new ArrayList<String>();
 		List<List<String>> hstResults = new ArrayList<List<String>>();
 
-		model.put("hstSheetname", "예약기록");
+		model.put("hstSheetName", "예약기록");
 
 		hstHeaders.add("HistoryNo");
 		hstHeaders.add("회의제목");
@@ -104,7 +97,6 @@ public class ExcelInputService {
 		hstHeaders.add("회의 등록/수정일");
 		hstHeaders.add("예약상태");
 		hstHeaders.add("반복예약기간");
-		hstHeaders.add("반복주기설정");
 		hstHeaders.add("반복Seq");
 
 		model.put("hstHeaders", hstHeaders);
@@ -130,7 +122,6 @@ public class ExcelInputService {
 			cell.add(historyList.get(i).get("HST_REG_DATE").toString());
 			cell.add(historyList.get(i).get("HST_RSV_STATE").toString());
 			cell.add(historyList.get(i).get("HST_REPEAT_PERIOD").toString());
-			cell.add(historyList.get(i).get("HST_SETTING").toString());
 			cell.add(historyList.get(i).get("HST_REPEAT_NO").toString());
 
 			hstResults.add(cell);

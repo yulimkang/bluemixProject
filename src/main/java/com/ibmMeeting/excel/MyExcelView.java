@@ -25,10 +25,9 @@ public class MyExcelView extends AbstractExcelView
             HttpServletRequest request,
             HttpServletResponse response)
     {
-        //VARIABLES REQUIRED IN MODEL
-        String sheetName = (String)model.get("sheetname");
-        List<String> headers = (List<String>)model.get("headers");
-        List<List<String>> results = (List<List<String>>)model.get("results");
+    	String sheetName = (String)model.get("rsvSheetName");
+        List<String> headers = (List<String>)model.get("rsvHeaders");
+        List<List<String>> results = (List<List<String>>)model.get("rsvResults");
         List<String> numericColumns = new ArrayList<String>();
         if (model.containsKey("numericcolumns"))
             numericColumns = (List<String>)model.get("numericcolumns");
@@ -48,13 +47,11 @@ public class MyExcelView extends AbstractExcelView
             HSSFCell cell = headerRow.createCell(currentColumn); 
             cell.setCellStyle(headerStyle);
             cell.setCellValue(text);
-            System.out.println(text);
             currentColumn++;
         }
         //POPULATE VALUE ROWS/COLUMNS
         currentRow++;//exclude header
         for(List<String> result: results){
-        	System.out.println(currentColumn);
             currentColumn = 0;
             HSSFRow row = sheet.createRow(currentRow);
             for(String value : result){//used to count number of columns
@@ -67,45 +64,47 @@ public class MyExcelView extends AbstractExcelView
         }
         
         
-        String hstSheetName = (String)model.get("hstSheetName");
-        System.out.println(hstSheetName);
-        List<String> hstHeaders = (List<String>)model.get("rsvHeaders");
-        List<List<String>> hstResults = (List<List<String>>)model.get("rsvResults");
-        List<String> hstNumericColumns = new ArrayList<String>();
+        
+        // --------------------------------------------------------------------
+        
+        sheetName = (String)model.get("hstSheetName");
+        headers = (List<String>)model.get("hstHeaders");
+        results = (List<List<String>>)model.get("hstResults");
+        numericColumns = new ArrayList<String>();
         if (model.containsKey("numericcolumns"))
-        	hstNumericColumns = (List<String>)model.get("numericcolumns");
+            numericColumns = (List<String>)model.get("numericcolumns");
         //BUILD DOC
-        HSSFSheet hstSheet = workbook.createSheet(hstSheetName);
-        hstSheet.setDefaultColumnWidth((short) 12);
-        int hstCurrentRow = 0;
-        short hstCurrentColumn = 0;
+        sheet = workbook.createSheet(sheetName);
+        sheet.setDefaultColumnWidth((short) 12);
+        currentRow = 0;
+        currentColumn = 0;
         //CREATE STYLE FOR HEADER
-        HSSFCellStyle hstHeaderStyle = workbook.createCellStyle();
-        HSSFFont hstHeaderFont = workbook.createFont();
-        hstHeaderStyle.setFont(hstHeaderFont); 
+        headerStyle = workbook.createCellStyle();
+        headerFont = workbook.createFont();
+        headerStyle.setFont(headerFont); 
         //POPULATE HEADER COLUMNS
-        HSSFRow hstHeaderRow = hstSheet.createRow(hstCurrentRow);
-        for(String header:hstHeaders){
+        headerRow = sheet.createRow(currentRow);
+        for(String header:headers){
             HSSFRichTextString text = new HSSFRichTextString(header);
-            HSSFCell cell = hstHeaderRow.createCell(hstCurrentColumn); 
-            cell.setCellStyle(hstHeaderStyle);
+            HSSFCell cell = headerRow.createCell(currentColumn); 
+            cell.setCellStyle(headerStyle);
             cell.setCellValue(text);
-            System.out.println(text);
-            hstCurrentColumn++;
+            currentColumn++;
         }
         //POPULATE VALUE ROWS/COLUMNS
-        hstCurrentColumn++;//exclude header
-        for(List<String> result: hstResults){
-        	System.out.println(hstCurrentColumn);
-        	hstCurrentColumn = 0;
-            HSSFRow row = hstSheetName.createRow(hstCurrentColumn);
+        currentRow++;//exclude header
+        for(List<String> result: results){
+            currentColumn = 0;
+            HSSFRow row = sheet.createRow(currentRow);
             for(String value : result){//used to count number of columns
-                HSSFCell cell = row.createCell(hstCurrentColumn);
+                HSSFCell cell = row.createCell(currentColumn);
                     HSSFRichTextString text = new HSSFRichTextString(value);                
                     cell.setCellValue(text);                    
-                    hstCurrentColumn++;
+                currentColumn++;
             }
             currentRow++;
-        } 
+        }
+
     }
+
 }

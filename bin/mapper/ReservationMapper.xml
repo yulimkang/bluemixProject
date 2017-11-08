@@ -227,13 +227,17 @@
 			FROM RESERVATION R, CONFERENCE C
 			WHERE R.RSV_CONF_NO = C.CONF_NO
 			AND RSV_DATE <= #{deleteDate}
-			ORDER BY R.RSV_REPEAT_NO ASC, R.RSV_DATE ASC
+			ORDER BY R.RSV_NO ASC, R.RSV_DATE ASC
 	]]>
 	</select>
 	
-	
-	
-	
+	<!-- 작성자 : 박세연 -->
+	<!-- 예약내역의 예약제목 가져오기 -->
+	<select id="getRsvedTitle" parameterType="int" resultType="string">
+		SELECT rsv_title
+		FROM RESERVATION
+		WHERE rsv_no = #{rsvNo}	
+	</select>
 	
 	
 	

@@ -411,4 +411,19 @@ public class ReservationController {
 		return list;
 	}
 	
+	/**
+	 * 작성자 : 박세연
+	 * 등록된 예약의 제목 가져오기
+	 * @param rsvNo
+	 * @return
+	 */
+	@RequestMapping("/GetRsvedTitle")
+	@ResponseBody
+	public String getRsvedTitle(@RequestParam int rsvNo){
+		
+		String title = reservationService.getRsvedTitle(rsvNo);
+		
+		return title;
+	}
+	
 }
