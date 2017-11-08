@@ -49,19 +49,24 @@
 
 	<br>
 		<div class="container">
-		<div>
+
+		<table id="pickDate">
+		<tr><td  style="border:none">
+			<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
+		</td><td>
+			<div style="border:0.1px solid; width:130px">
+				<span class="fa-stack fa-1x">
+	    			<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    			<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+	 	 	 	</span>
+				<input type="text" id="date" name="date" maxlength=45 style="text-align:left; width:88px; cursor:pointer; border:none" >
+			</div>
+		</td>
+		<td style="border:none">
+		<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
+		</td></tr>
+		</table>
 		
-		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
-		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
-		
-			
-		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
-		<!--  	어떻게 input box 안에 넣지?-->
-	 
-	    	<!-- 	<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	 	 	 -->
-		</div>
 			
 			<div id="calendar"></div><br>
 			
@@ -1976,7 +1981,8 @@ $(document).ready(function(){
 		color: red;
 	}
 	
-	.calendar-text { margin-top: .6em; }
+	.calendar-text { margin-top: .28em; }
+	
 	
 </style>
 
