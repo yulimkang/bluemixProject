@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,12 @@ public class ExcelInputService {
 	@Autowired
 	ReservationDao reservationDao;
 
-	public HashMap<String, Object> historyExcelInput() {
+	public HashMap<String, Object> historyExcelInput(HttpServletRequest request) {
+		
+		String wantDate = request.getParameter("wantDate");
 
-		ArrayList<HashMap<String, Object>> reservationList = reservationDao.selectAllReservationByDate("2017-11-07");
-		ArrayList<HashMap<String, Object>> historyList = historyDao.selectAllHistoryByDate("2017-11-07");
+		ArrayList<HashMap<String, Object>> reservationList = reservationDao.selectAllReservationByDate(wantDate);
+		ArrayList<HashMap<String, Object>> historyList = historyDao.selectAllHistoryByDate(wantDate);
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		List<String> rsvHeaders = new ArrayList<String>();
 

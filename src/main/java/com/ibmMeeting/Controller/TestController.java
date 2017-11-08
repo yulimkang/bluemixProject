@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ibmMeeting.Dao.SchedulerDao;
@@ -42,15 +43,16 @@ public class TestController {
 	@Autowired
 	ExcelInputService excelInputService;
 	
-	@RequestMapping("/test")
+	@RequestMapping("/a")
 	public String testPage(){
 		return "test";
 	}
 
+	@ResponseBody
 	@RequestMapping("/check")
 	public ModelAndView searchPage(HttpServletRequest request,HttpServletResponse response) throws MessagingException, ParseException {
-		
-		HashMap<String, Object> model = excelInputService.historyExcelInput();
+		System.out.println("checkOK");
+		HashMap<String, Object> model = excelInputService.historyExcelInput(request);
 		response.setContentType("application/ms-excel");
 		response.setHeader("Content-disposition","attachment; filename=myfile.xls");
 		return new ModelAndView(new MyExcelView(), model);
