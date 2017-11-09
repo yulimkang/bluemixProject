@@ -47,7 +47,7 @@
 						  <label class="control-label">비밀번호 </label>
 						  <div class="input-group">
 						    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-						    <input class="form-control input-sm" type="password" id="changePw" onkeyup="pwSameCheck()">
+						    <input class="form-control input-sm" style="font-family:arial" type="password" id="changePw" onkeyup="pwSameCheck()">
 						  </div>
 					</div>
 					
@@ -55,7 +55,7 @@
 						  <label class="control-label">비밀번호 재 입력</label>
 						  <div class="input-group">
 						    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-						    <input class="form-control input-sm" type="password" id="changePwCheck" onkeyup="pwSameCheck()">
+						    <input class="form-control input-sm" style="font-family:arial" type="password" id="changePwCheck" onkeyup="pwSameCheck()">
 						  </div>
 					</div>
 					

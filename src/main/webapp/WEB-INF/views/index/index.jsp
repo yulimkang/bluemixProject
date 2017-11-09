@@ -182,7 +182,7 @@
 					  <div>
 					  <div class="input-group">
 					    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-					    <input class="form-control input-sm" type="password" id="rsvDelPwd" name="rsvDelPwd" maxlength=45 value="${param.rsvDelPwd }" placeholder="비밀번호를 입력하세요" onkeypress="caps_lock(event); if(event.keyCode == 13) return false;">
+					    <input style="font-family:arial" class="form-control input-sm" type="password" id="rsvDelPwd" name="rsvDelPwd" maxlength=45 value="${param.rsvDelPwd }" placeholder="비밀번호를 입력하세요" onkeypress="caps_lock(event); if(event.keyCode == 13) return false;">
 					  </div>
 						 <span class="error" id="errorPwd"><form:errors path="reservation.rsvDelPwd" delimiter="<br>"/></span>
 						<div id="pwdChkMsg" style="display:none"></div>
@@ -1925,7 +1925,7 @@ $(document).ready(function(){
 
 </script>
 <style>
-@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
 	body {	
 		margin: 0;
 		padding: 0;

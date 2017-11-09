@@ -22,7 +22,7 @@
     
     <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
     	<div id="navSearch">
-	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:50%; margin-top:1%; margin-bottom:1%;margin-left:8%;">
+	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:40%; margin-top:1%; margin-bottom:1%;margin-left:8%;">
 	    		<div class="col-xs-2" style="padding:0px;">
 		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
 							<option value="e_all">전체</option>
@@ -32,7 +32,7 @@
 					</select>
 				</div>
 				
-				<div class="col-xs-8" style="padding:0px;">
+				<div class="col-xs-6" style="padding:0px; margin-left:5px">
 		    		<input type="text" name="easyInputSearchCont" id="easyInputSearchCont" placeholder="간편검색" class="form-control" style="height:5%;font-size:80%;padding:0px">
 		    	</div>
 		    	

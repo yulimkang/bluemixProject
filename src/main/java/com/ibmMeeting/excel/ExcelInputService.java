@@ -23,7 +23,7 @@ public class ExcelInputService {
 
 	public HashMap<String, Object> historyExcelInput(HttpServletRequest request) {
 		
-		String wantDate = request.getParameter("wantDate");
+		String wantDate = request.getParameter("histDeleteDate");
 
 		ArrayList<HashMap<String, Object>> reservationList = reservationDao.selectAllReservationByDate(wantDate);
 		ArrayList<HashMap<String, Object>> historyList = historyDao.selectAllHistoryByDate(wantDate);

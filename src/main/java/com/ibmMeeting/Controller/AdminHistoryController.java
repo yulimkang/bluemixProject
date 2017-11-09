@@ -35,7 +35,6 @@ public class AdminHistoryController {
 		
 		ModelAndView reservationHistory = new ModelAndView();
 		reservationHistory.addObject("fakeReservation",historyService.fakeReservation());
-		
 		reservationHistory.setViewName("/admin/admin_reservationHistory");
 		
 		

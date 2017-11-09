@@ -135,7 +135,7 @@ body{
                     alt="">
                			<form class="form-signin" action="" id="adminLogin" name="adminLogin" method="POST">
                				<input type="text" class="form-control" placeholder="Username" id="id" name="id" required autofocus>
-               				<input type="password" class="form-control" placeholder="Password" id="pw" name="pw" required>
+               				<input type="password" style="font-family:arial" class="form-control" placeholder="Password" id="pw" name="pw" required>
                				<input type="submit" class="btn btn-lg btn-default btn-block" onClick="loginBtn()" value="Sign In" />
                			</form>
 					</div>
