@@ -357,7 +357,6 @@ function showRepeatDetail(repeatNo) {
 				row.insertCell(5).innerHTML = detailViewArray[i].rsv_mem_pn;
 				
 				
-				
 			}
 		},
 		error : function(request, status, error) {
