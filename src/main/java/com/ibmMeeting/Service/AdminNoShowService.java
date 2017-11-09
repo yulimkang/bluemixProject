@@ -1,11 +1,15 @@
 package com.ibmMeeting.Service;
 
+import java.sql.Time;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +54,7 @@ public class AdminNoShowService {
 	 * 유저Sequence넘버를 통해 noShowBan
 	 */
 
-	public Integer noShowSubmit(HttpServletRequest request){
+	public Integer noShowSubmit(HttpServletRequest request) throws MessagingException, ParseException{
 		
 		// 회의번호를 통해 회의정보를 가져옴
 		Integer rsvNo = Integer.parseInt(request.getParameter("rsvNo"));
@@ -74,33 +78,65 @@ public class AdminNoShowService {
 		
 		boardingDao.noShowCountPlusInManage(memberInformation);
 		
-		// 이메일전송
-		String subject = rsvInformation.getRsvMemNm()+ "님 No-Show 카운트가 증가 됐습니다.";
-		String contentTitle = "회의제목 : " + rsvInformation.getRsvTitle();
-		String contentBody = "회의시작시간 : " + rsvInformation.getRsvStartTime();
-		String contentURL = "http://bluemixb.mybluemix.net/";
+		String rsvMemNm = rsvInformation.getRsvMemNm();
+		String rsvTitle = rsvInformation.getRsvTitle();
+		Time rsvStartTime = rsvInformation.getRsvStartTime();
+		Time rsvEndTime = rsvInformation.getRsvEndTime();
+		String rsvConfNm = commonService.confName(rsvInformation.getRsvConfNo());
+		Date rsvDate = rsvInformation.getRsvDate();
+		String rsvDateString = commonService.DateToString(rsvDate);
+		String rsvDateOfTheWeek = commonService.dayOfTheWeek(rsvDateString);
+		String rsvStartTimeChange = commonService.timeToString(rsvStartTime).substring(0,5);
+		String rsvEndTimeChange = commonService.timeToString(rsvEndTime).substring(0,5);
 		
+		String subject = "[회의 No-Show] " + rsvInformation.getRsvMemNm() + "님의 " + rsvTitle + "회의가 No-Show 됐습니다." ;
+
+		String content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
+				+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
+				+ "<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n"
+				+ "   <a href=\"http://bluemixb.mybluemix.net/\">"
+				+ "	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + "	<br>\r\n"
+				+ "	<hr size=\"2\" noshade>\r\n" + "	<p>안녕하세요</p> \r\n" + "	"
+				+ "<p>" + rsvMemNm + "님의 회의가 No-Show 됐습니다."
+				+ "	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n"
+				+ "		<tr>\r\n"
+				+ "			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n"
+				+ "			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">" + rsvTitle
+				+ "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+				+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 일자 </td>\r\n"
+				+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvDateString + "(" + rsvDateOfTheWeek + ")"  + "</td>\r\n" + "		</tr>\r\n"
+				+ "		\r\n" + "		<tr>\r\n"
+				+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 시간 </td>\r\n"
+				+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvStartTimeChange + " - " + rsvEndTimeChange + "</td>\r\n" + "		</tr>\r\n" + "		\r\n" + "		<tr>\r\n"
+				+ "			<td style=\"font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 장소 </td>\r\n"
+				+ "			<td style=\"border: 1px solid black;border-collapse: collapse;\">" + rsvConfNm
+				+ "</td>\r\n" + "		</tr>\r\n" + "\r\n" + "\r\n" + "	</table>\r\n" + "	\r\n" + "	</div>\r\n"
+				+ "</body>\r\n" + "</html>";
+		// 이메일전송
+		
+		commonService.sendEmail(rsvInformation.getRsvMemEm(), subject, content);
 		
 		HashMap<String,Object> settingLoad = settingDao.settingLoad();
 		Integer limitNoShowCount = (Integer)settingLoad.get("SET_NO_SHOW_COUNT");
 		
-		System.out.println("12321321123" + limitNoShowCount);
-		
-		System.out.println(limitNoShowCount);
+
 		if(boardingDao.noShowUserCount(memberInformation)==limitNoShowCount){
 			boardingDao.memberBan(memberInformation);
 			
-			subject = rsvInformation.getRsvMemNm()+ "님 No-Show 카운트 설정값을 초과하여 차단됩니다.";
-			contentTitle = "차단기간 : " + afterBanDayString;
-			contentBody = "문의는 해당메일로 답장 부탁드립니다.";
-			contentURL = "http://bluemixb.mybluemix.net/";
+			subject = "[NoShow 초과]" + rsvInformation.getRsvMemNm()+ "님 No-Show 카운트 설정값을 초과하여 차단됩니다.\n";
+			
+			content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
+			+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
+			+ "<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n"
+			+ "   <a href=\"http://bluemixb.mybluemix.net/\">"
+			+ "	<img src=\"https://i.imgur.com/rOpAzMk.png\">\r\n </a>" + "	<br>\r\n"
+			+ "	<hr size=\"2\" noshade>\r\n" + "	<p>안녕하세요</p> \r\n" + "	"
+			+ "<p>" +"안녕하세요 " + rsvMemNm + "님 현재 회원님의 NoShow 횟수가 많아 회의실 예약 시스템에서 차단됩니다.</p>"
+			+ "<p> 차단기간 : " + afterBanDayString + "</p>" 
+			+ "<p> 문의는 해당메일로 답장 부탁드립니다.</p>";
 		}
 		
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(rsvInformation.getRsvMemEm());
-		message.setSubject(subject);
-		message.setText(contentTitle+"\n"+ contentBody+"\n"+ contentURL);
-		emailSender.send(message);
+		commonService.sendEmail(rsvInformation.getRsvMemEm(), subject, content);
 		
 		// history Update
 		String hstState = "NOSHOW";

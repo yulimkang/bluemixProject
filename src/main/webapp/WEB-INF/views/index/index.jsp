@@ -1428,7 +1428,7 @@ $(document).ready(function(){
 		},
 		 		
 	//	windowResize:true,
-		slotLabelFormat :'h:mm',
+		slotLabelFormat :'H:mm',
 		header: {
 			left: 'none',
 			center: 'none',

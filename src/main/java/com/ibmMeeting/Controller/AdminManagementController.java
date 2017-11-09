@@ -1,8 +1,10 @@
 package com.ibmMeeting.Controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -46,11 +48,13 @@ public class AdminManagementController {
 	/**
 	 * 작성자 : 박성준
 	 * NoShow 클릭
+	 * @throws ParseException 
+	 * @throws MessagingException 
 	 */
 	
 	@ResponseBody
 	@RequestMapping("/NoShowSubmit")
-	public Integer noShowSubmit(HttpServletRequest request){
+	public Integer noShowSubmit(HttpServletRequest request) throws MessagingException, ParseException{
 		adminNoShowService.noShowSubmit(request);
 		return ConstantCode.SUCCESS;
 	}

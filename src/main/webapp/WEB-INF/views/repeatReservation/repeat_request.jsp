@@ -188,10 +188,10 @@
 					    <span class="input-group-addon input-sm"><i class="fa fa-eye"></i></span>
 					    <select id="rsvColor" name="rsvColor" class="form-control input-sm" readonly>
 					    	<option value="red">빨강</option>
-					    	<option value="yellow">노랑</option>
-					    	<option value="green">초록</option>
-					    	<option value="blue">파랑</option>
-					    	<option value="purple">보라</option>
+					    	<option value="yellow">주황</option>
+					    	<option value="green">노랑</option>
+					    	<option value="blue">초록</option>
+					    	<option value="purple" selected>파랑</option>
 					    </select>
 					  </div>
 				</div>
@@ -211,7 +211,7 @@
 				  <div>
 				  <div class="input-group">
 				    <span class="input-group-addon input-sm"><i class="fa fa-key"></i></span>
-				    <input class="form-control input-sm" type="password" id="rsvDelPwd" name="rsvDelPwd" maxlength=45 value="${param.rsvDelPwd }" placeholder="비밀번호를 입력하세요" readonly>
+				    <input class="form-control input-sm" style="font-family:arial" type="password" id="rsvDelPwd" name="rsvDelPwd" maxlength=45 value="${param.rsvDelPwd }" placeholder="비밀번호를 입력하세요" readonly>
 				  </div>
 					</div>
 				</div>
