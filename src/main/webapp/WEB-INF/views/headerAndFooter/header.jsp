@@ -23,7 +23,7 @@
     <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
     	<div id="navSearch">
 	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:50%; margin-top:1%; margin-bottom:1%;margin-left:8%;">
-	    		<div class="col-xs-2" style="padding:0px; margin-right:5px">
+	    		<div class="col-xs-2" style="padding:0px;">
 		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
 							<option value="e_all">전체</option>
 							<option value="e_title">회의제목</option>
@@ -32,15 +32,24 @@
 					</select>
 				</div>
 				
-				<div class="col-xs-7" style="padding:0px;">
+				<div class="col-xs-8" style="padding:0px;">
 		    		<input type="text" name="easyInputSearchCont" id="easyInputSearchCont" placeholder="간편검색" class="form-control" style="height:5%;font-size:80%;padding:0px">
 		    	</div>
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
-
-		      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
-	    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
-
+					<c:choose>
+					
+			    		<c:when test="${sessionScope.id ne null}">
+			      			<button type="button" data-toggle="modal" data-target="#easySearchResult" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+		    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+			      		</c:when>
+			      		
+			      		<c:otherwise>
+			      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+		    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+			      		</c:otherwise>
+			      		
+		      		</c:choose>
 		      	</div>
 		      	
 	    	</form>
@@ -83,12 +92,6 @@
 	    		</div>
 	    	</div>
     	</div>
-    	
-    	
-    <form action="/Reservation/SearchToCalendar" id="testForm">
-		<input type="hidden" id="rsvNo" name="rsvNo">
-	</form>
-	
     	<!-- 여기까지 간편검색 -->
 
         <ul class="nav navbar-nav navbar-right">
