@@ -1,9 +1,11 @@
 
 package com.ibmMeeting.Controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibmMeeting.Constant.ConstantCode;
 import com.ibmMeeting.Dao.SearchDao;
 import com.ibmMeeting.Service.HistoryService;
 import com.ibmMeeting.Service.ReservationService;
 import com.ibmMeeting.Service.SearchService;
+import com.ibmMeeting.excel.ExcelInputService;
+import com.ibmMeeting.excel.MyExcelView;
 
 @Controller
 @RequestMapping("/AdminReservCheckAndDelete")
@@ -37,6 +40,9 @@ public class AdminReservationHistoryListController {
 	@Autowired
 	private SearchService searchService;
 	
+	@Autowired
+	ExcelInputService excelInputService;
+	
 	
 	/**
 	 * 작성자 : 최문정
@@ -47,6 +53,14 @@ public class AdminReservationHistoryListController {
 	public String reservHistroyPage(){
 		
 		return "/admin/admin_reservationList";
+	}
+	
+	@RequestMapping("/excelDownload")
+	public ModelAndView searchPage(HttpServletRequest request,HttpServletResponse response) throws MessagingException, ParseException {
+		HashMap<String, Object> model = excelInputService.historyExcelInput(request);
+		response.setContentType("application/ms-excel");
+		response.setHeader("Content-disposition","attachment; filename=reservationHisotry.xls");
+		return new ModelAndView(new MyExcelView(), model);
 	}
 	
 

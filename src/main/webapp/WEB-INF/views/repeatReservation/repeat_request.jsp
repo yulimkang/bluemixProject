@@ -560,7 +560,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		
 		
 		else if($("#repeatPeriod").val()=="week" && weekMonCheck==false && weekTueCheck == false 
-				&& weekWedCheck == false && weekWedCheck == false && weekWedCheck ==false){
+				&& weekWedCheck == false && weekThuCheck == false && weekFriCheck ==false){
 			alert("주간 반복할 요일을 선택해주세요");
 		}
 

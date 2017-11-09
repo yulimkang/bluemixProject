@@ -51,7 +51,7 @@ public class TestController {
 	public ModelAndView searchPage(HttpServletRequest request,HttpServletResponse response) throws MessagingException, ParseException {
 		HashMap<String, Object> model = excelInputService.historyExcelInput(request);
 		response.setContentType("application/ms-excel");
-		response.setHeader("Content-disposition","attachment; filename=myfile.xls");
+		response.setHeader("Content-disposition","attachment; filename=reservationHisotry.xls");
 		return new ModelAndView(new MyExcelView(), model);
 	}
 	
