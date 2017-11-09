@@ -66,28 +66,7 @@
 					</div>
 					
 					<div class="modal-body" id="result">
-<!-- 						<div class="table-responsive"> -->
-<!-- 							<table id="easySearchTable" class="table table-hover text-center" style="text-align:left;text-size:90%"> -->
-							
-<!-- 								<thead> -->
-<!-- 									<tr> -->
-<!-- 										<th width="15%" style="text-align:left;">회의날짜</th> -->
-<!-- 										<th width="12%" style="text-align:left;">회의시간</th> -->
-<!-- 										<th width="15%" style="text-align:left;">회의실</th> -->
-<!-- 										<th width="25%" style="text-align:left;">회의제목</th>		 -->
-<!-- 										<th width="10%" style="text-align:left;">예약자</th> -->
-<!-- 										<th width="13%" style="text-align:left;">전화번호</th> -->
-<!-- 										<th width="10%" style="text-align:left;">반복예약</th> -->
-<!-- 									</tr> -->
-<!-- 								</thead> -->
-<!-- 								<tbody> -->
-							
-<!-- 									<tr> -->
-<!-- 									</tr> -->
-	
-<!-- 								</tbody> -->
-<!-- 							</table> -->
-<!-- 					 </div> -->
+
 				</div> 
 	    		</div>
 	    	</div>
@@ -116,6 +95,5 @@
 </nav>
 
 <script>
-
 
 </script>

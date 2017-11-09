@@ -270,23 +270,9 @@
 	
 	//입력한 날 이전의 내역을 저장
 	function storeResevAndHistBtn() {
-		
+		$("#deleteResevAndHistForm").attr("action","/AdminReservCheckAndDelete/excelDownload");
+		$("#deleteResevAndHistForm").submit();
 		var histDeleteDate = $("#histDeleteDate").val();
-		
-		$.ajax({
-			url : "/AdminReservCheckAndDelete/StoreResevHistToExcel",
-			dataType : "text",
-			async : false,
-			type : "POST",
-			data : { "deleteDate" : histDeleteDate },
-			success : function(data) {
-				alert("C 드라이브에 저장되었습니다.");
-			},
-			error : function(request, status, error) {
-				alert("code : "+request.status + "\n" + "error : " + error);
-			}
-		});
-
 	}
 	
 	

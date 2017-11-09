@@ -125,7 +125,7 @@ function easySearchForGeneral(curPage) {
 //											+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
 //											+ "<td>" + " " + "</td>";
 					
-					tableHeader = tableHeader + "<tr class='table table-hover text-left' style='width:auto'> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
+					tableHeader = tableHeader + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
 											+"<td style='width:12%'>"+ st + "~" + et +"</td>"
 											+ "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
 					
@@ -135,9 +135,9 @@ function easySearchForGeneral(curPage) {
 						tableHeader = tableHeader +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}
 					
-					tableHeader = tableHeader+ "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
+					tableHeader = tableHeader + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
 													+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-													+ "<td>" + " " + "</td>";
+													+ "<td style='width:10%'>" + " " + "</td>";
 
 				}else {
 					
@@ -149,7 +149,7 @@ function easySearchForGeneral(curPage) {
 //											+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
 //											+ "<td>" + "<button type='button' class='btn btn-default btn-sm'>상세보기</button>" + "</td></tr>";
 					
-					tableHeader = tableHeader + "<tr class='table table-hover text-left' style='width:auto'> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
+					tableHeader = tableHeader + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
 													  + "<td style='width:12%'>"+ st + "~" + et +"</td>"
 													  + "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
 					
@@ -159,9 +159,9 @@ function easySearchForGeneral(curPage) {
 						tableHeader = tableHeader +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}
 					
-					tableHeader = tableHeader + + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
+					tableHeader = tableHeader + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
 														+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-														+ "<td>" + "<button type='button' class='btn btn-default btn-sm'>상세보기</button>" + "</td></tr>";							
+														+ "<td style='width:10%'>" + "<button type='button' class='btn btn-default btn-sm'>상세보기</button>" + "</td></tr>";							
 					
 				}		
 				
@@ -244,4 +244,39 @@ function easySearchForGeneral(curPage) {
 		$("#testForm").submit();
 		
 	}
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 자동완성기능
+	 */
+	$(function(){
+	    $( "#easyInputSearchCont" ).autocomplete({
+	        source : function( request, response ) {
+	             $.ajax({
+	                    type: "POST",
+	                    url: "/Search/EasySearchAutoComplete",
+	                    dataType: "JSON",
+	                    data: { "selectSearchOpt" : $("#easySelectSearchOpt").val(), "value" : request.term },
+	                    success: function(data) {
+	                        //서버에서 json 데이터 response 후 목록에 뿌려주기 위함
+	                        response(
+	                           $.map(data, function(item) {
+	                                return {
+	                                    label: item.data,
+	                                    value: item.data
+	                              }
+	                          })
+	                        );                    },
+	                    error : function(data) {
+	                    	//alert("ajax 에러가 발생하였습니다");
+	                    },
+	                    
+	               });
+	            },
+	            //자동완성 기능에서 클릭했을 때
+	            select:function(event, id) {
+	            	easySearchForGeneral(1);
+	            }
+	        
+	    });
+	});
 

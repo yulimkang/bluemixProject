@@ -278,13 +278,9 @@
 	
 	//입력한 날 이전의 내역을 저장
 	function storeResevAndHistBtn() {
-		
-		
 		$("#deleteResevAndHistForm").attr("action","/AdminReservCheckAndDelete/excelDownload");
 		$("#deleteResevAndHistForm").submit();
 		var histDeleteDate = $("#histDeleteDate").val();
-		
-
 	}
 	
 	
