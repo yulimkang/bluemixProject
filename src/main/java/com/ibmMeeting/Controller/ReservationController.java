@@ -215,9 +215,9 @@ public class ReservationController {
 	 */
 	@RequestMapping("/PreventMonopoly")
 	@ResponseBody
-	public String preventMonopoly(@RequestParam String rsvTitle, @RequestParam String rsvMemPn, @RequestParam String rsvDate, @RequestParam String rsvTotalTime){
+	public String preventMonopoly(@RequestParam String rsvTitle, @RequestParam String rsvMemPn, @RequestParam String rsvDate, @RequestParam String rsvTotalTime, @RequestParam int rsvNo){
 	
-		String over = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime);
+		String over = reservationService.preventMonopoly(rsvTitle, rsvMemPn, rsvDate, rsvTotalTime, rsvNo);
 		
 		return over;
 	}
@@ -421,6 +421,7 @@ public class ReservationController {
 	@ResponseBody
 	public String getRsvedTitle(@RequestParam int rsvNo){
 		
+		System.out.println("제목 가지러 가자");
 		String title = reservationService.getRsvedTitle(rsvNo);
 		
 		return title;

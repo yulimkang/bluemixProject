@@ -101,7 +101,7 @@
 	<!-- 작성자 : 박세연 -->
 	<!-- 회의실 독점 방지, 한 주 : 월~금 -->
 	<select id="preventMonopoly" parameterType="map" resultMap="reservation_resultmap">
-		SELECT rsv_total_time
+		SELECT rsv_total_time, rsv_no
 		FROM RESERVATION
 		WHERE RSV_DATE Between DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-2) * -1 DAY)
 				AND DATE_ADD(#{rsvDate}, INTERVAL (DAYOFWEEK(#{rsvDate})-6) * -1 DAY)

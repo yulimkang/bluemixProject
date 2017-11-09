@@ -49,19 +49,24 @@
 
 	<br>
 		<div class="container">
-		<div>
+
+		<table id="pickDate">
+		<tr><td  style="border:none">
+			<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
+		</td><td>
+			<div style="border:0.1px solid; width:130px">
+				<span class="fa-stack fa-1x">
+	    			<i class="fa fa-calendar-o fa-stack-1x"></i>
+	    			<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
+	 	 	 	</span>
+				<input type="text" id="date" name="date" maxlength=45 style="text-align:left; width:88px; cursor:pointer; border:none" >
+			</div>
+		</td>
+		<td style="border:none">
+		<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
+		</td></tr>
+		</table>
 		
-		<i class="fa fa-chevron-left" id="prev" style="cursor:pointer"></i>
-		<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:130px; cursor:pointer">
-		
-			
-		<i class="fa fa-chevron-right" id="next" style="cursor:pointer"></i>
-		<!--  	어떻게 input box 안에 넣지?-->
-	 
-	    	<!-- 	<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	 	 	 -->
-		</div>
 			
 			<div id="calendar"></div><br>
 			
@@ -543,7 +548,7 @@ function checkForm(){
 		}
 	}
  
-	preventMonopoly();
+	preventMonopoly($("#rsvNo").val());
 	var count = $("#monopolyCount").val();
 
 	//이 값이 "T"이면 가예약상태
@@ -721,7 +726,7 @@ function deleteRsv(){
 }
 
 //회의실 독점 방지 - 같은 이름+같은 제목 (+ 스페이스바로 구별되지 않게 (ex. '회의' = '회    의' ))
-function preventMonopoly(){
+function preventMonopoly(rsvNo){
 	$.ajax({
 		url:"/Reservation/PreventMonopoly",
 		type:"post",
@@ -731,7 +736,8 @@ function preventMonopoly(){
 			"rsvTitle":$("#rsvTitle").val(),
 			"rsvMemPn":$("#rsvMemPn").val(),
 			"rsvDate":$("#rsvDate").val(),
-			"rsvTotalTime":$("#rsvTotalTime").val()
+			"rsvTotalTime":$("#rsvTotalTime").val(),
+			"rsvNo":rsvNo
 		},
 		success:function(count){	
 			$("#monopolyCount").val(count);
@@ -1702,16 +1708,7 @@ $(document).ready(function(){
 	    	}
 	    
 	    	getRsvedTitle(event.id);
-	    	/////////////////////////////////////////////////////////////////////////
-	    	//rsvTitle, rsvMemPn, rsvDate, rsvTotalTime 값얻어야 한다.
-	    	alert($("#rsvTitle").val()); // 얘만 없음
-	    	alert($("#rsvMemPn").val());
-	    	alert($("#rsvDate").val());
-	    	alert($("#rsvTotalTime").val());
-	    	
-	    	
-	    	
-	    	preventMonopoly();
+	    	preventMonopoly(event.id);
 	    	var count = $("#monopolyCount").val();
 
 	    	//이 값이 "T"이면 가예약상태
@@ -1984,7 +1981,8 @@ $(document).ready(function(){
 		color: red;
 	}
 	
-	.calendar-text { margin-top: .6em; }
+	.calendar-text { margin-top: .28em; }
+	
 	
 </style>
 
