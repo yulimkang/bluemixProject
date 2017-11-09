@@ -163,7 +163,6 @@ function loginBtn(){
             if(data=="1") {
                 $("#adminLogin").attr("action","/AdminBoarding/ReservationHistory");
         		$("#adminLogin").submit();
-        		alert();
             }
             else{
                 alert("loginFail");
