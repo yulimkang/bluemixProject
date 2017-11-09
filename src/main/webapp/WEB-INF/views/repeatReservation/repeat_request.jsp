@@ -538,9 +538,17 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 
 	// 예약가능한 날짜 확인
 	function reservationCheck() {
-
+		
 		var changeAvailable = [];
 		var changeDuplicate = [];
+		
+		
+		
+		var weekMonCheck = $("#weekMon").is(":checked");
+		var weekTueCheck = $("#weekTue").is(":checked");
+		var weekWedCheck = $("#weekWed").is(":checked");
+		var weekThuCheck = $("#weekThu").is(":checked");
+		var weekFriCheck = $("#weekFri").is(":checked");
 		
 		if(dateCheck==false){
 			alert("날짜 입력이 잘못됐습니다.");
@@ -548,6 +556,12 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 		
 		else if(timeCheck==false){
 			alert("시간 입력이 잘못됐습니다.");
+		}
+		
+		
+		else if($("#repeatPeriod").val()=="week" && weekMonCheck==false && weekTueCheck == false 
+				&& weekWedCheck == false && weekWedCheck == false && weekWedCheck ==false){
+			alert("주간 반복할 요일을 선택해주세요");
 		}
 
 		else if (readonlyCheck == false) {
