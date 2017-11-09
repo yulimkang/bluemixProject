@@ -22,10 +22,10 @@
 
 </head>
 <body>
-
+<form action="/Test/check" id="testForm">
 날짜 : <input type="text" id="wantDate" name="wantDate"> <button type="button" onclick="excelDownload()">다운로드</button>
 
-
+</form>
 
 </body>
 </html>
@@ -37,13 +37,9 @@ function excelDownload(){
 	
 	var wantDate = $("#wantDate").val();
 	
-	$.ajax({
-		type:"POST",
-		url:"Test/a",
-		dataType:"text",
-		data:{"wantDate" : wantDate}
-	})
+	$("#testForm").submit();
 	
+		
 }
 </script>
 

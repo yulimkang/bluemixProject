@@ -325,74 +325,9 @@ $(function() {
 	$("#rsvEndDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
 	$( "#rsvEndDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
 	
-	weekCheckBoxChange();
 	
 });
 
-function weekCheckBoxChange(){
-	var startDate = new Date($("#rsvStartDate").val());
-	var weekString = week[startDate.getDay()];
-	
-	var checkWeekArray = [];
-	var checkWeekCount = 0;
-	var checkBoxClass = $(".weekCheckSelect");
-	
-	$("#weekMonBtn").attr("class","btn btn-default btn-sm");
-	$("#weekMonBtn").removeAttr("disabled");
-	
-	$("#weekTueBtn").attr("class","btn btn-default btn-sm");
-	$("#weekTueBtn").removeAttr("disabled");
-	
-	$("#weekWedBtn").attr("class","btn btn-default btn-sm");
-	$("#weekWedBtn").removeAttr("disabled");
-	
-	$("#weekThuBtn").attr("class","btn btn-default btn-sm");
-	$("#weekThuBtn").removeAttr("disabled");
-	
-	$("#weekFriBtn").attr("class","btn btn-default btn-sm");
-	$("#weekFriBtn").removeAttr("disabled");
-	
-	
-	for(var i=0; i<checkBoxClass.length; i++){
-		checkBoxClass[i].checked = false;
-		
-	}
-	
-	
-	if(weekString=='mon'){
-		$("#weekMonBtn").attr("class","btn btn-info btn-sm active");
-		$("#weekMonBtn").attr("disabled","disabled");
-		$("#weekMon").prop("checked", "checked")
-		$("#weekMon").attr("readonly","readonly");
-	}
-	else if(weekString=='tue'){
-		$("#weekTueBtn").attr("class","btn btn-primary btn-sm active");
-		$("#weekTueBtn").attr("disabled","disabled");
-		$("#weekTue").prop("checked", "checked")
-		$("#weekTue").attr("readonly","readonly");
-	}
-	else if(weekString=='wed'){
-		$("#weekWedBtn").attr("class","btn btn-warning btn-sm active");
-		$("#weekWedBtn").attr("disabled","disabled");
-		$("#weekWed").prop("checked", "checked")
-		$("#weekWed").attr("readonly","readonly");
-	}
-	else if(weekString=='thu'){
-		$("#weekThuBtn").attr("class","btn btn-danger btn-sm active");
-		$("#weekThuBtn").attr("disabled","disabled");
-		$("#weekThu").prop("checked", "checked")
-		$("#weekThu").attr("readonly","readonly");
-	}
-	else if(weekString=='fri'){
-		$("#weekFriBtn").attr("class","btn btn-success btn-sm active");
-		$("#weekFriBtn").attr("disabled","disabled");
-		$("#weekFri").prop("checked", "checked")
-		$("#weekFri").attr("readonly","readonly");
-	}
-	else{
-		
-	}
-}
 
 
 function weekSelectForm(){
@@ -407,44 +342,43 @@ function weekSelectForm(){
 	}
 }
 
-
 function weekSelectCheckBox(){
 	
 	var startDate = new Date($("#rsvStartDate").val());
 	var weekString = week[startDate.getDay()];
 	
-	if( $("#weekMon").is(":checked") && weekString!="mon"){
-		$("#weekMonBtn").attr("class","btn btn-info btn-sm active");
+	if( $("#weekMon").is(":checked")){
+		$("#weekMonBtn").attr("class","btn btn-primary btn-sm active");
 	}
-	else if(weekString!='mon'){
+	else{
 		$("#weekMonBtn").attr("class","btn btn-default btn-sm");
 	}
 	
-	if( $("#weekTue").is(":checked")  && weekString!="tue" ){
+	if( $("#weekTue").is(":checked")){
 		$("#weekTueBtn").attr("class","btn btn-primary btn-sm active");
 	}
-	else if(weekString!='tue'){
+	else{
 		$("#weekTueBtn").attr("class","btn btn-default btn-sm");
 	}
 	
-	if( $("#weekWed").is(":checked")  && weekString!="wed" ){
-		$("#weekWedBtn").attr("class","btn btn-warning btn-sm active");
+	if( $("#weekWed").is(":checked")){
+		$("#weekWedBtn").attr("class","btn btn-primary btn-sm active");
 	}
-	else if(weekString!='wed'){
+	else{
 		$("#weekWedBtn").attr("class","btn btn-default btn-sm");
 	}
 	
-	if( $("#weekThu").is(":checked")  && weekString!="thu" ){
-		$("#weekThuBtn").attr("class","btn btn-danger btn-sm active");
+	if( $("#weekThu").is(":checked")){
+		$("#weekThuBtn").attr("class","btn btn-primary btn-sm active");
 	}
-	else if(weekString!='thu'){
+	else{
 		$("#weekThuBtn").attr("class","btn btn-default btn-sm");
 	}
 	
-	if( $("#weekFri").is(":checked") && weekString!="fri"){
-		$("#weekFriBtn").attr("class","btn btn-success btn-sm active");
+	if( $("#weekFri").is(":checked")){
+		$("#weekFriBtn").attr("class","btn btn-primary btn-sm active");
 	}
-	else if(weekString!='fri'){
+	else{
 		$("#weekFriBtn").attr("class","btn btn-default btn-sm");
 	}
 }

@@ -147,8 +147,6 @@ public class RepeatReservationService {
 			// 반복주기가 '주' 라면 도는 방식은 위와 같음
 		} else if (repeatPeriod.equals("week")) {
 			
-			System.out.println("check1232131");
-			
 			Calendar startTempCal = startCal; 
 			Calendar endTempCal = endCal; 
 			
@@ -168,6 +166,8 @@ public class RepeatReservationService {
 					
 					duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
 				}
+				
+				System.out.println(duplicateCount);
 				
 				
 				if(duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
