@@ -106,11 +106,20 @@
 				<tbody>
 					<c:forEach items="${requestScope.searchResultListA}" var="searchResultList">
 						<tr>
-							<td width="10%">${searchResultList.rsv_date}</td>
+							<td width="10%">${searchResultList.rsv_date} ${searchResultList.dayoftheweek}</td>
 							<td width="25%"><c:out value="${fn:substring(searchResultList.rsv_start_time,0,5)}"/> ~
 							<c:out value="${fn:substring(searchResultList.rsv_end_time,0,5)}"/></td>
 							<td width="15%">${searchResultList.conf_nm}</td>
-							<td width="20%"><a onclick="searchToCal(${searchResultList.rsv_no});">${searchResultList.rsv_title}</a></td>				<!-- 하이퍼링크 -->
+							
+								<c:choose>
+									<c:when test="${searchResultList.rsv_confirm_state ne 'N'}">
+										<td width="20%"><a onclick="searchToCal(${searchResultList.rsv_no});">${searchResultList.rsv_title}</a></td>
+									</c:when>
+									<c:otherwise>
+										<td width="20%"><a onclick="searchToCal(${searchResultList.rsv_no});">(승인대기중)${searchResultList.rsv_title}</a></td>
+									</c:otherwise>
+								</c:choose>		<!-- 하이퍼링크 -->
+								
 							<td width="10%">${searchResultList.rsv_mem_nm}</td>
 							<td width="20%">${searchResultList.rsv_mem_pn}</td>
 						</tr>
@@ -288,12 +297,12 @@ function searchBtn() {
 		
 		if(searchKind == "general") {
 			//일반예약 검색일 때
-			$("#searchForm").attr("action","/Search/GeneralSearchPage");
+			$("#searchForm").attr("action","/AdminSearch/AdminGeneralSearchPage");
 			$("#searchForm").submit();
 			
 		}else if(searchKind == "repeat") {
 			//반복예야 검색일 때
-			$("#searchForm").attr("action","/Search/RepeatSearchPage");
+			$("#searchForm").attr("action","/AdminSearch/AdminRepeatSearchPage");
 			$("#searchForm").submit();
 			
 		}
