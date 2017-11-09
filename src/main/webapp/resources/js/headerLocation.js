@@ -161,7 +161,7 @@ function easySearchForGeneral(curPage) {
 			for(var j = startPage; j <= endPage; j++){		
 			 pagingnum = pagingnum+"<button class='btn btn-default btn-sm' id='num"+j+"' onclick=move("+j+")>"+j+"</button>";
 			}
-			var pagingEnd = "<button class='btn btn-default btn-sm' id='next' onclick='next("+curPage+")'>&raquo;</button></div></div>";
+			var pagingEnd = "<button class='btn btn-default btn-sm' id='next' onclick='next("+curPage+")'>&raquo;</button></div></div><br><br>";
 			$("#result").append(tableHeader+pagingStart+pagingnum+pagingEnd);
 			$("#num"+curPage).addClass('active');
 			
@@ -259,9 +259,6 @@ function easySearchForGeneral(curPage) {
 	            },
 	            //자동완성 기능에서 클릭했을 때, 일반예약을 기본으로 함
 	            select:function(event, id) {
-	    			$("#inputSearchCont").val(id.item.label);
-	           		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
-	        		$("#searchForm").submit();
 	            }
 	        
 	    });
@@ -323,13 +320,12 @@ function easySearchForGeneral(curPage) {
 				
 				$("#result").append(reservDetail+returnBtn);
 				
-				
 			}
 		})
 	}
 	
 	function returnToResult() {
-		$("#detailShow").empty();	
+		$("#detailShow").remove();
 	}
 	
 	

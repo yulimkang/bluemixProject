@@ -37,6 +37,7 @@
 		    	</div>
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
+<<<<<<< HEAD
 					<c:choose>
 					
 			    		<c:when test="${sessionScope.id ne null}">
@@ -50,6 +51,12 @@
 			      		</c:otherwise>
 			      		
 		      		</c:choose>
+=======
+
+	      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" OnKeyDown="if(event.keyCode==13){easySearchForGeneral(1);}"class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+
+>>>>>>> 8a26baa4215442c6cd86261e3624cab560f67841
 		      	</div>
 		      	
 	    	</form>
