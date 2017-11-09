@@ -154,7 +154,7 @@ function easySearchForGeneral(curPage) {
 			}
 			 tableHeader = tableHeader + "</tbody></table></div>";
 			
-            var pagingStart = "<br><br><div class='pagination' id='pagingDiv'>"
+            var pagingStart = "<br><br><div class='pagination pagination-lg' id='pagingDiv' style='margin:0 auto;'>"
                 +"<button class='btn btn-default btn-sm' id='pre' onclick='pre("+curPage+")'>&laquo;</button>";
 			var pagingnum='';
 			
@@ -163,18 +163,13 @@ function easySearchForGeneral(curPage) {
 			}
 			var pagingEnd = "<button class='btn btn-default btn-sm' id='next' onclick='next("+curPage+")'>&raquo;</button></div></div><br><br>";
 			$("#result").append(tableHeader+pagingStart+pagingnum+pagingEnd);
-//			$("#num"+curPage).addClass('active');
-			$("#num"+curPage).addClass('show');
+			$("#num"+curPage).addClass('active');
+//			$("#num"+curPage).addClass('show');
 			
-//			if(curPage == 1)  $("#pre").addClass('disabled');
-//			if(totalPage == 1) $("#next").addClass('disabled');
-//			
-//			if(curPage == totalPage) $("#next").addClass('disabled'); 
+			if(curPage == 1)  $("#pre").remove();
+			if(totalPage == 1) $("#next").remove();
 			
-			if(curPage == 1)  $("#pre").addClass('hidden'); 
-			if(totalPage == 1) $("#next").addClass('hidden'); 
-			
-			if(curPage == totalPage) $("#next").addClass('hidden'); 
+			if(curPage == totalPage) $("#next").remove();
 
 			 //$('#easySearchResult').modal('show');
 			
@@ -193,46 +188,16 @@ function easySearchForGeneral(curPage) {
 	   $("#result").empty();
 	   
 	   easySearchForGeneral(page);
-	   
-//	   $("#pre").addClass("disabled");
-	   $("#pre").addClass("hidden");
 	}
 
 	function move(num){
 	   $("#result").empty();
-	   easySearchForGeneral(num);
-	   
-	   if(num ==1) {
-//		      $("#pre").addClass("disabled");		 
-		   $("#pre").addClass("hidden");	
-	   }
-	   else if(num == totalPage){
-//	      $("#pre").removeClass("disabled");
-//	      $("#next").addClass("disabled");
-		   
-		   $("#pre").removeClass("hidden");
-		   $("#next").addClass("hidden");
-	   }
-	   else {
-//		      $("#pre").removeClass("disabled");	
-		       $("#pre").removeClass("hidden");
-	   }
-
-	   
+	   easySearchForGeneral(num);	   
 	}
 	
 	function next(page){
 	   page = page+1;
 	   $("#result").empty();
-	   
-//	   $("#pre").removeClass("disabled");
-	   $("#pre").removeClass("hidden");
-
-	   if(page == totalPage) {
-//		   $("#next").addClass("disabled");
-		   $("#next").addClass("hidden");
-	   }
-	     
 	   
 	   easySearchForGeneral(page);
 	}
@@ -335,7 +300,7 @@ function easySearchForGeneral(curPage) {
 				}
 				
 				reservDetail = reservDetail + "</tbody></table></div>";
-				var returnBtn = "<button type='button' onclick='returnToResult()'><span class='fa fa-undo' aria-hidden='true'></span></button></div>";
+				var returnBtn = "<button type='button' class='btn btn-default btn-sm btn-right' onclick='returnToResult()'><span class='fa fa-angle-up' aria-hidden='true'></span>접기</button></div>";
 				
 				$("#result").append(reservDetail+returnBtn);
 				
