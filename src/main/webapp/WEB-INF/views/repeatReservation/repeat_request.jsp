@@ -37,7 +37,7 @@
 				  <div>
 				  <div class="input-group">
 				    <span class="input-group-addon input-sm"><i class="fa fa-calendar-check-o"></i></span>
-				    <input class="form-control input-sm" type="text" id="rsvStartDate" name="rsvStartDate" maxlength=45 onchange="startDateChange(); weekCheckBoxChange()">
+				    <input class="form-control input-sm" type="text" id="rsvStartDate" name="rsvStartDate" maxlength=45 onchange="startDateChange();">
 				  </div>
 				  </div>
 				</div>
