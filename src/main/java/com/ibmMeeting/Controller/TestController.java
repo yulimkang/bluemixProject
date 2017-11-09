@@ -17,8 +17,8 @@ import com.ibmMeeting.Dao.SearchDao;
 import com.ibmMeeting.Dao.SettingDao;
 import com.ibmMeeting.Service.CommonService;
 import com.ibmMeeting.Service.SearchService;
-import com.ibmMeeting.excel.ExcelInputService;
-import com.ibmMeeting.excel.MyExcelView;
+//import com.ibmMeeting.excel.ExcelInputService;
+//import com.ibmMeeting.excel.MyExcelView;
 
 @Controller
 @RequestMapping("/Test")
@@ -40,20 +40,20 @@ public class TestController {
 	SchedulerDao schedulerDao;
 	
 	@Autowired
-	ExcelInputService excelInputService;
+//	ExcelInputService excelInputService;
 	
 	@RequestMapping("/a")
 	public String testPage(){
 		return "test";
 	}
 
-	@RequestMapping("/check")
-	public ModelAndView searchPage(HttpServletRequest request,HttpServletResponse response) throws MessagingException, ParseException {
-		HashMap<String, Object> model = excelInputService.historyExcelInput(request);
-		response.setContentType("application/ms-excel");
-		response.setHeader("Content-disposition","attachment; filename=myfile.xls");
-		return new ModelAndView(new MyExcelView(), model);
-	}
+//	@RequestMapping("/check")
+//	public ModelAndView searchPage(HttpServletRequest request,HttpServletResponse response) throws MessagingException, ParseException {
+//		HashMap<String, Object> model = excelInputService.historyExcelInput(request);
+//		response.setContentType("application/ms-excel");
+//		response.setHeader("Content-disposition","attachment; filename=myfile.xls");
+//		return new ModelAndView(new MyExcelView(), model);
+//	}
 	
 	@RequestMapping("thymeleafTest")
 	public String thymeleafTest(HttpServletRequest request) {

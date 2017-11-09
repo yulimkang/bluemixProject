@@ -187,7 +187,7 @@ public class SearchController {
 		String selectOption = request.getParameter("selectSearchOpt");
 		String inputValue = request.getParameter("value");
 		
-		searchService.formAutoComplete(request, response);
+		searchService.easyFormAutoComplete(request, response);
 		
 		System.out.println("Controller AutoComplete Input: " + inputValue+", Select : " + selectOption);
 		

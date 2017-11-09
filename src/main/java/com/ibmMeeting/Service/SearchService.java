@@ -439,6 +439,8 @@ public class SearchService {
 		easyInfo.put("value", inputValue);
 		easyInfo.put("today", today);
 		
+		System.out.println("value : "+inputValue+", today : "+today);
+		
 		if(request.getParameter("selectSearchOpt")!=null){
 			
 			if(selectOption.equals("e_all")) {
