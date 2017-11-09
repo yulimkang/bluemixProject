@@ -57,7 +57,6 @@ public class CommonService {
 		String stringDateTime = nowDate.format(new Date(dateTime));
 		return stringDateTime;
 	}
-	
 	// 현재시간 구하는 함수
 	public String nowTimeDash(){
 		long dateTime = System.currentTimeMillis(); 
