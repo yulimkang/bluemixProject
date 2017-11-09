@@ -62,6 +62,11 @@
 	    		</div>
 	    	</div>
     	</div>
+    	
+    <form action="/Reservation/SearchToCalendar" id="testForm">
+		<input type="hidden" id="rsvNo" name="rsvNo">
+	</form>
+    	
     	<!-- 여기까지 간편검색 -->
 
         <ul class="nav navbar-nav navbar-right">
