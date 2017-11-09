@@ -88,8 +88,9 @@
 	<!-- 작성자 : 박성준 -->
 	<!-- 모든유저 NoShow 초기화 -->
 	<select id="noShowAllUserInit">
-	   UPDATE MEMEBER
-	   SET COUNT_WARN = 0, MEM_STATE="정상" , MEM_BANDAY = 'N';
+	   UPDATE MEMBER
+	   SET COUNT_WARN = 0, MEM_STATE="정상" , MEM_BANDAY = 'N'
+	   WHERE MEM_STATE !="차단";
 	</select>
 	
 	<!-- 작성자 : 박성준 -->
@@ -135,7 +136,7 @@
 	<update id="noShowBanReset" parameterType="String">
 	   UPDATE MEMBER
 	   SET COUNT_WARN = 0, MEM_STATE ="정상", MEM_BANDAY = 'N'
-	   WHERE MEM_BANDAY = #{today}
+	   WHERE MEM_BANDAY = #{today} AND MEM_STATE = "NOSHOWBAN"
 	</update>
 	
 	<!-- 작성자 : 박성준 -->

@@ -419,17 +419,19 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 	// 모든값 입력확인
 	function inputValueAllCheck(){
 		
-		var meetingTitle = $("#rsvTitle").length;
-		var pwd = $("#rsvDelPwd").length;
-		var phoneNumber = $("#rsvMemPn").length;
-		var name = $("#rsvMemNm").length;
-		var email = $("#rsvMemEm").length;
-		var description = $("#rsvDescription").length;
+		var meetingTitle = $("#rsvTitle").val().length;
+		var pwd = $("#rsvDelPwd").val().length;
+		var phoneNumber = $("#rsvMemPn").val().length;
+		var name = $("#rsvMemNm").val().length;
+		var email = $("#rsvMemEm").val().length;
+		var description = $("#rsvDescription").val().length;
 
 		if(meetingTitle==0 || pwd ==0 || phoneNumber == 0 ||
 				name == 0 || email ==0 || description == 0){
 			alert("모든 값을 입력해주세요");
+			reservationAvailableCheck = false;
 		}
+		
 		else{
 			reservationAvailableCheck = true;
 		}
@@ -461,6 +463,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 	
 	// 최종 제출
 	function repeatSubmit(){
+		
 		inputValueAllCheck();
 		
 		if(memberBanState==true){

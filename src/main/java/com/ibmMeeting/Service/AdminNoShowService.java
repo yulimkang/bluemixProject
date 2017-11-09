@@ -82,8 +82,12 @@ public class AdminNoShowService {
 		
 		
 		HashMap<String,Object> settingLoad = settingDao.settingLoad();
-		Integer limitNoShowCount = (Integer)settingLoad.get("SET_NO_SHOW_BAN_DAY");
-;		if(boardingDao.noShowUserCount(memberInformation)==limitNoShowCount){
+		Integer limitNoShowCount = (Integer)settingLoad.get("SET_NO_SHOW_COUNT");
+		
+		System.out.println("12321321123" + limitNoShowCount);
+		
+		System.out.println(limitNoShowCount);
+		if(boardingDao.noShowUserCount(memberInformation)==limitNoShowCount){
 			boardingDao.memberBan(memberInformation);
 			
 			subject = rsvInformation.getRsvMemNm()+ "님 No-Show 카운트 설정값을 초과하여 차단됩니다.";
