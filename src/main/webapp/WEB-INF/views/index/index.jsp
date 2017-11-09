@@ -1428,9 +1428,10 @@ $(document).ready(function(){
 		},
 		 		
 	//	windowResize:true,
+		slotLabelFormat :'h:mm',
 		header: {
 			left: 'none',
-			center: 'title',
+			center: 'none',
 			right: 'none'
 		},
 		views: {
