@@ -138,12 +138,12 @@ function searchFormSubmit(){
 		
 		if(searchKind == "general") {
 			//일반예약 검색일 때
-			$("#searchForm").attr("action","/Search/GeneralSearchPage");
+			$("#searchForm").attr("action","/AdminSearch/AdminGeneralSearchPage");
 			$("#searchForm").submit();
 			
 		}else if(searchKind == "repeat") {
 			//반복예야 검색일 때
-			$("#searchForm").attr("action","/Search/RepeatSearchPage");
+			$("#searchForm").attr("action","/AdminSearch/AdminRepeatSearchPage");
 			$("#searchForm").submit();
 			
 		}
