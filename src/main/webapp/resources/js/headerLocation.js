@@ -52,6 +52,7 @@ function repeatReservation(){
 //전체 페이지   ====> 남은 것 :  하이퍼링크(관리자일때와 아닐때), 상세내역 출력, 자동완성
 var totalPage = 0;
 
+
 function easySearchForGeneral(curPage) {
 	
 	//내용 입력하라고 뜨게 하기
@@ -69,6 +70,7 @@ function easySearchForGeneral(curPage) {
 		success : function(data) {
 			detailViewArray = data;
 			$("#result").empty();
+//			$("#detailShow").empty();	
 			
 			
             var results_length = data.length;
@@ -91,8 +93,7 @@ function easySearchForGeneral(curPage) {
             if(start_point+10 > results_length) end_point = results_length;
             else end_point = start_point +10;
 		
-            
-            var tableHeader = "<div class='table-responsive'>" +
+            var tableHeader = "<div id='wholeModal'>"+"<div class='table-responsive'>" +
             					   "<table id='easySearchTable' class='table table-hover text-center' style='text-align:left;text-size:90%'>" +
             					   "<thead><tr>" +
             					   "<th width='15%' style='text-align:left;'>회의날짜</th>" +
@@ -117,22 +118,15 @@ function easySearchForGeneral(curPage) {
 				var et = endTime.substring(0, 5);
 				
 				if(detailViewArray[i].RSV_REPEAT_NO == 0) {
-//					tableHeader=  tableHeader + "<tr class='table table-hover text-left' style='width:auto'> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
-//											+"<td style='width:12%'>"+ st + "~" + et +"</td>"
-//											+ "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>"
-//											+ "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" +  detailViewArray[i].RSV_TITLE + "</a></td>"
-//											+ "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
-//											+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-//											+ "<td>" + " " + "</td>";
 					
-					tableHeader = tableHeader + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
-											+"<td style='width:12%'>"+ st + "~" + et +"</td>"
-											+ "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
+					tableHeader = tableHeader  + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
+													 +"<td style='width:12%'>"+ st + "~" + et +"</td>"
+													 + "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
 					
 					if(detailViewArray[i].RSV_CONFIRM_STATE != 'N') {
-						tableHeader = tableHeader +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" +  detailViewArray[i].RSV_TITLE + "</a></td>";
+						tableHeader = tableHeader + "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" + detailViewArray[i].RSV_TITLE + "</a></td>"
 					}else {
-						tableHeader = tableHeader +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
+						tableHeader = tableHeader + "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}
 					
 					tableHeader = tableHeader + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
@@ -140,14 +134,6 @@ function easySearchForGeneral(curPage) {
 													+ "<td style='width:10%'>" + " " + "</td>";
 
 				}else {
-					
-//					tableHeader = tableHeader + "<tr class='table table-hover text-left' style='width:auto'> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
-//											+"<td style='width:12%'>"+ st + "~" + et +"</td>"
-//											+ "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>"
-//											+ "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" +  detailViewArray[i].RSV_TITLE + "</a></td>"
-//											+ "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
-//											+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-//											+ "<td>" + "<button type='button' class='btn btn-default btn-sm'>상세보기</button>" + "</td></tr>";
 					
 					tableHeader = tableHeader + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
 													  + "<td style='width:12%'>"+ st + "~" + et +"</td>"
@@ -161,13 +147,12 @@ function easySearchForGeneral(curPage) {
 					
 					tableHeader = tableHeader + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
 														+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-														+ "<td style='width:10%'>" + "<button type='button' class='btn btn-default btn-sm'>상세보기</button>" + "</td></tr>";							
+														+ "<td style='width:10%'>" + "<button type='button' class='btn btn-default btn-sm' onclick='showEasyRepeatDetail(" + detailViewArray[i].RSV_REPEAT_NO + ");'>상세보기</button>" + "</td></tr>";							
 					
 				}		
 				
 			}
 			 tableHeader = tableHeader + "</tbody></table></div>";
-			 $("#result").append(tableHeader);
 			
             var pagingStart = "<br><br><div class='pagination' id='pagingDiv'>"
                 +"<button class='btn btn-default btn-sm' id='pre' onclick='pre("+curPage+")'>&laquo;</button>";
@@ -176,8 +161,8 @@ function easySearchForGeneral(curPage) {
 			for(var j = startPage; j <= endPage; j++){		
 			 pagingnum = pagingnum+"<button class='btn btn-default btn-sm' id='num"+j+"' onclick=move("+j+")>"+j+"</button>";
 			}
-			var pagingEnd = "<button class='btn btn-default btn-sm' id='next' onclick='next("+curPage+")'>&raquo;</button></div>";
-			$("#result").append(pagingStart+pagingnum+pagingEnd);
+			var pagingEnd = "<button class='btn btn-default btn-sm' id='next' onclick='next("+curPage+")'>&raquo;</button></div></div>";
+			$("#result").append(tableHeader+pagingStart+pagingnum+pagingEnd);
 			$("#num"+curPage).addClass('active');
 			
 			if(curPage == 1)  $("#pre").addClass('disabled');
@@ -267,16 +252,86 @@ function easySearchForGeneral(curPage) {
 	                          })
 	                        );                    },
 	                    error : function(data) {
-	                    	//alert("ajax 에러가 발생하였습니다");
+
 	                    },
 	                    
 	               });
 	            },
-	            //자동완성 기능에서 클릭했을 때
+	            //자동완성 기능에서 클릭했을 때, 일반예약을 기본으로 함
 	            select:function(event, id) {
-	            	easySearchForGeneral(1);
+	    			$("#inputSearchCont").val(id.item.label);
+	           		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
+	        		$("#searchForm").submit();
 	            }
 	        
 	    });
 	});
+	
+	
+	function showEasyRepeatDetail(repeatNo) {
+		
+		$.ajax({
+			url : "/Search/ShowRepeatDetail",
+			dataType : "json",
+			type : "POST",
+			data : { "repeatNo" : repeatNo },
+			success : function(data) {
+				detailViewArray = data;
+				
+				$("#detailShow").empty();	
 
+				
+				var reservDetail =  "<div id='detailShow'><div class='table-responsive'>" +
+				   "<table id='easySearchTable' class='table table-hover text-center' style='text-align:left;text-size:90%'>" + "<thead><tr>" +
+				   "<th width='15%' style='text-align:left;'>회의날짜</th>" +
+				   "<th width='12%' style='text-align:left;'>회의시간</th>" +
+				   "<th width='15%' style='text-align:left;'>회의실</th>" +
+				   "<th width='25%' style='text-align:left;'>회의제목</th>" +
+				   "<th width='10%' style='text-align:left;'>예약자</th>" +
+				   "<th width='13%' style='text-align:left;'>전화번호</th>" +
+				   "</tr></thead><tbody>";
+				
+				//회의날짜, 회의 시간, 회의실, 회의제목, 예약자, 예약자 번호
+				for(var i =0; i<data.length; i++){
+					
+					var startTime= detailViewArray[i].rsv_start_time;
+					var endTime= detailViewArray[i].rsv_end_time;
+					
+					var st = startTime.substring(0, 5);
+					var et = endTime.substring(0, 5);
+	
+					
+					reservDetail = reservDetail + "<tr> <td style='width:15%'>" +detailViewArray[i].rsv_date + " "+ detailViewArray[i].dayoftheweek + "</td>"
+					+"<td style='width:12%'>"+ st + "~" + et +"</td>"
+					+ "<td style='width:15%'>" + detailViewArray[i].conf_nm +"</td>";
+
+					if(detailViewArray[i].RSV_CONFIRM_STATE != 'N') {
+						reservDetail = reservDetail +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>" +  detailViewArray[i].rsv_title + "</a></td>";
+					}else {
+						reservDetail = reservDetail +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>(승인대기중)" +  detailViewArray[i].rsv_title + "</a></td>";
+					}
+					
+					reservDetail = reservDetail + "<td style='width:10%'>" + detailViewArray[i].rsv_mem_nm + "</td>"
+														+ "<td style='width:13%'>" + detailViewArray[i].rsv_mem_pn + "</td>"
+														+ "</tr>";
+					
+					
+				}
+				
+				reservDetail = reservDetail + "</tbody></table></div>";
+				var returnBtn = "<button type='button' onclick='returnToResult()'><span class='fa fa-undo' aria-hidden='true'></span></button></div>";
+				
+				$("#result").append(reservDetail+returnBtn);
+				
+				
+			}
+		})
+	}
+	
+	function returnToResult() {
+		$("#detailShow").empty();	
+	}
+	
+	
+				
+				

@@ -321,6 +321,60 @@ function searchFormSubmit(){
  * 작성자 : 최문정
  * 내용 : 반복예약 상세내용 리스트를 모달로 띄움
  */
+ function showRepeatDetail(repeatNo) {
+ 	
+ 	var table = document.getElementById('modalTable');
+
+ 	
+ 	var detailViewArray = new Array();
+ 	
+ 	$.ajax({
+ 		url : "/Search/ShowRepeatDetail",
+ 		dataType : "json",
+ 		type : "POST",
+ 		data : { "repeatNo" : repeatNo },
+ 		success : function(data) {
+ 			detailViewArray = data;
+
+ 			for(var i = table.rows.length - 1; i > 0; i--)
+ 	         {
+ 	             table.deleteRow(i);
+ 	         }
+ 			
+ 			//회의날짜, 회의 시간, 회의실, 회의제목, 예약자, 예약자 번호
+ 			for(var i =0; i<data.length; i++){
+ 			
+ 				var startTime= detailViewArray[i].rsv_start_time;
+ 				var endTime= detailViewArray[i].rsv_end_time;
+ 				
+ 				var st = startTime.substring(0, 5);
+ 				var et = endTime.substring(0, 5);
+
+ 				var row = table.insertRow();
+ 				row.insertCell(0).innerHTML = detailViewArray[i].rsv_date +" "+detailViewArray[i].dayoftheweek;
+ 				row.insertCell(1).innerHTML = st + "~" + et;
+ 				row.insertCell(2).innerHTML = detailViewArray[i].conf_nm;
+ 				
+ 				if(detailViewArray[i].rsv_confirm_state != 'N') {
+ 					row.insertCell(3).innerHTML = '<a onclick="searchToCal(' + detailViewArray[i].rsv_no + ');">' + detailViewArray[i].rsv_title + '</a>';
+ 				}
+ 				else {
+ 					row.insertCell(3).innerHTML = '<a onclick="searchToCal(' + detailViewArray[i].rsv_no + ');">(승인대기중)' + detailViewArray[i].rsv_title + '</a>';
+ 				}
+ 				
+ 				row.insertCell(4).innerHTML = detailViewArray[i].rsv_mem_nm;
+ 				row.insertCell(5).innerHTML = detailViewArray[i].rsv_mem_pn;
+ 				
+ 			}
+ 		},
+ 		error : function(request, status, error) {
+ 			alert("code : "+request.status + "\n" + "error : " + error);
+ 		}
+ 		
+ 	});
+ 	
+ 	
+ }
 
 
 /* 작성자 : 박세연 
