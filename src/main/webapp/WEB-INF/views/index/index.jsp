@@ -1929,7 +1929,7 @@ $(document).ready(function(){
 		margin: 0;
 		padding: 0;
 		font-family: 'Jeju Gothic', serif;
-		font-size: 15px;
+		font-size: 17px;
 	}
 
 	#calendar {

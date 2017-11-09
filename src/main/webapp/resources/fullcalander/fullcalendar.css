@@ -1184,7 +1184,7 @@ NOTE: use percentage font sizes or else old IE chokes
 --------------------------------------------------------------------------------------------------*/
 
 .fc-time-grid .fc-slats td {
-	height: 2.1em;
+	height: 1.9em;
 	border-bottom: 0; /* each cell is responsible for its top border */
 }
 
