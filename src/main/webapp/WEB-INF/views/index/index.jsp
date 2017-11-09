@@ -1359,7 +1359,7 @@ $(document).ready(function(){
 		    	    	
 				//비밀번호 확인
 			 	$("#eventInfo").html("<input type='password' id='chkPwd'> <input type='button' id='chkBtn' value='확인'><br><div id='chkPwdErrMsg' style='display:none'></div>");
-				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:350, height:200, resizable:false, close: function( event, ui ) { $('#calendar').fullCalendar('refetchEvents');} });
+				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:370, height:200, resizable:false, close: function( event, ui ) { $('#calendar').fullCalendar('refetchEvents');} });
 			    $("#eventLink").show();
 			    $("#detailInfo").empty();
 				$("#eventLink").on("click", function(){
