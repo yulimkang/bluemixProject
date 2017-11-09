@@ -38,11 +38,10 @@
 <link rel="stylesheet" type="text/css"	href="/resources/EasyAutocomplete-1.3.5/easy-autocomplete.themes.css" />
 <link rel="stylesheet" type="text/css"	href="/resources/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" />
 <script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
-	
+   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">	
 <html>
 <head>
-<title>메인</title>
-
+<title>IBM 회의실 예약시스템</title>
 </head>
 	<body id="htmlBody">
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>		
@@ -1934,7 +1933,7 @@ $(document).ready(function(){
 	}
 
 	#calendar {
-		max-width: 1200px;
+		max-width: 1400px;
 		margin: 20px auto;
 	}
 	

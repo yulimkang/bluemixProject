@@ -1184,7 +1184,7 @@ NOTE: use percentage font sizes or else old IE chokes
 --------------------------------------------------------------------------------------------------*/
 
 .fc-time-grid .fc-slats td {
-	height: 1.5em;
+	height: 2.1em;
 	border-bottom: 0; /* each cell is responsible for its top border */
 }
 
@@ -1278,6 +1278,7 @@ be a descendant of the grid when it is being dragged.
 
 .fc-time-grid-event .fc-content {
 	overflow: hidden; /* for when .fc-selected */
+	height:100%
 }
 
 .fc-time-grid-event .fc-time,
@@ -1289,6 +1290,7 @@ be a descendant of the grid when it is being dragged.
 	display: flex;
     align-items: center;
     justify-content: center;
+    -ms-flex-align : center;
 }
 
  @media screen and (max-width: 500px) {
