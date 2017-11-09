@@ -38,7 +38,7 @@
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
 
-	      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+	      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" OnKeyDown="if(event.keyCode==13){easySearchForGeneral(1);}"class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
     				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
 
 		      	</div>
