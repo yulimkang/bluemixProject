@@ -204,8 +204,16 @@ public interface SearchDao {
 	//간편 검색 반복내역 출력(왜냐하면 날짜가 있어야 하기 때문에)
 	ArrayList<HashMap<String,Object>> repeatSearchDetailContentsForEasySearch(HashMap<String, Object> searchInfo);
 	
+	//간편검색 자동완성
+	ArrayList<HashMap<String,Object>> easyAutocompleteByAllList(HashMap<String, Object> easyInfo);
+	ArrayList<HashMap<String,Object>> easyAcompleteByTitleList(HashMap<String, Object> easyInfo);
+	ArrayList<HashMap<String,Object>> easyAutocompleteByMemNMList(HashMap<String, Object> easyInfo);
+	ArrayList<HashMap<String,Object>> easyAutocompleteByMemPNList(HashMap<String, Object> easyInfo);
+	
 	//테스트용
 	ArrayList<HashMap<String,Object>> test(HashMap<String, Object> searchInfo);
+	
+	
 	
 	
 }

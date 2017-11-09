@@ -166,14 +166,34 @@ public class SearchController {
 		
 		searchService.formAutoComplete(request, response);
 		
-		System.out.println("Controller AutoComplete : " + inputValue);
+		System.out.println("Controller AutoComplete Input: " + inputValue+", Select : " + selectOption);
 		
 	}
 	
 	
-	
-	
 	///////////////////////////10월 31일 이후 수정/////////////////////////
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 검색어 입력 시 자동완성하는 기능(간편검색용)
+	 * @param request
+	 * @param response
+	 */
+	@ResponseBody
+	@RequestMapping(value="/EasySearchAutoComplete")
+	public void easySearchAutocomplete(HttpServletRequest request, HttpServletResponse response) {
+		
+		response.setCharacterEncoding("UTF-8");
+		String selectOption = request.getParameter("selectSearchOpt");
+		String inputValue = request.getParameter("value");
+		
+		searchService.formAutoComplete(request, response);
+		
+		System.out.println("Controller AutoComplete Input: " + inputValue+", Select : " + selectOption);
+		
+	}	
+	
+
 	
 	//사용자 검색 페이지
 	@RequestMapping("/GeneralUserSearchPage")

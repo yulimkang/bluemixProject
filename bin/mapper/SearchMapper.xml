@@ -2435,5 +2435,73 @@
 			ORDER BY RESULT.RSV_DATE DESC
 	</select>
 	
+	<!--  간편검색을 위한 자동완성 기능, '전체' 옵션 -->
+	<select id="easyAutocompleteByAllList" resultType="HashMap" parameterType="HashMap">
+		SELECT DISTINCT RSV_TITLE
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		<![CDATA[
+		WHERE REPLACE(RSV_TITLE, ' ', '') LIKE CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+		WHERE AND R.RSV_DATE >= #{today}]]>
+		</if>
+		
+		UNION
+		SELECT DISTINCT RSV_MEM_NM
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		<![CDATA[
+		WHERE RSV_MEM_NM LIKE CONCAT('%',#{value},'%')
+		AND R.RSV_DATE >= #{today}]]>
+		</if>
+		
+		UNION
+		SELECT DISTINCT RSV_MEM_PN
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		<![CDATA[
+		WHERE REPLACE(RSV_MEM_PN, '-', '') LIKE CONCAT('%',#{value},'%')
+		AND R.RSV_DATE >= #{today}]]>
+		</if>
+	</select>
+	
+	<!--  간편검색을 위한 자동완성 기능, '회의제목 옵션' -->
+	<select id="easyAcompleteByTitleList" resultType="HashMap" parameterType="HashMap">
+		SELECT DISTINCT RSV_TITLE
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		<![CDATA[
+		WHERE REPLACE(RSV_TITLE, ' ', '') LIKE CONCAT('%',REPLACE(#{value}, ' ', ''),'%')
+		AND R.RSV_DATE >= #{today}]]>
+		</if>
+	</select>
+	
+	<!--  간편검색을 위한 자동완성 기능, '예약자' 옵션 -->
+	<select id="easyAutocompleteByMemNMList" resultType="HashMap" parameterType="HashMap">
+		SELECT DISTINCT RSV_MEM_NM
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		<![CDATA[
+		WHERE RSV_MEM_NM LIKE CONCAT('%',#{value},'%')
+		AND R.RSV_DATE >= #{today}]]>
+		</if>
+	</select>
+	
+	<!--  간편검색을 위한 자동완성 기능, '예약자 번호 '옵션 -->
+	<select id="easyAutocompleteByMemPNList" resultType="HashMap" parameterType="HashMap">
+		SELECT DISTINCT RSV_MEM_PN
+		FROM RESERVATION
+		
+		<if test="value !=null">
+		<![CDATA[
+		WHERE REPLACE(RSV_MEM_PN, '-', '') LIKE CONCAT('%',REPLACE(#{value}, '-', ''),'%')
+		AND R.RSV_DATE >= #{today}]]>
+		</if>
+	</select>
+	
 
 </mapper>

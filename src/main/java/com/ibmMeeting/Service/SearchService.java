@@ -397,6 +397,8 @@ public class SearchService {
 			System.out.println("JSON변환에러");
 		}
 		
+		System.out.println(jarr);
+		
 		
 		//PrintWriter로 출력
 		try {
@@ -410,6 +412,86 @@ public class SearchService {
 			e.printStackTrace();
 			System.out.println("PrintWriter 에러");
 		}
+		
+		
+		
+	}
+	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 검색어 입력 시 자동완성(간편검색용)
+	 * @param request
+	 * @param response
+	 */
+	public void easyFormAutoComplete(HttpServletRequest request, HttpServletResponse response) {
+		
+		ArrayList<HashMap<String, Object>> autocompleteList = new ArrayList<HashMap<String, Object>>();
+		
+		String selectOption = request.getParameter("selectSearchOpt");
+		String inputValue = request.getParameter("value");
+		
+		HashMap<String,Object> easyInfo = new HashMap<String,Object>();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		Date cDate = new Date();
+		String today = sdf.format(cDate);
+		
+		easyInfo.put("value", inputValue);
+		easyInfo.put("today", today);
+		
+		if(request.getParameter("selectSearchOpt")!=null){
+			
+			if(selectOption.equals("e_all")) {
+				autocompleteList =  searchDao.easyAutocompleteByAllList(easyInfo);
+			}else if(selectOption.equals("e_title")) {
+				autocompleteList = searchDao.easyAcompleteByTitleList(easyInfo);
+			}else if(selectOption.equals("e_mem_nm")) {
+				autocompleteList = searchDao.easyAutocompleteByMemNMList(easyInfo);
+			}else if(selectOption.equals("e_mem_pn")) {
+				autocompleteList = searchDao.easyAutocompleteByMemPNList(easyInfo);
+			}
+			
+		}
+		
+		
+		//ArratList를 JSON에 입력
+		JSONArray jarr = new JSONArray();
+		try{
+			for(int i=0 ; i < autocompleteList.size() ; i++) {
+				JSONObject sOjbt = new JSONObject();
+				
+				//문자열 자르기
+				String attr = autocompleteList.get(i).toString();
+				String arr1[] = attr.split("=");
+				String arr2[] = arr1[1].split("}");
+				
+				//JSON에 입력
+				sOjbt.put("data", arr2[0]);
+
+				jarr.put(sOjbt);
+			}
+		}catch (JSONException e) {
+			e.printStackTrace();
+			System.out.println("JSON변환에러");
+		}
+		
+		System.out.println(jarr);
+		
+		
+		//PrintWriter로 출력
+		try {
+			PrintWriter result = response.getWriter();
+			result.print(jarr);
+			result.flush();
+			result.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("PrintWriter 에러");
+		}
+		
+		
 		
 	}
 	
