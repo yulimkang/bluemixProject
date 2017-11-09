@@ -62,7 +62,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("일반 반복예약 검색 결과 개수 : "+totalCount);
 
 			}else if(selectOpt.equals("all") && generalSort.equals("old")){
 				
@@ -79,7 +78,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("일반 반복예약 검색 결과 개수 : "+totalCount);
 				
 			}else if(selectOpt.equals("title") && generalSort.equals("new")) {
 				
@@ -174,8 +172,6 @@ public class SearchService {
 			}
 			
 		}
-		
-		System.out.println("Service 관리자 검색 전체 결과 리스트 : " + searchResult);
 				
 		return map;
 
@@ -438,8 +434,6 @@ public class SearchService {
 		
 		easyInfo.put("value", inputValue);
 		easyInfo.put("today", today);
-		
-		System.out.println("value : "+inputValue+", today : "+today);
 		
 		if(request.getParameter("selectSearchOpt")!=null){
 			
@@ -742,8 +736,6 @@ public class SearchService {
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
-				
-				System.out.println("Service 전체 검색 개수 : "+ totalCount);
 
 			}else if(selectOpt.equals("all") && generalSort.equals("old")){
 				
@@ -760,7 +752,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 전체 검색 개수 : "+ totalCount);
 				
 			}else if(selectOpt.equals("title") && generalSort.equals("new")) {
 				
@@ -777,7 +768,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 회의제목 검색 개수 : "+ totalCount);
 				
 			}else if(selectOpt.equals("title") && generalSort.equals("old")){
 				
@@ -794,7 +784,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 회의제목 검색 개수 : "+ totalCount);
 				
 			}else if(selectOpt.equals("mem_nm") && generalSort.equals("new")) {
 				
@@ -811,7 +800,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 예약자 이름 검색 개수 : "+ totalCount);
 				
 			}else if(selectOpt.equals("mem_nm") && generalSort.equals("old")) {
 				
@@ -828,7 +816,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 예약자 이름 검색 개수 : "+ totalCount);
 
 			}else if(selectOpt.equals("mem_pn") && generalSort.equals("new")) {
 				
@@ -845,7 +832,6 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 예약자 번호 검색 개수 : "+ totalCount);
 
 			}else if(selectOpt.equals("mem_pn") && generalSort.equals("old")) {
 				
@@ -862,124 +848,16 @@ public class SearchService {
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
 				
-				System.out.println("Service 예약자 번호 검색 개수 : "+ totalCount);
 				
 			}
 			
 		}
 		
-		System.out.println("Service Check LIst : " + searchResult);
 				
 		return map;
 
 	}
 	
-	//간편검색
-//	public HashMap<String, Object> easySearchResult(HttpServletRequest request, String easySearchCont, String easySelectOpt, int page) {
-//		
-//		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
-//		
-//		//Info to Mapper
-//		HashMap<String,Object> searchInfo = new HashMap<String,Object>();
-//		
-//		//Info to PagingMapper
-//		HashMap<String,Object> easyInfo = new HashMap<String,Object>();
-//		
-//		//전체 Info return
-//		HashMap<String, Object> map =  new HashMap<String, Object>();
-//		
-//		
-//		//easyInfo : 페이징을 위해 검색 내용 및 오늘 날짜 보냄
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-//		Date cDate = new Date();
-//		String today = sdf.format(cDate);
-//		
-//		easyInfo.put("easySearchCont", easySearchCont);
-//		easyInfo.put("today", today);
-//
-//		if(request.getParameter("easySelectSearchOpt")!=null){
-//			
-//			if(easySelectOpt.equals("e_all")) {
-//				
-//				//'전체'옵션 간편검색
-//				int totalCount = searchDao.rownumEasySearchSelectByAll(easyInfo);
-//				PagingBean pageBean = new PagingBean(totalCount, page);	
-//				
-//				searchInfo.put("value", easySearchCont);
-//				searchInfo.put("today", today);
-//				searchInfo.put("startPage", pageBean.getBeginItemInPage());
-//				searchInfo.put("endPage", pageBean.getEndItemInPage());
-//
-//				searchResult =  searchDao.easySearchSelectByAll(searchInfo);
-//				//searchResult =  searchDao.test(searchInfo);
-//
-//				map.put("pageBean", pageBean);
-//				map.put("searchResult", searchResult);
-//				
-//				System.out.println("Service 전체 검색 개수 : "+ totalCount);
-//
-//			}else if(easySelectOpt.equals("e_title")) {
-//				
-//				//'회의제목' 옵션 간편검색
-//				int totalCount = searchDao.rownumEasySearchSelectByTitle(easyInfo);
-//				PagingBean pageBean = new PagingBean(totalCount, page);
-//				
-//				searchInfo.put("value", easySearchCont);
-//				searchInfo.put("today", today);
-//				searchInfo.put("startPage", pageBean.getBeginItemInPage());
-//				searchInfo.put("endPage", pageBean.getEndItemInPage());
-//				
-//				searchResult =  searchDao.easySearchSelectByTitle(searchInfo);
-//				
-//				map.put("pageBean", pageBean);
-//				map.put("searchResult", searchResult);
-//				
-//				System.out.println("Service 회의제목 검색 개수 : "+ totalCount);
-//				
-//			}else if(easySelectOpt.equals("e_mem_nm")) {
-//				
-//				//'예약자 이름' 옵션 간편검색
-//				int totalCount = searchDao.rownumEasySearchSelectByMemNM(easyInfo);
-//				PagingBean pageBean = new PagingBean(totalCount, page);	
-//				
-//				searchInfo.put("value", easySearchCont);
-//				searchInfo.put("today", today);
-//				searchInfo.put("startPage", pageBean.getBeginItemInPage());
-//				searchInfo.put("endPage", pageBean.getEndItemInPage());
-//				
-//				searchResult =  searchDao.easySearchSelectByMemNM(searchInfo);
-//
-//				map.put("pageBean", pageBean);
-//				map.put("searchResult", searchResult);
-//				
-//				System.out.println("Service 예약자 이름 검색 개수 : "+ totalCount);
-//				
-//			}else if(easySelectOpt.equals("e_mem_pn")) {
-//				
-//				//예약자 번호 간편검색
-//				int totalCount = searchDao.rownumEasySearchSelectByMemPN(easyInfo);
-//				PagingBean pageBean = new PagingBean(totalCount, page);	
-//				
-//				searchInfo.put("value", easySearchCont);
-//				searchInfo.put("today", today);
-//				searchInfo.put("startPage", pageBean.getBeginItemInPage());
-//				searchInfo.put("endPage", pageBean.getEndItemInPage());
-//				
-//				searchResult =  searchDao.easySearchSelectByMemPN(searchInfo);
-//				
-//				map.put("pageBean", pageBean);
-//				map.put("searchResult", searchResult);
-//				
-//				System.out.println("Service 예약자 번호 검색 개수 : "+ totalCount);
-//				
-//			}
-//			
-//		}
-//		
-//		System.out.println("Searvice Easy Search Result : " + searchResult);
-//
-//		return map;
-//	}
 	
 	//간편검색
 	public ArrayList<HashMap<String, Object>> easySearchResult(HttpServletRequest request, String easySearchCont, String easySelectOpt) {
@@ -991,9 +869,6 @@ public class SearchService {
 		
 		//Info to PagingMapper
 		HashMap<String,Object> easyInfo = new HashMap<String,Object>();
-		
-		//전체 Info return
-//		HashMap<String, Object> map =  new HashMap<String, Object>();
 		
 		
 		//easyInfo : 페이징을 위해 검색 내용 및 오늘 날짜 보냄
@@ -1028,11 +903,9 @@ public class SearchService {
 						
 			}
 			
-			//map.put("searchResult", searchResult);
 			
 		}
 		
-		System.out.println("Searvice Easy Search Result : " + searchResult);
 
 		return searchResult;
 	}

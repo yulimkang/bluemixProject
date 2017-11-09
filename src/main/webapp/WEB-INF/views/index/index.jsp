@@ -38,11 +38,10 @@
 <link rel="stylesheet" type="text/css"	href="/resources/EasyAutocomplete-1.3.5/easy-autocomplete.themes.css" />
 <link rel="stylesheet" type="text/css"	href="/resources/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" />
 <script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
-	
+   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">	
 <html>
 <head>
-<title>메인</title>
-
+<title>IBM 회의실 예약시스템</title>
 </head>
 	<body id="htmlBody">
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>		
@@ -1360,7 +1359,7 @@ $(document).ready(function(){
 		    	    	
 				//비밀번호 확인
 			 	$("#eventInfo").html("<input type='password' id='chkPwd'> <input type='button' id='chkBtn' value='확인'><br><div id='chkPwdErrMsg' style='display:none'></div>");
-				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:350, height:200, resizable:false, close: function( event, ui ) { $('#calendar').fullCalendar('refetchEvents');} });
+				$("#eventContent").dialog({ modal: true, title: "비밀번호를 입력해주세요.",  width:370, height:200, resizable:false, close: function( event, ui ) { $('#calendar').fullCalendar('refetchEvents');} });
 			    $("#eventLink").show();
 			    $("#detailInfo").empty();
 				$("#eventLink").on("click", function(){
@@ -1930,11 +1929,11 @@ $(document).ready(function(){
 		margin: 0;
 		padding: 0;
 		font-family: 'Jeju Gothic', serif;
-		font-size: 15px;
+		font-size: 17px;
 	}
 
 	#calendar {
-		max-width: 1200px;
+		max-width: 1400px;
 		margin: 20px auto;
 	}
 	
