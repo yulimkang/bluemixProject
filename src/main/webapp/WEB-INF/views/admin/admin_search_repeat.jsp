@@ -93,12 +93,13 @@
 		<br><br><br><br><br>
 		<!-- 반복예약 결과 데이터 테이블 출력 -->
 		<div id="repeatSearchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
-			<table class="table table-hover text-center" style="text-align:center;">
+			<table class="table table-hover text-center" style="text-align:center;text-size:90%">
 				<thead>
 					<tr>
 						<th width="10%" style="text-align: center;">반복시작일</th>
-						<th width="20%" style="text-align: center;">회의시간</th>
-						<th width="15%" style="text-align: center;">회의실</th>
+						<th width="10%" style="text-align: center;">반복종료일</th>
+						<th width="10%" style="text-align: center;">회의시간</th>
+						<th width="10%" style="text-align: center;">회의실</th>
 						<th width="20%" style="text-align: center;">회의제목</th>
 						<th width="10%" style="text-align: center;">예약자</th>
 						<th width="15%" style="text-align: center;">전화번호</th>
@@ -109,14 +110,24 @@
 				<tbody>
 					<c:forEach items="${requestScope.repeatSearchResultListA}" var="repeatSearchResultListA">
 						<tr>
-							<td width="10%">${repeatSearchResultListA.rsv_date}</td>
-							<td width="20%"><c:out value="${fn:substring(repeatSearchResultListA.rsv_start_time,0,5)}"/> ~
-							<c:out value="${fn:substring(repeatSearchResultListA.rsv_end_time,0,5)}"/></td>
-							<td width="15%">${repeatSearchResultListA.conf_nm}</td>
-							<td width="20%">${repeatSearchResultListA.rsv_title}</td>
-							<td width="10%">${repeatSearchResultListA.rsv_mem_nm}</td>
-							<td width="15%">${repeatSearchResultListA.rsv_mem_pn}</td>
-							<td width="10%"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#reservDetail" onClick="showRepeatDetail(${repeatSearchResultListA.rsv_repeat_no} )">상세보기</button></td>
+							<td width="10%">${repeatSearchResultListA.X} ${repeatSearchResultListA.SDAYOFTHEWEEK}</td>
+							<td width="10%">${repeatSearchResultListA.Y} ${repeatSearchResultListA.EDAYOFTHEWEEK}</td>
+							<td width="10%"><c:out value="${fn:substring(repeatSearchResultListA.RSV_START_TIME,0,5)}"/> ~
+							<c:out value="${fn:substring(repeatSearchResultListA.RSV_END_TIME,0,5)}"/></td>
+							<td width="10%">${repeatSearchResultListA.CONF_NM}</td>
+							
+							<c:choose>
+								<c:when test="${repeatSearchResultListA.RSV_CONFIRM_STATE ne 'N'}">
+									<td width="20%">${repeatSearchResultListA.RSV_TITLE}</td>
+								</c:when>
+								<c:otherwise>
+									<td width="20%">(승인대기중)${repeatSearchResultListA.RSV_TITLE}</td>
+								</c:otherwise>
+							</c:choose>
+							
+							<td width="10%">${repeatSearchResultListA.RSV_MEM_NM}</td>
+							<td width="15%">${repeatSearchResultListA.RSV_MEM_PN}</td>
+							<td width="10%"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#reservDetail" onClick="showRepeatDetail(${repeatSearchResultListA.RSV_REPEAT_NO} )">상세보기</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -346,20 +357,25 @@ function showRepeatDetail(repeatNo) {
 			
 			//회의날짜, 회의 시간, 회의실, 회의제목, 예약자, 예약자 번호
 			for(var i =0; i<data.length; i++){
-				//var row = table.insertRow(rowlen-1);
-				var row = table.insertRow();
-				
-				
+			
 				var startTime= detailViewArray[i].rsv_start_time;
 				var endTime= detailViewArray[i].rsv_end_time;
 				
 				var st = startTime.substring(0, 5);
 				var et = endTime.substring(0, 5);
-				
-				row.insertCell(0).innerHTML =detailViewArray[i].rsv_date;
+
+				var row = table.insertRow();
+				row.insertCell(0).innerHTML = detailViewArray[i].rsv_date +" "+detailViewArray[i].dayoftheweek;
 				row.insertCell(1).innerHTML = st + "~" + et;
 				row.insertCell(2).innerHTML = detailViewArray[i].conf_nm;
-				row.insertCell(3).innerHTML = '<a onclick="searchToCal(' + detailViewArray[i].rsv_no + ');">' + detailViewArray[i].rsv_title + '</a>';
+				
+				if(detailViewArray[i].rsv_confirm_state != 'N') {
+					row.insertCell(3).innerHTML = '<a onclick="searchToCal(' + detailViewArray[i].rsv_no + ');">' + detailViewArray[i].rsv_title + '</a>';
+				}
+				else {
+					row.insertCell(3).innerHTML = '<a onclick="searchToCal(' + detailViewArray[i].rsv_no + ');">(승인대기중)' + detailViewArray[i].rsv_title + '</a>';
+				}
+				
 				row.insertCell(4).innerHTML = detailViewArray[i].rsv_mem_nm;
 				row.insertCell(5).innerHTML = detailViewArray[i].rsv_mem_pn;
 				
@@ -387,12 +403,12 @@ function searchBtn() {
 		
 		if(searchKind == "general") {
 			//일반예약 검색일 때
-			$("#searchForm").attr("action","/Search/GeneralSearchPage");
+			$("#searchForm").attr("action","/AdminSearch/AdminGeneralSearchPage");
 			$("#searchForm").submit();
 			
 		}else if(searchKind == "repeat") {
 			//반복예야 검색일 때
-			$("#searchForm").attr("action","/Search/RepeatSearchPage");
+			$("#searchForm").attr("action","/AdminSearch/AdminRepeatSearchPage");
 			$("#searchForm").submit();
 			
 		}
