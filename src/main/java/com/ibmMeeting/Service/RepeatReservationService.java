@@ -150,6 +150,8 @@ public class RepeatReservationService {
 			Calendar startTempCal = startCal; 
 			Calendar endTempCal = endCal; 
 			
+			System.out.println(request.getParameter("weekMon"));
+			
 			
 			while (true) {
 				dateCompare = startCal.compareTo(endCal);
@@ -158,37 +160,39 @@ public class RepeatReservationService {
 					break;
 				}
 				
-				if(startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
-						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null
-						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null
-						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null
-						|| startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null) {
+				System.out.println(startCal.get(Calendar.DATE));
+				System.out.println(endCal.get(Calendar.DATE));
+				
+				if((startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)) {
 					
 					duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
 				}
 				
-				System.out.println(duplicateCount);
-				
-				
-				if(duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
-						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null
-						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null
-						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null
-						|| duplicateCount==ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null){
+				if(duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)){
 					availableDate.add(transFormat.format(startCal.getTime()));
 					reservationAvailableCount++;
 				}
-				else if(duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null
-						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null
-						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null
-						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null
-						|| duplicateCount!=ConstantCode.ZERO && startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null){
+				else if(duplicateCount!=ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
+						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)){
 					duplicateDate.add(transFormat.format(startCal.getTime()));
 					reservationDuplicateCount++;
 					compareTotalCount++;
 				}
 				
 				startCal.add(startCal.DATE, ConstantCode.DAYS1);
+				
+				System.out.println(transFormat.format(startCal.getTime()));
 				repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
 				
 				
@@ -283,8 +287,13 @@ public class RepeatReservationService {
 		String emailCheck = request.getParameter("emailCheckValue");
 		String[] availableDates;
 		
+		
 		// 사용가능한 날짜를 , 간격으로 잘라내 저장
 		availableDates = availableDate.split(",");
+		
+		for(int i=0; i<availableDates.length; i++) {
+			System.out.println(availableDates[i]);
+		}
 		
 		// 반복예약이 하나도 없다면 반복예약 첫 값을 1로 설정
 		Integer repeatNo;

@@ -38,7 +38,8 @@
 <link rel="stylesheet" type="text/css"	href="/resources/EasyAutocomplete-1.3.5/easy-autocomplete.themes.css" />
 <link rel="stylesheet" type="text/css"	href="/resources/EasyAutocomplete-1.3.5/easy-autocomplete.themes.min.css" />
 <script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
-   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">	
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+
 <html>
 <head>
 <title>IBM 회의실 예약시스템</title>
