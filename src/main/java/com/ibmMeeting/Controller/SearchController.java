@@ -99,7 +99,17 @@ public class SearchController {
 	
 
 	
-	//사용자 검색 페이지
+	/**
+	 * 작성자 :  최문정
+	 * 내용 : 사용자 검색기능
+	 * @param request
+	 * @param page
+	 * @param generalSort
+	 * @param inputSearchCont
+	 * @param selectSearchOpt
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("/GeneralUserSearchPage")
 	public String generalUserSearchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
@@ -130,6 +140,12 @@ public class SearchController {
 		
 	}
 	
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 헤더에서의 간편검색 출력
+	 * @param request
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/EasySearch")
 	public ArrayList<HashMap<String,Object>> generalEasySearchPage(HttpServletRequest request) {

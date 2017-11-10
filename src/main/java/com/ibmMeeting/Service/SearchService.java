@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -709,9 +708,16 @@ public class SearchService {
 	
 	
 	
-	
-	
-	//일반 사용자 검색 결과 출력
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 일반 사용자 검색 결과 출력
+	 * @param request
+	 * @param searchCont
+	 * @param selectOpt
+	 * @param page
+	 * @param generalSort
+	 * @return
+	 */
 	public HashMap<String, Object> generalUserSearchResult(HttpServletRequest request, String searchCont, String selectOpt, int page, String generalSort) {
 		
 		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
@@ -859,7 +865,14 @@ public class SearchService {
 	}
 	
 	
-	//간편검색
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 간편검색
+	 * @param request
+	 * @param easySearchCont
+	 * @param easySelectOpt
+	 * @return
+	 */
 	public ArrayList<HashMap<String, Object>> easySearchResult(HttpServletRequest request, String easySearchCont, String easySelectOpt) {
 		
 		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
