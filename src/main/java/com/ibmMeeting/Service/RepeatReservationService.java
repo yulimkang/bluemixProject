@@ -160,8 +160,9 @@ public class RepeatReservationService {
 					break;
 				}
 				
-				System.out.println(startCal.get(Calendar.DATE));
-				System.out.println(endCal.get(Calendar.DATE));
+				System.out.println("Check S:" + startCal.get(Calendar.DATE));
+				System.out.println("Check E:" + endCal.get(Calendar.DATE));
+				
 				
 				if((startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
@@ -169,18 +170,23 @@ public class RepeatReservationService {
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)) {
 					
+					System.out.println("Start : " + startCal.get(Calendar.DATE));
+					System.out.println("END : " + endCal.get(Calendar.DATE));
+					
 					duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
+					
 				}
 				
-				if(duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
-						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
-						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
-						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
-						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)){
+				System.out.println("duppppl " + duplicateCount);
+				if((duplicateCount==ConstantCode.ZERO) && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
+						|| duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
+						|| duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
+						|| duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
+						|| duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)){
 					availableDate.add(transFormat.format(startCal.getTime()));
 					reservationAvailableCount++;
 				}
-				else if(duplicateCount!=ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
+				else if((duplicateCount!=ConstantCode.ZERO) && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
@@ -272,6 +278,7 @@ public class RepeatReservationService {
 		String rsvRegDate = commonService.nowTime();
 		String rsvStartTime = request.getParameter("rsvStartTime");
 		String rsvEndTime = request.getParameter("rsvEndTime");
+		System.out.println("123222222222222222222222213123213" + request.getParameter("rsvConfName"));
 		Integer rsvConfNo = Integer.parseInt(request.getParameter("rsvConfName"));
 		String repeatPeriod = request.getParameter("repeatPeriod");
 		String repeatSetting = "x";
@@ -327,8 +334,10 @@ public class RepeatReservationService {
 		else
 			repeatInformation.put("emailCheck","N");
 		
+		
 		// 가능한 날짜만큼 for문을 돌려 d/b update
 		for(int i=ConstantCode.ZERO; i<availableDates.length; i++){
+			System.out.println("가능한날짜 : " + availableDates[i]);
 			repeatInformation.put("rsvDate", availableDates[i]);
 			repeatReservationDao.repeatReservationSubmit(repeatInformation);
 		}
