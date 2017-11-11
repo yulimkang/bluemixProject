@@ -27,7 +27,9 @@
 <title>관리자 검색</title>
 </head>
 <body id="htmlBody">
-	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
+	<jsp:include page="../headerAndFooter/header.jsp">
+		<jsp:param name="page" value="removeEasySearch" />
+	</jsp:include>
 	
 	<div class="container">
 	    <div class="panel panel-default">

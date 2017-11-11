@@ -11,7 +11,7 @@
  
  .navbar-default .navbar-nav>li>a{
  	cursor:pointer;
- 	padding-top: 1px;
+ 	padding-top: 6px;
  }
  
  
@@ -35,13 +35,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" onclick="main()" style="cursor:pointer;"><strong>IBM 회의실 예약 시스템</strong></a>
+      <a class="navbar-brand" onclick="main()" style="cursor:pointer; margin-top: 3;"><strong>IBM 회의실 예약 시스템</strong></a>
     </div>
 
     <div class="collapse navbar-collapse" id="myNavbar">
     
     <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
-    	<div id="navSearch">
+    <c:if test="${param.page ne 'removeEasySearch'}">
+	   	<div id="navSearch">
 	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:45%;margin-top:1%;margin-bottom:1%;">
 	    		<div class="col-xs-2" style="padding:0px;">
 		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
@@ -57,18 +58,18 @@
 		    	</div>
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
-
+	
 	      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" OnKeyDown="if(event.keyCode==13){easySearchForGeneral(1);}"class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
-    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
-
+	   				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+	
 		      	</div>
 		      	
 	    	</form>
-    	</div>
-    	
-    	
-    	<!--  간편검색 모달 -->
-    	<div class="modal fade" id="easySearchResult" >
+	   	</div>
+	   	
+	   	
+	   	<!--  간편검색 모달 -->
+	   	<div class="modal fade" id="easySearchResult" >
 	    	<div class="modal-dialog" style="width:90%;background-color:white;'">
 	    		<div class="modal-content">
 	    		
@@ -77,17 +78,19 @@
 					</div>
 					
 					<div class="modal-body" id="result">
-
+	
 				</div> 
 	    		</div>
 	    	</div>
-    	</div>
-    	
-    <form action="/Reservation/SearchToCalendar" id="testForm">
+	   	</div>
+	   	
+	   <form action="/Reservation/SearchToCalendar" id="testForm">
 		<input type="hidden" id="rsvNo" name="rsvNo">
 	</form>
+	</c:if>
     	
     	<!-- 여기까지 간편검색 -->
+    	
 		<div style="margin-top:1%; margin-bottom:1%;">
 		       <ul class="nav navbar-nav navbar-right" >
 		       <li><a  onClick="repeatReservation()" ><strong>반복예약신청</strong></a></li>
