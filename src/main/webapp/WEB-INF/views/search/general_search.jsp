@@ -13,14 +13,17 @@
 
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
-<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
+<script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>
+  
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>예약내역검색</title>
 </head>
 <body id="htmlBody">
-	<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>
+	<jsp:include page="../headerAndFooter/header.jsp">
+		<jsp:param name="page" value="removeEasySearch" />
+	</jsp:include>
 	
 	<div class="container">
 	    <div class="panel panel-default">
@@ -28,8 +31,6 @@
 		</div>
 		
 		<br>
-		
-		
 		
 		  <form name="searchForm" id="searchForm" method="post" action="">
 			  <div class="col-lg-12">

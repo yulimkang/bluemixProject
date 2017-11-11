@@ -154,7 +154,7 @@ function easySearchForGeneral(curPage) {
 			}
 			 tableHeader = tableHeader + "</tbody></table></div>";
 			
-            var pagingStart = "<br><br><div class='pagination' id='pagingDiv'>"
+            var pagingStart = "<br><br><div class='pagination pagination-lg' id='pagingDiv' style='margin:0 auto;'>"
                 +"<button class='btn btn-default btn-sm' id='pre' onclick='pre("+curPage+")'>&laquo;</button>";
 			var pagingnum='';
 			
@@ -164,11 +164,12 @@ function easySearchForGeneral(curPage) {
 			var pagingEnd = "<button class='btn btn-default btn-sm' id='next' onclick='next("+curPage+")'>&raquo;</button></div></div><br><br>";
 			$("#result").append(tableHeader+pagingStart+pagingnum+pagingEnd);
 			$("#num"+curPage).addClass('active');
+//			$("#num"+curPage).addClass('show');
 			
-			if(curPage == 1)  $("#pre").addClass('disabled');
-			if(totalPage == 1) $("#next").addClass('disabled');
+			if(curPage == 1)  $("#pre").remove();
+			if(totalPage == 1) $("#next").remove();
 			
-			if(curPage == totalPage) $("#next").addClass('disabled'); 
+			if(curPage == totalPage) $("#next").remove();
 
 			 //$('#easySearchResult').modal('show');
 			
@@ -187,33 +188,16 @@ function easySearchForGeneral(curPage) {
 	   $("#result").empty();
 	   
 	   easySearchForGeneral(page);
-	   
-	   $("#pre").addClass("disabled");
 	}
 
 	function move(num){
 	   $("#result").empty();
-	   easySearchForGeneral(num);
-	   
-	   if(num ==1)
-	      $("#pre").addClass("disabled");
-	   else if(num == totalPage){
-	      $("#pre").removeClass("disabled");
-	      $("#next").addClass("disabled");
-	   }
-	   else
-	      $("#pre").removeClass("disabled");
-	   
+	   easySearchForGeneral(num);	   
 	}
 	
 	function next(page){
 	   page = page+1;
 	   $("#result").empty();
-	   
-	   $("#pre").removeClass("disabled");
-
-	   if(page == totalPage)
-	      $("#next").addClass("disabled");
 	   
 	   easySearchForGeneral(page);
 	}
@@ -275,8 +259,8 @@ function easySearchForGeneral(curPage) {
 			success : function(data) {
 				detailViewArray = data;
 				
-				$("#detailShow").empty();	
-
+//				$("#detailShow").empty();	
+				$("#detailShow").remove();	
 				
 				var reservDetail =  "<div id='detailShow'><div class='table-responsive'>" +
 				   "<table id='easySearchTable' class='table table-hover text-center' style='text-align:left;text-size:90%'>" + "<thead><tr>" +
@@ -302,7 +286,7 @@ function easySearchForGeneral(curPage) {
 					+"<td style='width:12%'>"+ st + "~" + et +"</td>"
 					+ "<td style='width:15%'>" + detailViewArray[i].conf_nm +"</td>";
 
-					if(detailViewArray[i].RSV_CONFIRM_STATE != 'N') {
+					if(detailViewArray[i].rsv_confirm_state != 'N') {
 						reservDetail = reservDetail +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>" +  detailViewArray[i].rsv_title + "</a></td>";
 					}else {
 						reservDetail = reservDetail +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>(승인대기중)" +  detailViewArray[i].rsv_title + "</a></td>";
@@ -316,7 +300,7 @@ function easySearchForGeneral(curPage) {
 				}
 				
 				reservDetail = reservDetail + "</tbody></table></div>";
-				var returnBtn = "<button type='button' onclick='returnToResult()'><span class='fa fa-undo' aria-hidden='true'></span></button></div>";
+				var returnBtn = "<button type='button' class='btn btn-default btn-sm btn-right' onclick='returnToResult()'><span class='fa fa-angle-up' aria-hidden='true'></span>접기</button></div>";
 				
 				$("#result").append(reservDetail+returnBtn);
 				

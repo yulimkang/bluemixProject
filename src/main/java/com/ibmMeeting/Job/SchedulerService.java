@@ -103,7 +103,7 @@ public class SchedulerService {
 				String rsvStartTimeChange = commonService.timeToString(rsvStartTime);
 				String rsvEndTimeChange = commonService.timeToString(rsvEndTime);
 
-				String subject = "[예약 Reminder] " + rsvMemNm+ "님의 " +rsvTitle + " 회의 " + Integer.toString(emailTime) + "분 전입니다.";
+				String subject = "[예약 Reminder] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 예정되어 있습니다.";
 				
 				String content = 
 						"<html>\r\n" + 
@@ -120,7 +120,7 @@ public class SchedulerService {
 						"	<br>\r\n" + 
 						"	<hr size=\"2\" noshade>\r\n" + 
 						"	<p>안녕하세요</p> \r\n" + 
-						"	<p>"+rsvMemNm +"님의 회의가 "+ Integer.toString(emailTime)+"분 후에 있을 예정이오니, 참고 바랍니다.</p>\r\n" + 
+						"	<p>" + rsvMemNm+ "님의 " +rsvTitle + " 회의가 예정되어 있습니다. 참고 바랍니다.</p>\r\n" + 
 						"	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n" + 
 						"		<tr>\r\n" + 
 						"			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n" + 

@@ -7,6 +7,26 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>  
  
+ <style>
+ 
+ .navbar-default .navbar-nav>li>a{
+ 	cursor:pointer;
+ 	padding-top: 6px;
+ }
+ 
+ 
+  #easySearchForm{
+  	margin-left: 150px;
+  }
+ 
+ @media (max-width: 768px) {
+  #easySearchForm{
+    width: 100% !important;
+    margin: auto;
+  }
+}
+ </style>
+ 
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
@@ -15,14 +35,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" onclick="main()" style="cursor:pointer; padding:24px"><strong>IBM 회의실 예약 시스템</strong></a>
+      <a class="navbar-brand" onclick="main()" style="cursor:pointer; margin-top: 3;"><strong>IBM 회의실 예약 시스템</strong></a>
     </div>
 
     <div class="collapse navbar-collapse" id="myNavbar">
     
     <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
-    	<div id="navSearch">
-	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:50%; margin-top:1%; margin-bottom:1%;margin-left:8%;">
+    <c:if test="${param.page ne 'removeEasySearch'}">
+	   	<div id="navSearch">
+	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:45%;margin-top:1%;margin-bottom:1%;">
 	    		<div class="col-xs-2" style="padding:0px;">
 		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
 							<option value="e_all">전체</option>
@@ -37,19 +58,19 @@
 		    	</div>
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
-
+	
 	      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" OnKeyDown="if(event.keyCode==13){easySearchForGeneral(1);}"class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
-    				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
-
+	   				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
+	
 		      	</div>
 		      	
 	    	</form>
-    	</div>
-    	
-    	
-    	<!--  간편검색 모달 -->
-    	<div class="modal fade" id="easySearchResult" >
-	    	<div class="modal-dialog" style="width:80%;background-color:white;'">
+	   	</div>
+	   	
+	   	
+	   	<!--  간편검색 모달 -->
+	   	<div class="modal fade" id="easySearchResult" >
+	    	<div class="modal-dialog" style="width:90%;background-color:white;'">
 	    		<div class="modal-content">
 	    		
 	    			<div class="modal-header">
@@ -57,30 +78,39 @@
 					</div>
 					
 					<div class="modal-body" id="result">
-
+	
 				</div> 
 	    		</div>
 	    	</div>
-    	</div>
+	   	</div>
+	   	
+	   <form action="/Reservation/SearchToCalendar" id="testForm">
+		<input type="hidden" id="rsvNo" name="rsvNo">
+	</form>
+	</c:if>
+    	
     	<!-- 여기까지 간편검색 -->
-
-        <ul class="nav navbar-nav navbar-right">
-        <li><a onClick="repeatReservation()" style="cursor:pointer; padding:24px"><strong>반복예약신청</strong></a></li>
-        <c:choose>
-        	<c:when test="${sessionScope.id ne null}">
-        		<li><a onClick="adminSearchPage()" style="cursor:pointer; padding:24px"><strong>검색(관리자용)</strong></a></li>
-        	</c:when>
-        	
-        	<c:otherwise>
-        		<li><a onClick="searchPage()" style="cursor:pointer; padding:24px"><strong>검색</strong></a></li>
-        	</c:otherwise>
-        </c:choose>
-		<li><a target="_blank" onclick="admin()" style="cursor:pointer; padding:24px"><strong>관리자</strong></a></li>
-		
-		<c:if test="${sessionScope.id ne null}">
-		   <li><a target="_blank" onclick="logout()" style="color:red; cursor:pointer; padding:24px"><strong>로그아웃</strong></a></li>
-		</c:if>
-      </ul>
+    	
+		<div style="margin-top:1%; margin-bottom:1%;">
+		       <ul class="nav navbar-nav navbar-right" >
+		       <li><a  onClick="repeatReservation()" ><strong>반복예약신청</strong></a></li>
+		       <c:choose>
+		       	<c:when test="${sessionScope.id ne null}">
+		       		<li><a onClick="adminSearchPage()"><strong>검색(관리자용)</strong></a></li>
+		       	</c:when>
+		       	
+		       	<c:otherwise>
+		       		<li><a onClick="searchPage()" ><strong>검색</strong></a></li>
+		       	</c:otherwise>
+		       </c:choose>
+			<li><a target="_blank" onclick="admin()"><strong>관리자</strong></a></li>
+			
+			<c:if test="${sessionScope.id ne null}">
+			   <li><a target="_blank" onclick="logout()" style="color:red;"><strong>로그아웃</strong></a></li>
+			</c:if>
+		     </ul>
+   	 </div>
+    
     </div>
   </div>
 </nav>
