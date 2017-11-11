@@ -24,6 +24,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style>
+
+	.radio label {
+		margin-top:-3%;
+	}
+	
+	@media (max-width: 768px) {
+		.radio label {
+			margin-top:0;
+		}
+	}
+
+</style>
+
 <title>관리자 검색</title>
 </head>
 <body id="htmlBody">
@@ -55,9 +70,7 @@
 			<div class="col-lg-2">
 				<div class="radio">
           			<label>
-						<input type="radio" name="searchKind" value="general" checked="checked">일반예약
-					</label>
-					<label>
+						<input type="radio" name="searchKind" value="general" checked="checked">일반예약<br/>
 						<input type="radio" name="searchKind" value="repeat" >반복예약
 					</label>
 				</div>

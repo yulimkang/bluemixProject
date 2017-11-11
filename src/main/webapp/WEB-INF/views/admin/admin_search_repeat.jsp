@@ -25,6 +25,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style>
+
+	.radio label {
+		margin-top:-3%;
+	}
+	
+	@media (max-width: 768px) {
+		.radio label {
+			margin-top:0;
+		}
+	}
+
+</style>
+
 <title>관리자 검색</title>
 </head>
 <body id="htmlBody">
@@ -56,7 +71,7 @@
 			<div class="col-lg-3">
 				<div class="radio">
           			<label>
-						<input type="radio" name="searchKind" value="general" >일반예약
+						<input type="radio" name="searchKind" value="general" >일반예약 <br/>
 						<input type="radio" name="searchKind" value="repeat" checked="checked">반복예약
 					</label>
 				</div>
@@ -98,13 +113,13 @@
 			<table class="table table-hover text-center" style="text-align:center;text-size:90%">
 				<thead>
 					<tr>
-						<th width="10%" style="text-align: center;">반복시작일</th>
-						<th width="10%" style="text-align: center;">반복종료일</th>
-						<th width="10%" style="text-align: center;">회의시간</th>
+						<th width="13%" style="text-align: center;">반복시작일</th>
+						<th width="13%" style="text-align: center;">반복종료일</th>
+						<th width="13%" style="text-align: center;">회의시간</th>
 						<th width="10%" style="text-align: center;">회의실</th>
-						<th width="20%" style="text-align: center;">회의제목</th>
+						<th width="21%" style="text-align: center;">회의제목</th>
 						<th width="10%" style="text-align: center;">예약자</th>
-						<th width="15%" style="text-align: center;">전화번호</th>
+						<th width="10%" style="text-align: center;">전화번호</th>
 						<th width="10%" style="text-align: center;">상세보기</th>
 						
 				</tr>
