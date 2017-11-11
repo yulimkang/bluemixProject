@@ -16,7 +16,7 @@
  
  
   #easySearchForm{
-  	margin-left: 150px;
+  	margin-left: 100px;
   }
  
  @media (max-width: 768px) {
@@ -43,7 +43,7 @@
     <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
     <c:if test="${param.page ne 'removeEasySearch'}">
 	   	<div id="navSearch">
-	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:45%;margin-top:1%;margin-bottom:1%;">
+	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:42%;margin-top:1%;margin-bottom:1%;">
 	    		<div class="col-xs-2" style="padding:0px;">
 		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
 							<option value="e_all">전체</option>

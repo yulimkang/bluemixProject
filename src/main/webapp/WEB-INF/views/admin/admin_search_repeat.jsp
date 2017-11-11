@@ -110,17 +110,17 @@
 		<br><br><br><br><br>
 		<!-- 반복예약 결과 데이터 테이블 출력 -->
 		<div id="repeatSearchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
-			<table class="table table-hover text-center" style="text-align:center;text-size:90%">
+			<table class="table table-hover text-center" style="text-align:left;text-size:90%">
 				<thead>
 					<tr>
-						<th width="13%" style="text-align: center;">반복시작일</th>
-						<th width="13%" style="text-align: center;">반복종료일</th>
-						<th width="13%" style="text-align: center;">회의시간</th>
-						<th width="10%" style="text-align: center;">회의실</th>
-						<th width="21%" style="text-align: center;">회의제목</th>
-						<th width="10%" style="text-align: center;">예약자</th>
-						<th width="10%" style="text-align: center;">전화번호</th>
-						<th width="10%" style="text-align: center;">상세보기</th>
+						<th width="13%" style="text-align: left;">반복시작일</th>
+						<th width="13%" style="text-align: left;">반복종료일</th>
+						<th width="13%" style="text-align: left;">회의시간</th>
+						<th width="10%" style="text-align: left;">회의실</th>
+						<th width="21%" style="text-align: left;">회의제목</th>
+						<th width="10%" style="text-align: left;">예약자</th>
+						<th width="10%" style="text-align: left;">전화번호</th>
+						<th width="10%" style="text-align: left;">상세보기</th>
 						
 				</tr>
 				</thead>

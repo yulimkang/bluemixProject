@@ -74,16 +74,16 @@
 		
 		<br><br><br><br><br>
 		<div id="searchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
-			<table class="table table-hover text-center" style="text-align:left;text-size:90%">
+			<table class="table table-hover text-center" style="text-align:left;text-size:90%;'">
 				<thead>
 					<tr>
 						<th width="15%" style="text-align:left;">회의날짜</th>
 						<th width="12%" style="text-align:left;">회의시간</th>
-						<th width="15%" style="text-align:left;">회의실</th>
-						<th width="25%" style="text-align:left;">회의제목</th>		
+						<th width="13%" style="text-align:left;">회의실</th>
+						<th width="30%" style="text-align:left;">회의제목</th>		
 						<th width="10%" style="text-align:left;">예약자</th>
 						<th width="13%" style="text-align:left;">전화번호</th>
-						<th width="10%" style="text-align:left;">반복예약</th>
+						<th width="7%" style="text-align:left;">반복예약</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -96,20 +96,20 @@
 									<td width="15%">${searchResultList.RSV_DATE} ${searchResultList.DAYOFTHEWEEK}</td>
 									<td width="12%"><c:out value="${fn:substring(searchResultList.RSV_START_TIME,0,5)}"/> ~
 									<c:out value="${fn:substring(searchResultList.RSV_END_TIME,0,5)}"/></td>
-									<td width="15%">${searchResultList.CONF_NM}</td>
+									<td width="13%">${searchResultList.CONF_NM}</td>
 									
 									<c:choose>
 										<c:when test="${searchResultList.	RSV_CONFIRM_STATE ne 'N'}">
-											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">${searchResultList.RSV_TITLE}</a></td>
+											<td width="30%"><a onclick="searchToCal(${searchResultList.RSV_NO});">${searchResultList.RSV_TITLE}</a></td>
 										</c:when>
 										<c:otherwise>
-											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">(승인대기중)${searchResultList.RSV_TITLE}</a></td>
+											<td width="28%"><a onclick="searchToCal(${searchResultList.RSV_NO});">(승인대기중)${searchResultList.RSV_TITLE}</a></td>
 										</c:otherwise>
 									</c:choose>
 									
 									<td width="10%">${searchResultList.RSV_MEM_NM}</td>
 									<td width="13%">${searchResultList.RSV_MEM_PN}</td>
-									<td width="10%"></td>
+									<td width="7%"></td>
 								</tr>
 							
 							</c:when>
@@ -117,24 +117,26 @@
 							<%-- 반복예약내역 --%> 
 							<c:otherwise>
 								
-								<tr>
+								<tr style="height:39px;">
 									<td width="15%">${searchResultList.RSV_DATE} ${searchResultList.DAYOFTHEWEEK}</td>
 									<td width="12%"><c:out value="${fn:substring(searchResultList.RSV_START_TIME,0,5)}"/> ~
 									<c:out value="${fn:substring(searchResultList.RSV_END_TIME,0,5)}"/></td>
-									<td width="15%">${searchResultList.CONF_NM}</td>
+									<td width="13%">${searchResultList.CONF_NM}</td>
 									
 									<c:choose>
 										<c:when test="${searchResultList.	RSV_CONFIRM_STATE ne 'N'}">
-											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">${searchResultList.RSV_TITLE}</a></td>
+											<td width="30%"><a onclick="searchToCal(${searchResultList.RSV_NO});">${searchResultList.RSV_TITLE}</a></td>
 										</c:when>
 										<c:otherwise>
-											<td width="25%"><a onclick="searchToCal(${searchResultList.RSV_NO});">(승인대기중)${searchResultList.RSV_TITLE}</a></td>
+											<td width="28%"><a onclick="searchToCal(${searchResultList.RSV_NO});">(승인대기중)${searchResultList.RSV_TITLE}</a></td>
 										</c:otherwise>
 									</c:choose>
 									
 									<td width="10%">${searchResultList.RSV_MEM_NM}</td>
 									<td width="13%">${searchResultList.RSV_MEM_PN}</td>
-									<td width="10%"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#reservDetail" onClick="showRepeatDetail(${searchResultList.RSV_REPEAT_NO} )">상세보기</button></td>
+									<td width="7%"  style="height:39px;padding-top:2px;padding-bottom:0px;">
+										<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#reservDetail" onClick="showRepeatDetail(${searchResultList.RSV_REPEAT_NO} )">상세보기</button>
+									</td>
 								</tr>
 							
 							</c:otherwise>

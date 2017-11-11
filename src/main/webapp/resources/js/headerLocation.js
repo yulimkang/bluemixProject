@@ -98,11 +98,11 @@ function easySearchForGeneral(curPage) {
             					   "<thead><tr>" +
             					   "<th width='15%' style='text-align:left;'>회의날짜</th>" +
             					   "<th width='12%' style='text-align:left;'>회의시간</th>" +
-            					   "<th width='15%' style='text-align:left;'>회의실</th>" +
-            					   "<th width='25%' style='text-align:left;'>회의제목</th>" +
+            					   "<th width='13%' style='text-align:left;'>회의실</th>" +
+            					   "<th width='30%' style='text-align:left;'>회의제목</th>" +
             					   "<th width='10%' style='text-align:left;'>예약자</th>" +
             					   "<th width='13%' style='text-align:left;'>전화번호</th>" +
-            					   "<th colspan='2' style='text-align:left;'>반복예약</th>" +
+            					   "<th width='7%' style='text-align:left;'>반복예약</th>" +
             					   "</tr></thead><tbody>";
             
 //            $("#result").append(tableHeader);
@@ -121,33 +121,33 @@ function easySearchForGeneral(curPage) {
 					
 					tableHeader = tableHeader  + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
 													 +"<td style='width:12%'>"+ st + "~" + et +"</td>"
-													 + "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
+													 + "<td style='width:13%'>" + detailViewArray[i].CONF_NM +"</td>";
 					
 					if(detailViewArray[i].RSV_CONFIRM_STATE != 'N') {
-						tableHeader = tableHeader + "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" + detailViewArray[i].RSV_TITLE + "</a></td>"
+						tableHeader = tableHeader + "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" + detailViewArray[i].RSV_TITLE + "</a></td>"
 					}else {
-						tableHeader = tableHeader + "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
+						tableHeader = tableHeader + "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}
 					
 					tableHeader = tableHeader + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
 													+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-													+ "<td style='width:10%'>" + " " + "</td>";
+													+ "<td style='width:7%'>" + " " + "</td>";
 
 				}else {
 					
-					tableHeader = tableHeader + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
+					tableHeader = tableHeader + "<tr style='height:39px;'> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
 													  + "<td style='width:12%'>"+ st + "~" + et +"</td>"
-													  + "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
+													  + "<td style='width:13%'>" + detailViewArray[i].CONF_NM +"</td>";
 					
 					if(detailViewArray[i].RSV_CONFIRM_STATE != 'N') {
-						tableHeader = tableHeader +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" +  detailViewArray[i].RSV_TITLE + "</a></td>";
+						tableHeader = tableHeader +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}else {
-						tableHeader = tableHeader +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
+						tableHeader = tableHeader +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}
 					
 					tableHeader = tableHeader + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
 														+ "<td style='width:13%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
-														+ "<td style='width:10%'>" + "<button type='button' class='btn btn-default btn-sm' onclick='showEasyRepeatDetail(" + detailViewArray[i].RSV_REPEAT_NO + ");'>상세보기</button>" + "</td></tr>";							
+														+ "<td style='width:7%;height:39px;padding-top:2px;padding-bottom:0px;'>" + "<button type='button' class='btn btn-default btn-sm' onclick='showEasyRepeatDetail(" + detailViewArray[i].RSV_REPEAT_NO + ");'>상세보기</button>" + "</td></tr>";							
 					
 				}		
 				
@@ -265,11 +265,11 @@ function easySearchForGeneral(curPage) {
 				var reservDetail =  "<div id='detailShow'><div class='table-responsive'>" +
 				   "<table id='easySearchTable' class='table table-hover text-center' style='text-align:left;text-size:90%'>" + "<thead><tr>" +
 				   "<th width='15%' style='text-align:left;'>회의날짜</th>" +
-				   "<th width='12%' style='text-align:left;'>회의시간</th>" +
+				   "<th width='15%' style='text-align:left;'>회의시간</th>" +
 				   "<th width='15%' style='text-align:left;'>회의실</th>" +
-				   "<th width='25%' style='text-align:left;'>회의제목</th>" +
+				   "<th width='30%' style='text-align:left;'>회의제목</th>" +
 				   "<th width='10%' style='text-align:left;'>예약자</th>" +
-				   "<th width='13%' style='text-align:left;'>전화번호</th>" +
+				   "<th width='15%' style='text-align:left;'>전화번호</th>" +
 				   "</tr></thead><tbody>";
 				
 				//회의날짜, 회의 시간, 회의실, 회의제목, 예약자, 예약자 번호
@@ -283,17 +283,17 @@ function easySearchForGeneral(curPage) {
 	
 					
 					reservDetail = reservDetail + "<tr> <td style='width:15%'>" +detailViewArray[i].rsv_date + " "+ detailViewArray[i].dayoftheweek + "</td>"
-					+"<td style='width:12%'>"+ st + "~" + et +"</td>"
+					+"<td style='width:15%'>"+ st + "~" + et +"</td>"
 					+ "<td style='width:15%'>" + detailViewArray[i].conf_nm +"</td>";
 
 					if(detailViewArray[i].rsv_confirm_state != 'N') {
-						reservDetail = reservDetail +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>" +  detailViewArray[i].rsv_title + "</a></td>";
+						reservDetail = reservDetail +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>" +  detailViewArray[i].rsv_title + "</a></td>";
 					}else {
-						reservDetail = reservDetail +  "<td style='width:25%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>(승인대기중)" +  detailViewArray[i].rsv_title + "</a></td>";
+						reservDetail = reservDetail +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>(승인대기중)" +  detailViewArray[i].rsv_title + "</a></td>";
 					}
 					
 					reservDetail = reservDetail + "<td style='width:10%'>" + detailViewArray[i].rsv_mem_nm + "</td>"
-														+ "<td style='width:13%'>" + detailViewArray[i].rsv_mem_pn + "</td>"
+														+ "<td style='width:15%'>" + detailViewArray[i].rsv_mem_pn + "</td>"
 														+ "</tr>";
 					
 					
