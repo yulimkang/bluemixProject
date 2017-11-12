@@ -51,16 +51,15 @@
 		<div class="container">
 
 		<table id="pickDate">
-		<tr><td  style="border:none">
+		<tr><td style="border:none">
 			<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
-		</td><td>
-			<div style="border:0.1px solid; width:130px">
-				<span class="fa-stack fa-1x">
-	    			<i class="fa fa-calendar-o fa-stack-1x"></i>
-	    			<strong class="fa-stack-1x calendar-text" style="font-size:9px; cursor:pointer" id="todayDate"></strong>
-	 	 	 	</span>
-				<input type="text" id="date" name="date" maxlength=45 style="text-align:left; width:88px; cursor:pointer; border:none" >
-			</div>
+		</td><td style="border:none">
+			<span class="fa-stack fa-1x">
+	    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+	    		<strong class="fa-stack-1x calendar-text" style="font-size:14px; cursor:pointer" id="todayDate"></strong>
+	 	  	</span>
+			<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:165px; cursor:pointer; border:none; font-size:30px" >
+			<span id="day" style="font-size:25px"></span>
 		</td>
 		<td style="border:none">
 		<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
@@ -1024,6 +1023,14 @@ function getRsvedTitle(rsvNo){
 	
 }
 
+function getInputDayLabel(date) { 
+	var week = new Array('일', '월', '화', '수', '목', '금', '토');
+	var today = new Date(date).getDay();
+	var todayLabel = week[today];
+	
+	$("#day").append("("+todayLabel+")");
+}
+
 			
 $(document).ready(function(){
 	
@@ -1046,19 +1053,30 @@ $(document).ready(function(){
 	      }
 	   });
 	   
+	var date = new Date();	
+	getInputDayLabel(date);
+
 
 	var today = new Date().getDate();
 	$("#todayDate").text(today);   
 	$("#todayDate").on("click", function(){
 		$('#calendar').fullCalendar('today');
+		 $("#day").empty();
+		 getInputDayLabel(date);
 	});
 	   
 	$("#prev").on("click", function(){
 		 $('#calendar').fullCalendar('prev');
+		 var prevDate = $('#calendar').fullCalendar('getDate');
+		 $("#day").empty();
+		 getInputDayLabel(prevDate);
 	});  
 	
 	$("#next").on("click", function(){
 		$('#calendar').fullCalendar('next');
+		var nextDate = $('#calendar').fullCalendar('getDate');
+		 $("#day").empty();
+		 getInputDayLabel(nextDate);
 	});
 	
 	//시작시간 < 종료시간
@@ -1982,7 +2000,7 @@ $(document).ready(function(){
 		color: red;
 	}
 	
-	.calendar-text { margin-top: .28em; }
+	.calendar-text { margin-top: .32em; }
 	
 	
 </style>
