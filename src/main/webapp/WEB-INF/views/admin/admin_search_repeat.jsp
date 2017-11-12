@@ -27,10 +27,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <style>
-
-	.radio label {
+		
+  .radio label {
 		margin-top:-3%;
 	}
+	
+.modal .modal-dialog {
+  	width : 90%;
+  }
 	
 	@media (max-width: 768px) {
 		.radio label {
@@ -158,7 +162,7 @@
 
 		<!--  모달로 반복내역 상세보기 띄우기 -->
 		<div class="modal fade" id="reservDetail">
-			<div class="modal-dialog" style="width:80%">
+			<div class="modal-dialog" style="text-align: left;">
 				<div class="modal-content">
 
 					<div class="modal-header">
@@ -168,16 +172,16 @@
 					<div class="modal-body">
 						<div class="table-responsive">
 							<table class="table table-hover text-center"
-								style="text-align: center;" id="modalTable">
+								style="text-align: left;" id="modalTable">
 								<thead>
 									<tr>
 										<!-- 회의 종료일, 반복 주기 넣어 놓기-->
-										<th width="10%" style="text-align: center">회의날짜</th>
-										<th width="30%" style="text-align: center">회의시간</th>
-										<th width="10%" style="text-align: center">회의실</th>
-										<th width="20%" style="text-align: center">회의제목</th>
-										<th width="10%" style="text-align: center">예약자</th>
-										<th width="20%" style="text-align: center">전화번호</th>
+										<th width="15%" style="text-align: left">회의날짜</th>
+										<th width="15%" style="text-align: left">회의시간</th>
+										<th width="10%" style="text-align: left">회의실</th>
+										<th width="35%" style="text-align: left">회의제목</th>
+										<th width="10%" style="text-align: left">예약자</th>
+										<th width="15%" style="text-align: left">전화번호</th>
 									</tr>
 								</thead>
 								<tbody>
