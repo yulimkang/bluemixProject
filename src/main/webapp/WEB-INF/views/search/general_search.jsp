@@ -17,8 +17,12 @@
   
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
+
+  .modal .modal-dialog {
+  	width : 90%;
+  }
+ 
 
  @media (max-width: 768px) {
 
@@ -28,6 +32,10 @@
 }
 
 </style>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>예약내역검색</title>
 </head>
 <body id="htmlBody">
@@ -159,7 +167,7 @@
 		
 		<!--  상세내역 모달 -->
 		<div class="modal fade" id="reservDetail">
-			<div class="modal-dialog" style="width:80%">
+			<div class="modal-dialog">
 				<div class="modal-content">
 
 					<div class="modal-header">
@@ -173,12 +181,12 @@
 								<thead>
 									<tr>
 										<!-- 회의 종료일, 반복 주기 넣어 놓기-->
-										<th width="10%" style="text-align:left">회의날짜</th>
-										<th width="30%" style="text-align:left">회의시간</th>
+										<th width="15%" style="text-align:left">회의날짜</th>
+										<th width="15%" style="text-align:left">회의시간</th>
 										<th width="10%" style="text-align:left">회의실</th>
-										<th width="20%" style="text-align:left">회의제목</th>
+										<th width="35%" style="text-align:left">회의제목</th>
 										<th width="10%" style="text-align:left">예약자</th>
-										<th width="20%" style="text-align:left">전화번호</th>
+										<th width="15%" style="text-align:left">전화번호</th>
 									</tr>
 								</thead>
 								<tbody>
