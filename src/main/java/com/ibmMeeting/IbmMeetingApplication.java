@@ -71,14 +71,13 @@ public class IbmMeetingApplication extends SpringBootServletInitializer {
 	public SimpleUrlHandlerMapping faviconHandlerMapping() {
 	    SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
 	    mapping.setOrder(Integer.MIN_VALUE);
-	    mapping.setUrlMap(Collections.singletonMap("/favicon.ico",faviconRequestHandler()));
+	    mapping.setUrlMap(Collections.singletonMap("favicon.ico",faviconRequestHandler()));
 	    return mapping;
 	}
 
 	@Bean
 	protected ResourceHttpRequestHandler faviconRequestHandler() {
 	    ResourceHttpRequestHandler requestHandler = new ResourceHttpRequestHandler();
-	    System.out.println("favi");
 	    requestHandler.setLocations(Arrays
 	            .<Resource> asList(new ClassPathResource("/")));
 	    return requestHandler;

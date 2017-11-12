@@ -150,9 +150,6 @@ public class RepeatReservationService {
 			Calendar startTempCal = startCal; 
 			Calendar endTempCal = endCal; 
 			
-			System.out.println(request.getParameter("weekMon"));
-			
-			
 			while (true) {
 				dateCompare = startCal.compareTo(endCal);
 				// startDateFormat > endDateFormat
@@ -160,8 +157,6 @@ public class RepeatReservationService {
 					break;
 				}
 				
-				System.out.println("Check S:" + startCal.get(Calendar.DATE));
-				System.out.println("Check E:" + endCal.get(Calendar.DATE));
 				
 				
 				if((startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
@@ -170,14 +165,11 @@ public class RepeatReservationService {
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.THURSDAY && request.getParameter("weekThu")!=null)
 						|| (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.FRIDAY && request.getParameter("weekFri")!=null)) {
 					
-					System.out.println("Start : " + startCal.get(Calendar.DATE));
-					System.out.println("END : " + endCal.get(Calendar.DATE));
 					
 					duplicateCount = repeatReservationDao.repeatCheck(repeatInformation);
 					
 				}
 				
-				System.out.println("duppppl " + duplicateCount);
 				if((duplicateCount==ConstantCode.ZERO) && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.MONDAY && request.getParameter("weekMon")!=null)
 						|| duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.TUESDAY && request.getParameter("weekTue")!=null)
 						|| duplicateCount==ConstantCode.ZERO && (startCal.get(Calendar.DAY_OF_WEEK)==ConstantCode.WEDNESDAY && request.getParameter("weekWed")!=null) 
@@ -198,7 +190,6 @@ public class RepeatReservationService {
 				
 				startCal.add(startCal.DATE, ConstantCode.DAYS1);
 				
-				System.out.println(transFormat.format(startCal.getTime()));
 				repeatInformation.put("startDate",transFormat.format(startCal.getTime()));
 				
 				
@@ -278,7 +269,6 @@ public class RepeatReservationService {
 		String rsvRegDate = commonService.nowTime();
 		String rsvStartTime = request.getParameter("rsvStartTime");
 		String rsvEndTime = request.getParameter("rsvEndTime");
-		System.out.println("123222222222222222222222213123213" + request.getParameter("rsvConfName"));
 		Integer rsvConfNo = Integer.parseInt(request.getParameter("rsvConfName"));
 		String repeatPeriod = request.getParameter("repeatPeriod");
 		String repeatSetting = "x";
@@ -297,11 +287,7 @@ public class RepeatReservationService {
 		
 		// 사용가능한 날짜를 , 간격으로 잘라내 저장
 		availableDates = availableDate.split(",");
-		
-		for(int i=0; i<availableDates.length; i++) {
-			System.out.println(availableDates[i]);
-		}
-		
+
 		// 반복예약이 하나도 없다면 반복예약 첫 값을 1로 설정
 		Integer repeatNo;
 		if(repeatReservationDao.repeatSeqMaxValue()==null){
@@ -337,7 +323,6 @@ public class RepeatReservationService {
 		
 		// 가능한 날짜만큼 for문을 돌려 d/b update
 		for(int i=ConstantCode.ZERO; i<availableDates.length; i++){
-			System.out.println("가능한날짜 : " + availableDates[i]);
 			repeatInformation.put("rsvDate", availableDates[i]);
 			repeatReservationDao.repeatReservationSubmit(repeatInformation);
 		}
