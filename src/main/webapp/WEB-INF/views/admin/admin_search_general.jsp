@@ -25,6 +25,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style>
+
+	.radio label {
+		margin-top:-3%;
+	}
+	
+	@media (max-width: 768px) {
+		.radio label {
+			margin-top:0;
+		}
+	}
+
+</style>
+
 <title>관리자 검색</title>
 </head>
 <body id="htmlBody">
@@ -56,8 +71,8 @@
 			<div class="col-lg-2">
 				<div class="radio">
           			<label>
-						<input type="radio" name="searchKind" value="general" checked="checked">일반예약
-						<input type="radio" name="searchKind" value="repeat" >반복예약
+          				<input type="radio" name="searchKind" value="general" checked="checked" >일반예약<br/>
+						<input type="radio" name="searchKind" value="repeat" >반복예약	
 					</label>
 				</div>
 			</div>
@@ -94,31 +109,31 @@
 		
 		<br><br><br><br><br>
 		<div id="searchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
-			<table class="table table-hover text-center" style="text-align:center;">
+			<table class="table table-hover text-center" style="text-align:left;">
 				<thead>
 					<tr>
-						<th width="10%" style="text-align: center;">회의날짜</th>
-						<th width="25%" style="text-align: center;">회의시간</th>
-						<th width="15%" style="text-align: center;">회의실</th>
-						<th width="20%" style="text-align: center;">회의제목</th>		
-						<th width="10%" style="text-align: center;">예약자</th>
-						<th width="20%" style="text-align: center;">전화번호</th>
+						<th width="15%" style="text-align: left;">회의날짜</th>
+						<th width="15%" style="text-align: left;">회의시간</th>
+						<th width="15%" style="text-align: left;">회의실</th>
+						<th width="25%" style="text-align: left;">회의제목</th>		
+						<th width="10%" style="text-align: left;">예약자</th>
+						<th width="20%" style="text-align: left;">전화번호</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${requestScope.searchResultListA}" var="searchResultList">
 						<tr>
-							<td width="10%">${searchResultList.rsv_date} ${searchResultList.dayoftheweek}</td>
-							<td width="25%"><c:out value="${fn:substring(searchResultList.rsv_start_time,0,5)}"/> ~
+							<td width="15%">${searchResultList.rsv_date} ${searchResultList.dayoftheweek}</td>
+							<td width="15%"><c:out value="${fn:substring(searchResultList.rsv_start_time,0,5)}"/> ~
 							<c:out value="${fn:substring(searchResultList.rsv_end_time,0,5)}"/></td>
 							<td width="15%">${searchResultList.conf_nm}</td>
 							
 								<c:choose>
 									<c:when test="${searchResultList.rsv_confirm_state ne 'N'}">
-										<td width="20%"><a onclick="searchToCal(${searchResultList.rsv_no});">${searchResultList.rsv_title}</a></td>
+										<td width="25%"><a onclick="searchToCal(${searchResultList.rsv_no});">${searchResultList.rsv_title}</a></td>
 									</c:when>
 									<c:otherwise>
-										<td width="20%"><a onclick="searchToCal(${searchResultList.rsv_no});">(승인대기중)${searchResultList.rsv_title}</a></td>
+										<td width="25%"><a onclick="searchToCal(${searchResultList.rsv_no});">(승인대기중)${searchResultList.rsv_title}</a></td>
 									</c:otherwise>
 								</c:choose>		<!-- 하이퍼링크 -->
 								
