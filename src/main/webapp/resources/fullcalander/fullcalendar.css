@@ -252,12 +252,35 @@ hr.fc-divider {
 	background-color:none;
 }
 
+@media screen and (max-width: 500px) {
+	.fc th {
+		text-align: center;
+		border-style: solid;
+		border-width: 1px;
+		border: none;
+		padding: 0;
+		height: 1.7em;
+		font-size:0.85em;
+		background-color: none;
+	}
+}
+
 .fc td {
 	border-style: solid;
 	border-width: 1px;
 	padding: 0;
 	vertical-align: top;
 	height:2.0em;
+}
+
+@media screen and (max-width: 500px) {
+.fc td {
+	border-style: solid;
+	border-width: 1px;
+	padding: 0;
+	vertical-align: top;
+	height:1.7em;
+}
 }
 
 .fc td.fc-today {

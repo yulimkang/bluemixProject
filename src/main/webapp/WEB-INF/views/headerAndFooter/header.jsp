@@ -43,7 +43,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" onclick="main()" style="cursor:pointer; margin-top: 3;"><strong>IBM 회의실 예약 시스템</strong></a>
+      <a class="navbar-brand" onclick="main()" style="cursor:pointer; margin-top: 4px;"><strong>IBM 회의실 예약 시스템</strong></a>
     </div>
 
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -102,7 +102,7 @@
     	
     	<!-- 여기까지 간편검색 -->
     	
-		<div style="margin-top:1%; margin-bottom:1%;">
+		<div style="margin-top:1.5%; margin-bottom:1%;">
 		       <ul class="nav navbar-nav navbar-right" >
 		       <li><a  onClick="repeatReservation()" ><strong>반복예약신청</strong></a></li>
 		       <c:choose>
