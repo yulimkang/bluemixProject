@@ -36,6 +36,10 @@
 		.radio label {
 			margin-top:0;
 		}
+		
+		.modal .modal-dialog {
+		  	width : 100%;
+		  }
 	}
 
 </style>
@@ -184,6 +188,11 @@
 							</table>
 						</div>
 					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
+					</div>
+					
 				</div>
 			</div>
 		</div>

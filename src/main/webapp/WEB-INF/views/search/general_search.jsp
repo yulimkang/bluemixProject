@@ -18,6 +18,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+
+ @media (max-width: 768px) {
+
+  .modal .modal-dialog {
+  	width : 100%;
+  }
+}
+
+</style>
 <title>예약내역검색</title>
 </head>
 <body id="htmlBody">
@@ -179,6 +189,11 @@
 							</table>
 						</div>
 					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
+					</div>
+					
 				</div>
 			</div>
 		</div>

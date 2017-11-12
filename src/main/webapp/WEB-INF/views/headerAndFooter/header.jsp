@@ -16,13 +16,21 @@
  
  
   #easySearchForm{
-  	margin-left: 100px;
+  	margin-left: 70px;
+  }
+  
+  .modal .modal-dialog {
+  	width : 90%;
   }
  
  @media (max-width: 768px) {
   #easySearchForm{
     width: 100% !important;
     margin: auto;
+  }
+  
+  .modal .modal-dialog {
+  	width : 100%;
   }
 }
  </style>
@@ -43,7 +51,7 @@
     <!-- 여기서부터 간편검색 시작, 모바일 화면은 수정 필요 -->
     <c:if test="${param.page ne 'removeEasySearch'}">
 	   	<div id="navSearch">
-	    	<form class="nav navbar-nav" name="easySearchForm" id="easySearchForm" style="width:42%;margin-top:1%;margin-bottom:1%;">
+	    	<form class="nav navbar-nav" method="post" name="easySearchForm" id="easySearchForm" style="width:42%;margin-top:1%;margin-bottom:1%;">
 	    		<div class="col-xs-2" style="padding:0px;">
 		    		<select name="easySelectSearchOpt" id="easySelectSearchOpt" class="form-control" style="height:5%;font-size:80%;padding:0px">
 							<option value="e_all">전체</option>
@@ -59,7 +67,7 @@
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
 	
-	      			<button type="button" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" OnKeyDown="if(event.keyCode==13){easySearchForGeneral(1);}"class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+	      			<button type="button" id="modalBtn" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
 	   				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
 	
 		      	</div>
@@ -70,7 +78,7 @@
 	   	
 	   	<!--  간편검색 모달 -->
 	   	<div class="modal fade" id="easySearchResult" >
-	    	<div class="modal-dialog" style="width:90%;background-color:white;'">
+	    	<div class="modal-dialog" style="background-color:white;'">
 	    		<div class="modal-content">
 	    		
 	    			<div class="modal-header">
@@ -78,8 +86,11 @@
 					</div>
 					
 					<div class="modal-body" id="result">
-	
-				</div> 
+					</div> 
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
+					</div>
 	    		</div>
 	    	</div>
 	   	</div>
