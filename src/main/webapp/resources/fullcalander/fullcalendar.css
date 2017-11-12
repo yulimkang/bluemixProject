@@ -274,13 +274,13 @@ hr.fc-divider {
 }
 
 @media screen and (max-width: 500px) {
-.fc td {
-	border-style: solid;
-	border-width: 1px;
-	padding: 0;
-	vertical-align: top;
-	height:1.7em;
-}
+	.fc td {
+		border-style: solid;
+		border-width: 1px;
+		padding: 0;
+		vertical-align: middle;
+		height: 1.7em;
+	}
 }
 
 .fc td.fc-today {
