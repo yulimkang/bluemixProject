@@ -100,6 +100,7 @@ public class CommonService {
 			break;
 		case 2:
 			dayOfTheWeek = "월";
+			break;
 		case 3:
 			dayOfTheWeek = "화";
 			break;
@@ -108,10 +109,13 @@ public class CommonService {
 			break;
 		case 5:
 			dayOfTheWeek = "목";
+			break;
 		case 6:
 			dayOfTheWeek = "금";
+			break;
 		case 7:
 			dayOfTheWeek = "토";
+			break;
 		}
 		
 		return dayOfTheWeek;
