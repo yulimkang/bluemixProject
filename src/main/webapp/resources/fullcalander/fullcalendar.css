@@ -262,6 +262,7 @@ hr.fc-divider {
 		height: 1.7em;
 		font-size:0.7em;
 		background-color: none;
+		padding-top:9px;
 	}
 }
 
@@ -278,7 +279,6 @@ hr.fc-divider {
 		border-style: solid;
 		border-width: 1px;
 		padding: 0;
-		vertical-align: middle;
 		height: 1.7em;
 	}
 }
