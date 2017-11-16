@@ -1321,7 +1321,7 @@ be a descendant of the grid when it is being dragged.
 	.fc-time-grid-event .fc-title {
 		height:100%;
 		padding: 0 1px;
-		font-size: 1.1em;
+		font-size: 0.8em;
 		text-align:center;
 		display: flex;
 	    align-items: center;
