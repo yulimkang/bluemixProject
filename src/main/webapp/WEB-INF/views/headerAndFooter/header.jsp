@@ -6,6 +6,9 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/js/headerLocation.js"></script>  
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
  
  <style>
  
@@ -74,31 +77,8 @@
 		      	
 	    	</form>
 	   	</div>
-	   	
-	   	
-	   	<!--  간편검색 모달 -->
-	   	<div class="modal fade" id="easySearchResult" >
-	    	<div class="modal-dialog" style="background-color:white;'">
-	    		<div class="modal-content">
-	    		
-	    			<div class="modal-header">
-						<h4 class="modal-title">간편검색 상세내역</h4>
-					</div>
-					
-					<div class="modal-body" id="result">
-					</div> 
-					
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
-					</div>
-	    		</div>
-	    	</div>
-	   	</div>
-	   	
-	   <form action="/Reservation/SearchToCalendar" id="testForm">
-		<input type="hidden" id="rsvNo" name="rsvNo">
-	</form>
-	</c:if>
+	   	</c:if>
+
     	
     	<!-- 여기까지 간편검색 -->
     	
@@ -125,6 +105,33 @@
     </div>
   </div>
 </nav>
+
+
+
+   	<!--  간편검색 모달 -->
+	   	<div class="modal fade" id="easySearchResult" >
+	    	<div class="modal-dialog" style="background-color:white;'">
+	    		<div class="modal-content">
+	    		
+	    			<div class="modal-header">
+						<h4 class="modal-title">간편검색 상세내역</h4>
+					</div>
+					
+					<div class="modal-body" >
+						<div id="result"></div>
+						<div id="detail"></div>
+					</div> 
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
+					</div>
+	    		</div>
+	    	</div>
+	   	</div>
+
+   <form action="/Reservation/SearchToCalendar" id="testForm">
+		<input type="hidden" id="rsvNo" name="rsvNo">
+	</form>
 
 <script>
 </script>
