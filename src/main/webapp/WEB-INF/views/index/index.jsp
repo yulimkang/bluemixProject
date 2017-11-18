@@ -64,33 +64,33 @@
 	<body id="htmlBody">
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>		
 
-	<br>
 		<div class="container">
 		
 			<div class="col-lg-12">
-            <div class="col-lg-5 yongSanDiv" style="padding-top:20px">
-               <span class="YongSanText"> IBM YongSan Office </span>
-            </div>
-            
-            <div class="col-lg-7 pickDiv" style="padding-top:20px">
-               <table id="pickDate" style="text-align:right; margin-left:auto">
-               <tr><td style="border:none" >
-                  <i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
-               </td><td style="border:none">
-                  <span class="fa-stack fa-1x">
-                      <i class="fa fa-calendar-o fa-stack-2x"></i>
-                      <strong class="fa-stack-1x calendar-text" style="font-size:12px; cursor:pointer" id="todayDate"></strong>
-                     </span>
-                  <input type="text" id="date" name="date" maxlength=45 class="pickDate" >
-                  <span id="day" class="weekOfDay"></span>
-               </td>
-               <td style="border:none">
-               <i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
-               </td></tr>
-               </table>
-            </div>
-            
-         </div>   
+
+				<div class="col-lg-5 yongSanDiv" style="padding-top:20px">
+					<span class="YongSanText"> IBM YongSan Office </span>
+				</div>
+				
+				<div class="col-lg-7 pickDiv" style="padding-top:20px">
+					<table id="pickDate" style="text-align:right; margin-left:auto">
+					<tr><td style="border:none" >
+						<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
+					</td><td style="border:none">
+						<span class="fa-stack fa-1x">
+				    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+				    		<strong class="fa-stack-1x calendar-text" style="font-size:12px; cursor:pointer" id="todayDate"></strong>
+				 	  	</span>
+						<input type="text" id="date" name="date" maxlength=45 class="pickDate" >
+						<span id="day" class="weekOfDay"></span>
+					</td>
+					<td style="border:none">
+					<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
+					</td></tr>
+					</table>
+				</div>
+				
+			</div>	
 			<div id="calendar"></div><br>
 			
 			<form action="/Reservation/RegistReservation" method="post" id="submitForm">
@@ -277,6 +277,7 @@
  				<input type="hidden" id="rsvTotalTime" name="rsvTotalTime"> 
 				<input type="hidden" id="rsvConfirmState" name="rsvConfirmState" value="Y">
 		 		<input type="hidden" id="rsvNo" name="rsvNo" value="0">
+
 				<input type="hidden" id="monopolyCount" name="monopolyCount">
 				&nbsp;
 					</div>
