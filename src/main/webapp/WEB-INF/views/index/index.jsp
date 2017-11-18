@@ -361,7 +361,7 @@ function regRsv(date, resourceObj){
 	$("#rsvMemNm").removeAttr("value");
 	$("#rsvMemEm").removeAttr("value");
 	$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
-	$("#rsvColor option[value='purple']").attr("selected", true);
+	$("#rsvColor option[value='blue']").attr("selected", true);
 	
 	emptyErrorMsg();
 	
@@ -668,8 +668,7 @@ function conf(){
 			
 		},
 		error:function(request,status,error){
-			alert("Get Conference Error");
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			$('#calendar').fullCalendar('today');
 		}
 	});
 
@@ -1092,6 +1091,17 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('today');
 		 $("#day").empty();
 		 getInputDayLabel(date);
+		 
+		//이미 입력되어있는 textbox내의 값들 지우기
+		$("#rsvTitle").removeAttr("value");
+		$("#rsvDelPwd").removeAttr("value");
+		$("#rsvMemPn").removeAttr("value");
+		$("#rsvMemNm").removeAttr("value");
+		$("#rsvMemEm").removeAttr("value");
+		$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
+		$("#rsvColor option[value='blue']").attr("selected", true);
+			
+		emptyErrorMsg();
 	});
 	   
 	$("#prev").on("click", function(){
@@ -1559,7 +1569,7 @@ $(document).ready(function(){
 						callback(resources);
 					},
 					error:function(){
-						alert("Resource Error");
+						$('#calendar').fullCalendar('today');
 					}
 			});
 		},
@@ -1661,8 +1671,7 @@ $(document).ready(function(){
 					callback(events);
 				},
 				error:function(request,status,error){
-					alert("Event Error");
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					$('#calendar').fullCalendar('today');
 				}
 			});	
 		},
@@ -1680,7 +1689,7 @@ $(document).ready(function(){
 			$("#rsvMemNm").removeAttr("value");
 			$("#rsvMemEm").removeAttr("value");
 			$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
-			$("#rsvColor option[value='purple']").attr("selected", true);
+			$("#rsvColor option[value='blue']").attr("selected", true);
 			
 			emptyErrorMsg();
 			
