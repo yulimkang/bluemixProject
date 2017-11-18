@@ -10,7 +10,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 :  일반예약 검색, 최신순, 전체/회의제목/예약자/전화번호 옵션
+	 * 내용 : 관리자 일반예약 검색, 최신순, 전체/회의제목/예약자/전화번호 옵션
 	 * @param searchInfo
 	 * @return
 	 */
@@ -21,7 +21,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 :  일반예약 검색, 오래된 순, 전체/회의제목/예약자/전화번호 옵션
+	 * 내용 : 관리자 일반예약 검색, 오래된 순, 전체/회의제목/예약자/전화번호 옵션
 	 * @param searchInfo
 	 * @return
 	 */
@@ -33,7 +33,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 페이징 처리를 위한 검색 결과 count
+	 * 내용 : 관리자 검색 페이지, 일반검색 페이징 처리를 위한 검색 결과 count
 	 * @param searchCont
 	 * @return
 	 */
@@ -46,7 +46,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 반복예약 검색, 최신순, 전체/회의제목/예약자/전화번호 옵션
+	 * 내용 : 관리자 검색 페이지, 반복예약 검색, 최신순, 전체/회의제목/예약자/전화번호 옵션
 	 * @param searchInfo
 	 * @return
 	 */
@@ -57,7 +57,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 반복예약 검색, 오래된 순, 전체/회의제목/예약자/전화번호 옵션
+	 * 내용 : 관리자 검색 페이지, 반복예약 검색, 오래된 순, 전체/회의제목/예약자/전화번호 옵션
 	 * @param searchInfo
 	 * @return
 	 */
@@ -68,7 +68,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 페이징 처리를 위한 반복예약 count
+	 * 내용 : 관리자 검색 페이지, 일반검색 페이징 처리를 위한 반복예약 count
 	 * @param searchCont
 	 * @return
 	 */
@@ -88,7 +88,7 @@ public interface SearchDao {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 자동완성기능
+	 * 내용 : 관리자 검색 페이지, 자동완성기능
 	 * @param searchCont
 	 * @return
 	 */
@@ -167,53 +167,82 @@ public interface SearchDao {
 	///////////////////////////////////////10월 31일 이후 수정////////////////////////////////////////////////////
 	
 	
-	//일반 사용자 검색, 최신순
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 일반 사용자 검색, 최신순
+	 * @param searchInfo
+	 * @return
+	 */
 	ArrayList<HashMap<String,Object>> generalUserSelectByAllOrderByNew(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> generalUserSelectByTitleOrderByNew(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> generalUserSelectByMemNMOrderByNew(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> generalUserSelectByMemPNOrderByNew(HashMap<String,Object> searchInfo);
 	
-	//일반 사용자 검색, 오래된 순
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 일반 사용자 검색, 오래된 순
+	 * @param searchInfo
+	 * @return
+	 */
 	ArrayList<HashMap<String,Object>> generalUserSelectByAllOrderByOld(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> generalUserSelectByTitleOrderByOld(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> generalUserSelectByMemNMOrderByOld(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> generalUserSelectByMemPNOrderByOld(HashMap<String,Object> searchInfo);
 	
-	
-	//일반 사용자 검색 페이징
+
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 일반 사용자 검색 페이징 count
+	 * @param searchCont
+	 * @return
+	 */
 	Integer rownumGeneralUserSelectByAll(String searchCont);
 	Integer rownumGeneralUserSelectByTitle(String searchCont);
 	Integer rownumGeneralUserSelectByMemNM(String searchCont);
 	Integer rownumGeneralUserSelectByMemPN(String searchCont);
 
 	
-	
-	//간편검색은 날짜 필요!!!!!!!!!!!!
-	//간편검색
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 간편검색 결과(간편검색 : 오늘 이후의 회의 출력, 정렬 없음)
+	 * @param searchInfo
+	 * @return
+	 */
 	ArrayList<HashMap<String,Object>> easySearchSelectByAll(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> easySearchSelectByTitle(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> easySearchSelectByMemNM(HashMap<String,Object> searchInfo);
 	ArrayList<HashMap<String,Object>> easySearchSelectByMemPN(HashMap<String,Object> searchInfo);
 	
 	//간편검색 페이징
+	/**
+	 * 작성자 : 최문정
+	 *  내용 : 간편검색 결과 count
+	 * @param easyInfo
+	 * @return
+	 */
 	Integer rownumEasySearchSelectByAll(HashMap<String, Object> easyInfo);
 	Integer rownumEasySearchSelectByTitle(HashMap<String, Object> easyInfo);
 	Integer rownumEasySearchSelectByMemNM(HashMap<String, Object> easyInfo);
 	Integer rownumEasySearchSelectByMemPN(HashMap<String, Object> easyInfo);
 	
-	//간편 검색 반복내역 출력(왜냐하면 날짜가 있어야 하기 때문에)
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 간편 검색 반복내역 상세보기 출력
+	 * @param searchInfo
+	 * @return
+	 */
 	ArrayList<HashMap<String,Object>> repeatSearchDetailContentsForEasySearch(HashMap<String, Object> searchInfo);
 	
-	//간편검색 자동완성
+	/**
+	 * 작성자 : 최문정
+	 * 내용 : 간편검색 자동완성
+	 * @param easyInfo
+	 * @return
+	 */
 	ArrayList<HashMap<String,Object>> easyAutocompleteByAllList(HashMap<String, Object> easyInfo);
 	ArrayList<HashMap<String,Object>> easyAcompleteByTitleList(HashMap<String, Object> easyInfo);
 	ArrayList<HashMap<String,Object>> easyAutocompleteByMemNMList(HashMap<String, Object> easyInfo);
 	ArrayList<HashMap<String,Object>> easyAutocompleteByMemPNList(HashMap<String, Object> easyInfo);
-	
-	//테스트용
-	ArrayList<HashMap<String,Object>> test(HashMap<String, Object> searchInfo);
-	
-	
 	
 	
 }

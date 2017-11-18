@@ -392,8 +392,6 @@ public class SearchService {
 			System.out.println("JSON변환에러");
 		}
 		
-		System.out.println(jarr);
-		
 		
 		//PrintWriter로 출력
 		try {
@@ -469,8 +467,6 @@ public class SearchService {
 			e.printStackTrace();
 			System.out.println("JSON변환에러");
 		}
-		
-		System.out.println(jarr);
 		
 		
 		//PrintWriter로 출력

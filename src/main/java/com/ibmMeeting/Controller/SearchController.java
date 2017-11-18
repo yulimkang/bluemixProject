@@ -114,14 +114,14 @@ public class SearchController {
 	public String generalUserSearchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam(value="sort", defaultValue="old") String generalSort, 
-			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, 
+			@RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
 			ModelMap map ) {
 		
 			int searchpage = page;
 			String sortKind = generalSort;
 			String selectOpt = selectSearchOpt;
 			String searchCont = inputSearchCont;
-			
 			
 			HashMap<String, Object> pagebeanMap = searchService.generalUserSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
 			
