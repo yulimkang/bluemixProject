@@ -40,6 +40,22 @@
 <script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 
+<style>
+
+ .YongSanText { font-weight:bold; margin-right:auto; font-size:30px; color:#080c42}
+ .pickDate {text-align:center; width:165px; cursor:pointer; border:none; font-size:28px}
+ .weekOfDay { font-size:22px}
+ 
+ 
+@media screen and (max-width: 500px) {
+		.pickDate {text-align:center; width:130px; cursor:pointer; border:none; font-size:20px}
+       .YongSanText { font-weight:bold; margin-right:auto; font-size:18px; padding:0; color:#080c42}
+        .weekOfDay { font-size:18px}
+}
+ 
+
+</style>
+
 <html>
 <head>
 <title>IBM 회의실 예약시스템</title>
@@ -50,24 +66,32 @@
 	<br>
 		<div class="container">
 		
-				<table id="pickDate" style="text-align:right">
-				<tr><td style="border:none">
-					<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
-				</td><td style="border:none">
-					<span class="fa-stack fa-1x">
-			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
-			    		<strong class="fa-stack-1x calendar-text" style="font-size:14px; cursor:pointer" id="todayDate"></strong>
-			 	  	</span>
-					<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:165px; cursor:pointer; border:none; font-size:30px" >
-					<span id="day" style="font-size:25px"></span>
-				</td>
-				<td style="border:none">
-				<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
-				</td></tr>
-				</table>
-		
-			
+			<div class="col-lg-12">
+				<div class="col-lg-5" style="padding:0">
+					<span class="YongSanText"> IBM YongSan Office </span>
+				</div>
+				
+				<div class="col-lg-7" style="padding:0">
+					<table id="pickDate" style="text-align:right; margin-left:auto">
+					<tr><td style="border:none" >
+						<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
+					</td><td style="border:none">
+						<span class="fa-stack fa-1x">
+				    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+				    		<strong class="fa-stack-1x calendar-text" style="font-size:12px; cursor:pointer" id="todayDate"></strong>
+				 	  	</span>
+						<input type="text" id="date" name="date" maxlength=45 class="pickDate" >
+						<span id="day" class="weekOfDay"></span>
+					</td>
+					<td style="border:none">
+					<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
+					</td></tr>
+					</table>
+				</div>
+				
+			</div>	
 			<div id="calendar"></div><br>
+			
 			
 			
 			

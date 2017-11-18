@@ -362,8 +362,7 @@ public class RepeatReservationService {
 		// 이메일 전송
 		String adminEmail = adminDao.getAdminEmail();
 		
-		String subject = "[반복 예약 신청] " + rsvMemNm+ "님이 " +rsvTitle + " 회의를 반복예약 신청하셨습니다. ";
-		
+		String subject = "[반복 예약 신청] " + rsvTitle + " (" + firstDay + "(" + firstDayOfTheWeek + ") " + rsvStartTimeChange + " - " + endDay + "(" + endDayOfTheWeek + ") " + rsvEndTimeChange	+ "), " + rsvConfName;
 		String content = 
 				"<html>\r\n" + 
 				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n" + 
@@ -383,7 +382,7 @@ public class RepeatReservationService {
 				"	<table style=\"text-align: center;border: 1px solid black;border-collapse: collapse;\">\r\n" + 
 				"		<tr>\r\n" + 
 				"			<td style=\"width: 200px;font-weight: bold;border: 1px solid black;border-collapse: collapse;\">회의 제목 </td>\r\n" + 
-				"			<td style=\"width: 400px;border: 1px solid black;border-collapse: collapse;\">"+rsvTitle+"</td>\r\n" + 
+				"			<td style=\"width: 400px;border: 1px soLlid black;border-collapse: collapse;\">"+rsvTitle+"</td>\r\n" + 
 				"		</tr>\r\n" + 
 				"		\r\n" + 
 				"		<tr>\r\n" + 

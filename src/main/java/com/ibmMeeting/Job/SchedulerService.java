@@ -103,7 +103,7 @@ public class SchedulerService {
 				String rsvStartTimeChange = commonService.timeToString(rsvStartTime);
 				String rsvEndTimeChange = commonService.timeToString(rsvEndTime);
 
-				String subject = "[예약 Reminder] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 예정되어 있습니다.";
+				String subject = "[예약 Reminder] "  + rsvTitle + " (" + rsvDateString + "(" + rsvDayOfTheWeek + ") " + rsvStartTimeChange + " - " + rsvEndTimeChange	+ " ), " + rsvConfNm;
 				
 				String content = 
 						"<html>\r\n" + 
