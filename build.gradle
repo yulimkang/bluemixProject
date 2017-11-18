@@ -38,5 +38,4 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('org.apache.poi:poi-ooxml:3.16') // .xlsx
     compile('org.apache.poi:poi:3.16') // .xls
-    compile group: 'org.springframework.security', name: 'spring-security-taglibs'
 }
