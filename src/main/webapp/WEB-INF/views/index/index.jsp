@@ -48,8 +48,9 @@
  
  
 @media screen and (max-width: 500px) {
-		.pickDate {text-align:center; width:130px; cursor:pointer; border:none; font-size:20px}
-       .YongSanText { font-weight:bold; margin-right:auto; font-size:18px; padding:0; color:#080c42}
+		.pickDate {text-align:center; width:130px; cursor:pointer; border:none; font-size:20px; padding-top:0px}
+       .yongSanDiv { display:none}
+       .pickDiv {padding-top:0px; margin-bottom:-15px}
         .weekOfDay { font-size:18px}
 }
  
@@ -63,15 +64,14 @@
 	<body id="htmlBody">
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>		
 
-	<br>
 		<div class="container">
 		
 			<div class="col-lg-12">
-				<div class="col-lg-5" style="padding:0">
+				<div class="col-lg-5 yongSanDiv" style="padding-top:20px">
 					<span class="YongSanText"> IBM YongSan Office </span>
 				</div>
 				
-				<div class="col-lg-7" style="padding:0">
+				<div class="col-lg-7 pickDiv" style="padding-top:20px">
 					<table id="pickDate" style="text-align:right; margin-left:auto">
 					<tr><td style="border:none" >
 						<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
@@ -275,9 +275,9 @@
 				<input type="hidden" id="rsvConfirmState" name="rsvConfirmState" value="Y">
 		 		<input type="hidden" id="rsvNo" name="rsvNo" value="0">
  			 
-				<div id="modify" style="display:none;">
-					<button type="button" id="deleteBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">삭제</button>
-					<button type="button" id="modifyBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">수정</button>
+				<div id="modify" style="display:none; margin-top:20px">
+					<button type="button" id="deleteBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px; margin-top:-20px">삭제</button>
+					<button type="button" id="modifyBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px; margin-top:-20px">수정</button>
 				</div>
 						
 				<input type="hidden" id="monopolyCount" name="monopolyCount">
