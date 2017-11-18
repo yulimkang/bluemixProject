@@ -246,10 +246,10 @@ hr.fc-divider {
 	text-align: center;
 	border-style: solid;
 	border-width: 1px;
-	border:none;
 	padding: 0;
 	height:2.0em;
-	background-color:none;
+	background-color:#f4f4f4;
+	
 }
 
 @media screen and (max-width: 500px) {
@@ -1125,6 +1125,7 @@ NOTE: use percentage font sizes or else old IE chokes
 
 .fc-ltr .fc-axis {
 	text-align: right;
+
 }
 
 .fc-rtl .fc-axis {
@@ -1306,14 +1307,25 @@ be a descendant of the grid when it is being dragged.
 
 .fc-time-grid-event .fc-time,
 .fc-time-grid-event .fc-title {
-	padding: 0 1px;
-	font-size: 1.2em;
-	text-align:center;
+	
 	height:100%;
-	display: flex;
-    align-items: center;
-    justify-content: center;
-    -ms-flex-align : center;
+		padding: 0 1px;
+		font-size: 1.2em;
+		text-align:center;
+	 position: absolute;
+    top: 50%;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    margin-top: -.5em;
+    line-height: 1em;
+    
+      text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal !important;
+    display: block;
 }
 
  @media screen and (max-width: 500px) {
@@ -1321,13 +1333,22 @@ be a descendant of the grid when it is being dragged.
 	.fc-time-grid-event .fc-title {
 		height:100%;
 		padding: 0 1px;
-		font-size: 0.8em;
+		font-size: 0.7em;
 		text-align:center;
-		display: flex;
-	    align-items: center;
-	    justify-content: center;
-		text-overflow: ellipsis;
-	    -o-text-overflow: ellipsis;
+	 position: absolute;
+    top: 50%;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    margin-top: -.5em;
+    line-height: 1em;
+    
+      text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal !important;
+    display: block;
 	}
  }
 
@@ -1492,7 +1513,7 @@ be a descendant of the grid when it is being dragged.
 /* day headings with the list */
 
 .fc-list-heading {
-	border-bottom-width: 1px;
+	border-bottom-width: 2px;
 }
 
 .fc-list-heading td {

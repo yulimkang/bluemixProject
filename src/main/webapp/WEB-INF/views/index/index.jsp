@@ -49,28 +49,33 @@
 
 	<br>
 		<div class="container">
-
-		<table id="pickDate">
-		<tr><td style="border:none">
-			<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
-		</td><td style="border:none">
-			<span class="fa-stack fa-1x">
-	    		<i class="fa fa-calendar-o fa-stack-2x"></i>
-	    		<strong class="fa-stack-1x calendar-text" style="font-size:14px; cursor:pointer" id="todayDate"></strong>
-	 	  	</span>
-			<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:165px; cursor:pointer; border:none; font-size:30px" >
-			<span id="day" style="font-size:25px"></span>
-		</td>
-		<td style="border:none">
-		<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
-		</td></tr>
-		</table>
+		
+				<table id="pickDate" style="text-align:right">
+				<tr><td style="border:none">
+					<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
+				</td><td style="border:none">
+					<span class="fa-stack fa-1x">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-1x calendar-text" style="font-size:14px; cursor:pointer" id="todayDate"></strong>
+			 	  	</span>
+					<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:165px; cursor:pointer; border:none; font-size:30px" >
+					<span id="day" style="font-size:25px"></span>
+				</td>
+				<td style="border:none">
+				<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
+				</td></tr>
+				</table>
 		
 			
 			<div id="calendar"></div><br>
 			
+			
+			
+			
+		
 			<form action="/Reservation/RegistReservation" method="post" id="submitForm">
-				<hr><br>
+				
+					<div class="jumbotron">
 				<div class="col-lg-12">
 					<div class="form-group col-lg-3">
 					  <label class="control-label">날짜</label>
@@ -215,7 +220,12 @@
 					</div>
 					
 					<div class="form-group col-lg-4">
-					  <label class="control-label">이메일</label>
+						<div style="text-align:left; display:inline"><label class="control-label">이메일</label></div>
+					    <div style=" text-align:right; display:inline"><span class="control-label" style="width:250px; color:#8d9193; font-size:12px; text-align:right">30분 전 Reminder 메일수신
+					    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
+					    <input type="hidden" id="emailCheckValue" name="emailCheckValue">
+					    </div>
+					  </span>
 					  <div>
 					  <div class="input-group">
 					    <span class="input-group-addon input-sm"><i class="fa fa-envelope"></i></span>
@@ -229,10 +239,7 @@
 				
 				<div class="col-lg-12">
 					<div class="form-group col-lg-11" style="text-align:right; margin-top:10px">
-					  <label class="control-label">메일 수신
-					    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
-					    <input type="hidden" id="emailCheckValue" name="emailCheckValue">
-					  </label>
+					  
 					</div>
 					
 					<div id="submit" class="form-group col-lg-1" style=text-align:right>	
@@ -244,17 +251,18 @@
 				<input type="hidden" id="rsvConfirmState" name="rsvConfirmState" value="Y">
 		 		<input type="hidden" id="rsvNo" name="rsvNo" value="0">
  			 
-				
-				
 				<div id="modify" style="display:none;">
 					<button type="button" id="deleteBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">삭제</button>
 					<button type="button" id="modifyBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">수정</button>
 				</div>
 						
 				<input type="hidden" id="monopolyCount" name="monopolyCount">
-			
+				&nbsp;
+					</div>
 			</form>
 			</div>
+		
+			
 
 
 		<input type="hidden" id="fromSearch" name="fromSearch" value="${requestScope.fromSearch }">
@@ -265,7 +273,6 @@
 		<br>
 		    <div id="eventInfo"></div><br>
 		    <div id="eventLink" style="display:none;"><small><i><ins style="cursor:pointer">이메일로 비밀번호 전송받기</ins></i></small><div id="detailInfo" style='display:none;'></div></div>
-		    
 		</div>
 		
 
@@ -1291,7 +1298,6 @@ $(document).ready(function(){
 		
 	$('#calendar').fullCalendar({
 		locale:"ko", //한글로 변환
-		
 		navLinks: false, // can click day/week names to navigate views
 		eventOverlap: false, // will cause the event to take up entire resource height , 이벤트 겹치기 불가
 		contentHeight: 'auto',
