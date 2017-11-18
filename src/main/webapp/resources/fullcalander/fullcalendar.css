@@ -1317,7 +1317,6 @@ be a descendant of the grid when it is being dragged.
     right: 0px;
     text-align: center;
     margin-top: -.5em;
-    line-height: 1em;
     
       text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
@@ -1340,7 +1339,6 @@ be a descendant of the grid when it is being dragged.
     right: 0px;
     text-align: center;
     margin-top: -.5em;
-    line-height: 1em;
     
       text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
