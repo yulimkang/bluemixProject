@@ -22,14 +22,47 @@
   .modal .modal-dialog {
   	width : 90%;
   }
+  
+  	#calSearch {
+		padding-left:30px;
+		padding-right:15px;
+	}
+	
+	#sDate {
+		width:14%;
+		text-align:center;
+	}
+	#eDate {
+		width:14%;
+		text-align:center;
+	}
+	
+	#startDateDate {
+		padding-top:5px;
+		font-size:medium;
+	}
+	
+	#endDateDate {
+		padding-top:5px;
+		font-size:medium;
+	}
  
 
- @media (max-width: 768px) {
-
-  .modal .modal-dialog {
-  	width : 100%;
-  }
-}
+	 @media (max-width: 768px) {
+	
+	  .modal .modal-dialog {
+	  	width : 100%;
+	  }
+	  
+	 	#sDate {
+			width:22%;
+			text-align:center;
+		}
+		#eDate {
+			width:22%;
+			text-align:center;
+		}
+	}
 
 </style>
 
@@ -53,11 +86,23 @@
 		  <form name="searchForm" id="searchForm" method="post" action="">
 		  
 		  	<div id="calSearch">
-		  		<input type="text" id="sDate" name="sDate" />
-		  		<input type="text" id="eDate" name="eDate"/>
-		  	</div>
+			
+		  		검색기간 : 
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text"  id="startDateDate"></strong>
+			 	 </span>
+		  		<input type="text" id="sDate" name="sDate" style="cursor:pointer"/> ~
+		  		
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text" id="endDateDate"></strong>
+			 	 </span>
+		  		<input type="text" id="eDate" name="eDate" style="cursor:pointer" />
+		  		
+			 </div>
 		  
-			  <div class="col-lg-12">
+			  <div class="col-lg-12" style="margin-top:2%;">
 				<div class="col-lg-3">
 					<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
 						<option value="all">전체</option>
@@ -282,9 +327,36 @@
  * 작성자 : 최문정
  * 내용 : 
  */
- $(function(){
-	 $('#sDate').datepicker();
- });
+ $(function(){	
+
+	 $("#sDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#eDate").datepicker("option", "minDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(시작일)
+				var sDateDate = $("#sDate").datepicker("getDate").getDate();
+				 $("#startDateDate").text(sDateDate);
+			}
+	 });
+	
+
+
+	 $("#eDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#sDate").datepicker("option", "maxDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(종료일)
+				var eDateDate = $("#eDate").datepicker("getDate").getDate();
+				 $("#endDateDate").text(eDateDate);
+			}
+	 });
+});
 
 
 /**
@@ -334,6 +406,18 @@ $(function(){
 	 $("#selectSearchOpt").val("${selectSearchOptBack}");
 	 $("#inputSearchCont").val("${inputSearchContBack}");
 	 $("#sort").val("${sort}");
+	 
+	 //input에 시작날짜와 끝날짜 넣기
+	 $("#sDate").val("${sDateBack}");
+	 $("#eDate").val("${eDateBack}");
+	 
+	 //시작날짜 달력 이미지에 넣기
+	 var sDateStr = $("#sDate").datepicker("getDate").getDate();
+ 	 $("#startDateDate").text(sDateStr);
+	 
+	 //종료날짜 달력 이미지에 넣기
+	 var eDateStr = $("#eDate").datepicker("getDate").getDate();
+	 $("#endDateDate").text(eDateStr);
  });
 
  /**

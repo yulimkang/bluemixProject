@@ -125,6 +125,45 @@
 
 <script>
 
+/**
+ * 작성자 : 최문정
+ * 내용 : 자동완성 기능
+ */
+$(function(){
+    $( "#inputSearchCont" ).autocomplete({
+        source : function( request, response ) {
+             $.ajax({
+                    type: "POST",
+                    url: "/Search/SearchAutoComplete",
+                    dataType: "JSON",
+                    data: { "selectSearchOpt" : $("#selectSearchOpt").val(), "value" : request.term },
+                    success: function(data) {
+                        //서버에서 json 데이터 response 후 목록에 뿌려주기 위함
+                        response(
+                           $.map(data, function(item) {
+                                return {
+                                    label: item.data,
+                                    value: item.data
+                              }
+                          })
+                        );                    },
+                    error : function(data) {
+
+                    },
+                    
+               });
+            },
+            //자동완성 기능에서 클릭했을 때, 일반예약을 기본으로 함
+            select:function(event, id) {
+    			$("#inputSearchCont").val(id.item.label);
+           		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
+        		$("#searchForm").submit();
+            }
+        
+    });
+});
+
+//날짜 검색
 var today = new Date();
 var todayDate = new Date().getDate();
 var monthLater = new Date((Date.parse(today) + 30 * 1000 * 60 * 60 * 24));
@@ -168,44 +207,6 @@ $(function(){
 	 //종료일을 오늘로부터 한 달 후로 설정
 	 $("#eDate").datepicker().datepicker("setDate", monthLater);
 
-});
-
-/**
- * 작성자 : 최문정
- * 내용 : 자동완성 기능
- */
-$(function(){
-    $( "#inputSearchCont" ).autocomplete({
-        source : function( request, response ) {
-             $.ajax({
-                    type: "POST",
-                    url: "/Search/SearchAutoComplete",
-                    dataType: "JSON",
-                    data: { "selectSearchOpt" : $("#selectSearchOpt").val(), "value" : request.term },
-                    success: function(data) {
-                        //서버에서 json 데이터 response 후 목록에 뿌려주기 위함
-                        response(
-                           $.map(data, function(item) {
-                                return {
-                                    label: item.data,
-                                    value: item.data
-                              }
-                          })
-                        );                    },
-                    error : function(data) {
-
-                    },
-                    
-               });
-            },
-            //자동완성 기능에서 클릭했을 때, 일반예약을 기본으로 함
-            select:function(event, id) {
-    			$("#inputSearchCont").val(id.item.label);
-           		$("#searchForm").attr("action","/Search/GeneralUserSearchPage");
-        		$("#searchForm").submit();
-            }
-        
-    });
 });
 
  /**
