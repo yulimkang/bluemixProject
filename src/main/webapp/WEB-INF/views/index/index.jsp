@@ -40,6 +40,23 @@
 <script type="text/javascript" src="/resources/loadingBar/ajaxLoading.js"></script>   
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 
+<style>
+
+ .YongSanText { font-weight:bold; margin-right:auto; font-size:30px; color:#080c42}
+ .pickDate {text-align:center; width:165px; cursor:pointer; border:none; font-size:28px}
+ .weekOfDay { font-size:22px}
+ 
+ 
+@media screen and (max-width: 500px) {
+      .pickDate {text-align:center; width:130px; cursor:pointer; border:none; font-size:20px; padding-top:0px}
+       .yongSanDiv { display:none}
+       .pickDiv {padding-top:0px; margin-bottom:-15px}
+        .weekOfDay { font-size:18px}
+}
+ 
+
+</style>
+
 <html>
 <head>
 <title>IBM 회의실 예약시스템</title>
@@ -47,32 +64,35 @@
 	<body id="htmlBody">
 		<jsp:include page="../headerAndFooter/header.jsp"></jsp:include>		
 
-	<br>
 		<div class="container">
 		
-				<table id="pickDate" style="text-align:right">
-				<tr><td style="border:none">
-					<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
-				</td><td style="border:none">
-					<span class="fa-stack fa-1x">
-			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
-			    		<strong class="fa-stack-1x calendar-text" style="font-size:14px; cursor:pointer" id="todayDate"></strong>
-			 	  	</span>
-					<input type="text" id="date" name="date" maxlength=45 style="text-align:center; width:165px; cursor:pointer; border:none; font-size:30px" >
-					<span id="day" style="font-size:25px"></span>
-				</td>
-				<td style="border:none">
-				<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
-				</td></tr>
-				</table>
-		
-			
+			<div class="col-lg-12">
+
+				<div class="col-lg-5 yongSanDiv" style="padding-top:20px">
+					<span class="YongSanText"> IBM YongSan Office </span>
+				</div>
+				
+				<div class="col-lg-7 pickDiv" style="padding-top:20px">
+					<table id="pickDate" style="text-align:right; margin-left:auto">
+					<tr><td style="border:none" >
+						<i class="fa fa-chevron-left" id="prev" style="cursor:pointer; padding: 0px 7px 0px 0px"></i>
+					</td><td style="border:none">
+						<span class="fa-stack fa-1x">
+				    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+				    		<strong class="fa-stack-1x calendar-text" style="font-size:12px; cursor:pointer" id="todayDate"></strong>
+				 	  	</span>
+						<input type="text" id="date" name="date" maxlength=45 class="pickDate" >
+						<span id="day" class="weekOfDay"></span>
+					</td>
+					<td style="border:none">
+					<i class="fa fa-chevron-right" id="next" style="cursor:pointer;  padding: 0px 0px 0px 7px"></i>
+					</td></tr>
+					</table>
+				</div>
+				
+			</div>	
 			<div id="calendar"></div><br>
 			
-			
-			
-			
-		
 			<form action="/Reservation/RegistReservation" method="post" id="submitForm">
 				
 					<div class="jumbotron">
@@ -149,15 +169,16 @@
 					    <span class="input-group-addon input-sm"><i class="fa fa-eye"></i></span>
 					    <select id="rsvColor" name="rsvColor" class="form-control input-sm">
 					    	<option value="red">빨강</option>
-					    	<option value="yellow">주황</option>
-					    	<option value="green">노랑</option>
-					    	<option value="blue">초록</option>
-					    	<option value="purple" selected>파랑</option>
+					    	<option value="orange">주황</option>
+					    	<option value="green">초록</option>
+					    	<option value="blue" selected>파랑</option>
+					    	<option value="navy">남색</option>
+					    	<option value="skyblue">하늘</option>
 					    </select>
 					  </div>
 					</div>
 				</div>
-				
+			
 				<div class="col-lg-12">
 					<div class="form-group col-lg-4">
 					  <label class="control-label">회의실</label>
@@ -221,11 +242,12 @@
 					
 					<div class="form-group col-lg-4">
 						<div style="text-align:left; display:inline"><label class="control-label">이메일</label></div>
-					    <div style=" text-align:right; display:inline"><span class="control-label" style="width:250px; color:#8d9193; font-size:12px; text-align:right">30분 전 Reminder 메일수신
-					    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
-					    <input type="hidden" id="emailCheckValue" name="emailCheckValue">
+					    <div style=" text-align:right; display:inline">
+					    	<label><span class="control-label" style="width:250px; color:#8d9193; font-size:12px; text-align:right">　　30분 전 Reminder 메일수신</span>
+					 	    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
+					   		<input type="hidden" id="emailCheckValue" name="emailCheckValue">
+					  		</label>
 					    </div>
-					  </span>
 					  <div>
 					  <div class="input-group">
 					    <span class="input-group-addon input-sm"><i class="fa fa-envelope"></i></span>
@@ -241,21 +263,21 @@
 					<div class="form-group col-lg-11" style="text-align:right; margin-top:10px">
 					  
 					</div>
-					
 					<div id="submit" class="form-group col-lg-1" style=text-align:right>	
 					<button type="submit" class="btn btn-primary" style="float:right;" onclick="return checkForm()">등록</button>
 					</div>
 				</div>
 					
+ 			 
+				<div id="modify" style="display:none;">
+					<button type="button" id="deleteBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px; margin-top:-20px">삭제</button>
+           		    <button type="button" id="modifyBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px; margin-top:-20px">수정</button>
+				</div>
+						
  				<input type="hidden" id="rsvTotalTime" name="rsvTotalTime"> 
 				<input type="hidden" id="rsvConfirmState" name="rsvConfirmState" value="Y">
 		 		<input type="hidden" id="rsvNo" name="rsvNo" value="0">
- 			 
-				<div id="modify" style="display:none;">
-					<button type="button" id="deleteBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">삭제</button>
-					<button type="button" id="modifyBtn" class="btn btn-primary" style="float:right; margin-right:30px; margin-left:0px">수정</button>
-				</div>
-						
+
 				<input type="hidden" id="monopolyCount" name="monopolyCount">
 				&nbsp;
 					</div>
@@ -339,7 +361,7 @@ function regRsv(date, resourceObj){
 	$("#rsvMemNm").removeAttr("value");
 	$("#rsvMemEm").removeAttr("value");
 	$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
-	$("#rsvColor option[value='purple']").attr("selected", true);
+	$("#rsvColor option[value='blue']").attr("selected", true);
 	
 	emptyErrorMsg();
 	
@@ -646,8 +668,7 @@ function conf(){
 			
 		},
 		error:function(request,status,error){
-			alert("Get Conference Error");
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			$('#calendar').fullCalendar('today');
 		}
 	});
 
@@ -998,8 +1019,8 @@ function getRsvConfirmStateVal(rsvNo){
 			confirmState = state;
 		},
 		error:function(request,status,error){
-			alert("Get RsvConfirmState Value Error");
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		//	alert("Get RsvConfirmState Value Error");
+		//	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
 	});
 	
@@ -1070,6 +1091,17 @@ $(document).ready(function(){
 		$('#calendar').fullCalendar('today');
 		 $("#day").empty();
 		 getInputDayLabel(date);
+		 
+		//이미 입력되어있는 textbox내의 값들 지우기
+		$("#rsvTitle").removeAttr("value");
+		$("#rsvDelPwd").removeAttr("value");
+		$("#rsvMemPn").removeAttr("value");
+		$("#rsvMemNm").removeAttr("value");
+		$("#rsvMemEm").removeAttr("value");
+		$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
+		$("#rsvColor option[value='blue']").attr("selected", true);
+			
+		emptyErrorMsg();
 	});
 	   
 	$("#prev").on("click", function(){
@@ -1537,7 +1569,7 @@ $(document).ready(function(){
 						callback(resources);
 					},
 					error:function(){
-						alert("Resource Error");
+						$('#calendar').fullCalendar('today');
 					}
 			});
 		},
@@ -1621,15 +1653,17 @@ $(document).ready(function(){
 							events[j].color="rgba(179, 179, 179, 0.5)";
 						}else{
 							if(events[j].color == 'red'){ //빨강
-								events[j].color="#ff9999"; 
-							}else if(events[j].color == 'yellow'){ //노랑
-								events[j].color="#ffb84d";
+								events[j].color="#ff1a1a"; 
+							}else if(events[j].color == 'orange'){ //주황
+								events[j].color="#fe9a2e";
 							}else if(events[j].color == 'green'){ //초록
-								events[j].color="#ffdb4d";
+								events[j].color="#33cc33";
 							}else if(events[j].color == 'blue'){ //파랑
-								events[j].color="#B1D781";
-							}else if(events[j].color == 'purple'){ //보라
-								events[j].color="#99c2ff";
+								events[j].color="#00599D";
+							}else if(events[j].color == 'navy'){ //남색
+								events[j].color="#001D59";
+							}else if(events[j].color == 'skyblue'){ //하늘
+								events[j].color="#3399ff";
 							}
 						}
 					}
@@ -1637,8 +1671,7 @@ $(document).ready(function(){
 					callback(events);
 				},
 				error:function(request,status,error){
-					alert("Event Error");
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					$('#calendar').fullCalendar('today');
 				}
 			});	
 		},
@@ -1656,7 +1689,7 @@ $(document).ready(function(){
 			$("#rsvMemNm").removeAttr("value");
 			$("#rsvMemEm").removeAttr("value");
 			$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
-			$("#rsvColor option[value='purple']").attr("selected", true);
+			$("#rsvColor option[value='blue']").attr("selected", true);
 			
 			emptyErrorMsg();
 			
@@ -1856,7 +1889,7 @@ $(document).ready(function(){
 	        }
 	     },
 		 eventMouseover: function (data, event, view) {
-
+			/* 
 			var name = "";
 			var phoneNum = "";
 			var email = "";
@@ -1925,11 +1958,13 @@ $(document).ready(function(){
 	         	$('.tooltiptopicevent').css('top', e.pageY + 10);
 	         	$('.tooltiptopicevent').css('left', e.pageX + 20);
 	         });
+	         */
 		 },
 	     eventMouseout: function (data, event, view) {
+	    	 /* 
 	         $(this).css('z-index', 8);
 	         $('.tooltiptopicevent').remove();
-
+			  */
 	     }
 	});
 

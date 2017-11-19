@@ -103,7 +103,7 @@ public class ReservationService {
 		
 		if(reservation.getRsvConfirmState()=="N"){
 			email = adminDao.getAdminEmail();
-			subject = "[가예약]" + rsvMemNm + "님의"  + rsvTitle + " 회의가 가예약 신청됐습니다. ";
+			subject = "[회의실 가예약] " + rsvTitle + " (" + rsvDateString + "(" + rsvDateOfTheWeek + ") " + rsvStartTimeChange + " - " + rsvDateString + "(" + rsvDateOfTheWeek + ")" + rsvEndTimeChange	+ "), " + rsvConfNm;
 			
 			content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
 					+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
@@ -130,8 +130,8 @@ public class ReservationService {
 		}
 		else {
 			
-			subject = "[예약완료] " + rsvMemNm + "님의 " + rsvTitle + " 회의가 예약되었습니다. ";
-
+			subject = "[회의실 예약] " + rsvTitle + " (" + rsvDateString + "(" + rsvDateOfTheWeek + ") " + rsvStartTimeChange + " - " + rsvDateString + "(" + rsvDateOfTheWeek + ") " + rsvEndTimeChange	+ "), " + rsvConfNm;
+			
 			content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
 					+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"
 					+ "<div class=\"container\" style=\"display: block!important;max-width: 600px!important;margin: 0 auto!important;clear: both!important;\">\r\n"
@@ -385,7 +385,7 @@ public class ReservationService {
 		
 		
 		
-		String subject = "[가예약]" + memberName + "님의"  + reservationTitle + " 회의 비밀번호를 확인해주세요 ";
+		String subject = "[비밀번호 확인]" + memberName + "님의"  + reservationTitle + " 회의 비밀번호를 확인해주세요 ";
 		
 		String content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
 				+ "<head>\r\n" + "\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "\r\n"

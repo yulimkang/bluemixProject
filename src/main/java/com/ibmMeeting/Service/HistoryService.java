@@ -147,7 +147,7 @@ public class HistoryService {
 		}
 		
 		
-		String subject = "[회의실 예약 승인] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 승인됐습니다";
+		String subject = "[회의실 예약 승인] " + rsvTitle + " (" + firstDayString + "(" + firstDayOfTheWeek + ") " + rsvStartTimeChange + " - " + lastDayString + "(" + lastDayOfTheWeek + ") " + rsvEndTimeChange	+ "), " + rsvConfNm;
 		
 		String content = 
 				"<html>\r\n" + 
@@ -259,7 +259,7 @@ Integer reservationNo = Integer.parseInt(reservationNumber);
 		}
 		
 		
-		String subject = "[회의실 예약 반려] " + rsvMemNm+ "님의 " +rsvTitle + " 회의가 반려됐습니다";
+		String subject = "[회의실 예약 반려] "  + rsvTitle + " (" + firstDayString + "(" + firstDayOfTheWeek + ") " + rsvStartTimeChange + " - " + lastDayString + "(" + lastDayOfTheWeek + ") " + rsvEndTimeChange	+ "), " + rsvConfNm;
 		
 		String content = 
 				"<html>\r\n" + 
