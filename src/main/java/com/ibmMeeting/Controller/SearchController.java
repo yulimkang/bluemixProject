@@ -125,18 +125,21 @@ public class SearchController {
 			String selectOpt = selectSearchOpt;
 			String searchCont = inputSearchCont;
 			
-			HashMap<String, Object> pagebeanMap = searchService.generalUserSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
+			HashMap<String, Object> pagebeanMap = searchService.generalUserSearchResult(request, searchCont, selectOpt , searchpage, sortKind, sDate, eDate);
 			
 			map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
 			map.addAttribute("pageBean", pagebeanMap.get("pageBean"));
 			map.addAttribute("sort", sortKind);
 			map.addAttribute("inputSearchCont", searchCont);
 			map.addAttribute("selectSearchOpt", selectOpt);
-			
+			map.addAttribute("sDate", sDate);
+			map.addAttribute("eDate", eDate);
 			
 			map.addAttribute("selectSearchOptBack", selectOpt);
 			map.addAttribute("inputSearchContBack", searchCont);
 			map.addAttribute("sortTypeBack", sortKind);
+			map.addAttribute("sDateBack", sDate);
+			map.addAttribute("eDateBack", eDate);
 		
 		return "/search/general_search";
 		

@@ -196,10 +196,10 @@ public interface SearchDao {
 	 * @param searchCont
 	 * @return
 	 */
-	Integer rownumGeneralUserSelectByAll(String searchCont);
-	Integer rownumGeneralUserSelectByTitle(String searchCont);
-	Integer rownumGeneralUserSelectByMemNM(String searchCont);
-	Integer rownumGeneralUserSelectByMemPN(String searchCont);
+	Integer rownumGeneralUserSelectByAll(HashMap<String,Object> countForPage);
+	Integer rownumGeneralUserSelectByTitle(HashMap<String,Object> countForPage);
+	Integer rownumGeneralUserSelectByMemNM(HashMap<String,Object> countForPage);
+	Integer rownumGeneralUserSelectByMemPN(HashMap<String,Object> countForPage);
 
 	
 	/**
