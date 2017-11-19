@@ -864,7 +864,7 @@
        
 	<!-- 작성자 : 최문정 -->
 	<!-- 모달 반복예약 상세보기 출력 -->
-	<select id="repeatSearchDetailContents" resultType="HashMap" parameterType="Integer">
+	<select id="repeatSearchDetailContents" resultType="HashMap" parameterType="HashMap">
 		select r.rsv_no,
 		r.rsv_date,
 		r.rsv_start_time,
@@ -887,9 +887,15 @@
 		   when '6' then '(일)'
 		 end as dayoftheweek
 		from RESERVATION r, CONFERENCE c 
-
-		where r.rsv_conf_no = c.conf_no
-		and r.rsv_repeat_no = #{repeatSeq}
+		
+		<if test="value !=null">
+		<![CDATA[
+			where r.rsv_conf_no = c.conf_no
+			and r.rsv_repeat_no = CAST(#{value} as unsigned)
+			and r.rsv_date >= #{sDate}
+			and r.rsv_date <= #{eDate}
+		]]>
+		</if>
 
 	</select>
 	
@@ -1877,7 +1883,7 @@
 	
 	<!-- 작성자 : 최문정 -->
 	<!-- 일반 사용자 검색 '전체 옵션', 페이징을 위한 검색 개수 -->
-	<select id="rownumGeneralUserSelectByAll" resultType="Integer" parameterType="String">
+	<select id="rownumGeneralUserSelectByAll" resultType="Integer" parameterType="HashMap">
 		SELECT COUNT(*) FROM (SELECT * 
 		FROM RESERVATION R
 		
@@ -1906,7 +1912,7 @@
 	
 	<!-- 작성자 : 최문정 -->
 	<!-- 일반 사용자 검색 '회의제목 옵션', 페이징을 위한 검색 개수 -->
-	<select id="rownumGeneralUserSelectByTitle" resultType="Integer" parameterType="String">
+	<select id="rownumGeneralUserSelectByTitle" resultType="Integer" parameterType="HashMap">
 		SELECT COUNT(*) FROM (SELECT * 
 		FROM RESERVATION R, CONFERENCE C 
 		
@@ -1933,7 +1939,7 @@
 	
 	<!-- 작성자 : 최문정 -->
 	<!-- 일반 사용자 검색 '예약자 이름 옵션', 페이징을 위한 검색 개수 -->
-	<select id="rownumGeneralUserSelectByMemNM" resultType="Integer" parameterType="String">
+	<select id="rownumGeneralUserSelectByMemNM" resultType="Integer" parameterType="HashMap">
 		SELECT COUNT(*) FROM (SELECT * 
 		FROM RESERVATION R, CONFERENCE C 
 		
@@ -1959,7 +1965,7 @@
 	
 	<!--  작성자 : 최문정 -->
 	<!-- 일반 사용자 검색 '예악자 번호 옵션', 페이징을 위한 검색 개수 -->
-	<select id="rownumGeneralUserSelectByMemPN" resultType="Integer" parameterType="String">
+	<select id="rownumGeneralUserSelectByMemPN" resultType="Integer" parameterType="HashMap">
 		SELECT COUNT(*) FROM (SELECT * 
 		FROM RESERVATION R, CONFERENCE C 
 		
@@ -2413,7 +2419,7 @@
 	</select>
 
 	
-	<!-- 간편 검색 내역 중 반복예약 내역 출력 -->
+	<!-- 간편 검색 내역 중 반복예약 상세내역 출력 -->
 	<select id="repeatSearchDetailContentsForEasySearch"  parameterType="HashMap" resultType="HashMap">
 		SELECT R.RSV_NO,
 				R.RSV_DATE,
@@ -2433,7 +2439,7 @@
 		<![CDATA[
 		WERE R.RSV_CONF_NO = C.CONF_NO
 		AND R.RSV_REPEAT_NO = #{repeatSeq}
-		AND AND R.RSV_DATE >= #{today}]]>
+		AND R.RSV_DATE >= #{today}]]>
 	</select>
 	
 	<!--  간편검색을 위한 자동완성 기능, '전체' 옵션 -->

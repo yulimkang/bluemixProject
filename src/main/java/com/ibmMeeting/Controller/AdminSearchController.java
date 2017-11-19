@@ -151,8 +151,10 @@ public class AdminSearchController {
 		
 		String str = request.getParameter("repeatNo");
 		int repeatSeq = Integer.parseInt(str);
+		String sDate = request.getParameter("sDate");
+		String eDate = request.getParameter("eDate");
 
-		return searchService.showReservDetail(repeatSeq);
+		return searchService.showReservDetail(repeatSeq, sDate, eDate);
 		
 	}
 	

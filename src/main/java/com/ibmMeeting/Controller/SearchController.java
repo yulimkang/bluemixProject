@@ -54,9 +54,13 @@ public class SearchController {
 	public ArrayList<HashMap<String,Object>> showRepeatDetail(HttpServletRequest request, ModelMap map ) {
 		
 		String str = request.getParameter("repeatNo");
+		String sDate = request.getParameter("sDate");
+		String eDate = request.getParameter("eDate");
 		int repeatSeq = Integer.parseInt(str);
 		
-		return searchService.showReservDetail(repeatSeq);
+		System.out.println("Controller sDate : "+sDate+"eDate : "+eDate);
+		
+		return searchService.showReservDetail(repeatSeq, sDate, eDate);
 		
 	}
 	

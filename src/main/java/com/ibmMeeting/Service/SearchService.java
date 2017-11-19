@@ -321,17 +321,23 @@ public class SearchService {
 	}
 
 	/**
-	 * 작성자 : 최문정 내용 : 반복예약 모달에서 상세예약내역 출력
-	 * 
+	 * 작성자 : 최문정 
+	 * 내용 : 반복예약 모달에서 상세예약내역 출력
 	 * @param repeatNo
 	 * @return
 	 */
-	public ArrayList<HashMap<String, Object>> showReservDetail(int repeatNo) {
+	public ArrayList<HashMap<String, Object>> showReservDetail(int repeatNo, String sDate, String eDate) {
 
 		int repeatSeq = repeatNo;
 
 		ArrayList<HashMap<String, Object>> searchDetailResult = new ArrayList<HashMap<String, Object>>();
-		searchDetailResult = searchDao.repeatSearchDetailContents(repeatSeq);
+		HashMap<String, Object> detailInfo = new HashMap<String, Object>();
+
+		detailInfo.put("value", repeatSeq);
+		detailInfo.put("sDate", sDate);
+		detailInfo.put("eDate", eDate);
+		
+		searchDetailResult = searchDao.repeatSearchDetailContents(detailInfo);
 
 		return searchDetailResult;
 

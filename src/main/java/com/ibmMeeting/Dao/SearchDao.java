@@ -83,7 +83,7 @@ public interface SearchDao {
 	 * @param repeatSeq
 	 * @return
 	 */
-	ArrayList<HashMap<String,Object>> repeatSearchDetailContents(int repeatSeq);
+	ArrayList<HashMap<String,Object>> repeatSearchDetailContents(HashMap<String,Object> searchInfo);
 
 	
 	/**
