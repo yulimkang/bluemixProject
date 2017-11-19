@@ -31,9 +31,42 @@
 		margin-top:-3%;
 	}
 	
+	#calSearch {
+		padding-left:30px;
+		padding-right:15px;
+	}
+	
+	#sDate {
+		width:14%;
+		text-align:center;
+	}
+	#eDate {
+		width:14%;
+		text-align:center;
+	}
+	
+	#todayDate {
+		padding-top:5px;
+		font-size:medium;
+	}
+	
+	#DateAfterAMonth {
+		padding-top:5px;
+		font-size:medium;
+	}
+	
 	@media (max-width: 768px) {
 		.radio label {
 			margin-top:0;
+		}
+		
+		#sDate {
+			width:22%;
+			text-align:center;
+		}
+		#eDate {
+			width:22%;
+			text-align:center;
 		}
 	}
 
@@ -54,44 +87,115 @@
 		<br>
 		
 		
-		<div class="col-lg-12">
+		
 		  <form name="searchForm" id="searchForm" method="post" action="">
-			<div class="col-lg-3">
-				<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
-					<option value="all">전체</option>
-					<option value="title">회의제목</option>
-					<option value="mem_nm">예약자</option>
-					<option value="mem_pn">전화번호</option>
-				</select>
-			</div>
-			<div class="col-lg-5">
-				<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){searchFormSubmit();}"/>
-			</div>
-			<div class="col-lg-2">
-				<div class="radio">
-          			<label>
-						<input type="radio" name="searchKind" value="general" checked="checked">일반예약<br/>
-						<input type="radio" name="searchKind" value="repeat" >반복예약
-					</label>
-				</div>
-			</div>
+		  
+		  
+		  	<div id="calSearch">
 			
-			<div class="col-lg-2">
-				<button type="button" class="pull-right btn btn-primary" onclick="searchFormSubmit()">검색</button>
+		  		검색기간 : 
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text"  id="todayDate"></strong>
+			 	 </span>
+		  		<input type="text" id="sDate" style="cursor:pointer" name="sDate" /> ~
+		  		
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text" id="DateAfterAMonth"></strong>
+			 	 </span>
+		  		<input type="text" id="eDate" style="cursor:pointer" name="eDate" />
+		  		
+			 </div>
+		  
+			  <div class="col-lg-12" style="margin-top:4%;">
+				<div class="col-lg-3">
+					<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
+						<option value="all">전체</option>
+						<option value="title">회의제목</option>
+						<option value="mem_nm">예약자</option>
+						<option value="mem_pn">전화번호</option>
+					</select>
+				</div>
+				
+				<div class="col-lg-5">
+					<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){searchFormSubmit();}"/>
+				</div>
+				
+				<div class="col-lg-2">
+					<div class="radio">
+	          			<label>
+							<input type="radio" name="searchKind" value="general" checked="checked">일반예약<br/>
+							<input type="radio" name="searchKind" value="repeat" >반복예약
+						</label>
+					</div>
+				</div>
+				
+				<div class="col-lg-2">
+					<button type="button" class="pull-right btn btn-primary" onclick="searchFormSubmit()">검색</button>
+				</div>
+				
 			</div>
 			
 			
 			</form>
 		</div>
-		
-		</div>
-	
+
 
 	<jsp:include page="../headerAndFooter/footer.jsp"></jsp:include>
 </body>
 </html>
 
 <script>
+
+
+//날짜 검색
+var today = new Date();
+var todayDate = new Date().getDate();
+var monthLater = new Date((Date.parse(today) + 30 * 1000 * 60 * 60 * 24));
+var monthLaterDate = new Date((Date.parse(today) + 30 * 1000 * 60 * 60 * 24)).getDate();
+
+//달력 이미지에서 오늘, 한달 후 날짜 미리 설정
+$("#todayDate").text(todayDate);
+$("#DateAfterAMonth").text(monthLaterDate);
+
+$(function(){	
+
+	 $("#sDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#eDate").datepicker("option", "minDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(시작일)
+				var sDateDate = $("#sDate").datepicker("getDate").getDate();
+				 $("#todayDate").text(sDateDate);
+			}
+	 });
+	
+	 //시작일을 오늘로 설정
+	 $("#sDate").datepicker().datepicker("setDate", today);
+
+	 $("#eDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#sDate").datepicker("option", "maxDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(종료일)
+				var eDateDate = $("#eDate").datepicker("getDate").getDate();
+				 $("#DateAfterAMonth").text(eDateDate);
+			}
+	 });
+	 
+	 //종료일을 오늘로부터 한 달 후로 설정
+	 $("#eDate").datepicker().datepicker("setDate", monthLater);
+
+});
+
+
 
 /**
  * 작성자 : 최문정

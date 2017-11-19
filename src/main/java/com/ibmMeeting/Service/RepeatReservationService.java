@@ -314,11 +314,9 @@ public class RepeatReservationService {
 		repeatInformation.put("rsvDescription",rsvDescription);
 		repeatInformation.put("rsvTotalTime",rsvTotalTime);
 		repeatInformation.put("repeatNo", repeatNo);
+		repeatInformation.put("emailCheck",emailCheck);
 		
-		if(emailCheck.equals("true"))
-			repeatInformation.put("emailCheck","Y");
-		else
-			repeatInformation.put("emailCheck","N");
+		System.out.println(emailCheck);
 		
 		
 		// 가능한 날짜만큼 for문을 돌려 d/b update

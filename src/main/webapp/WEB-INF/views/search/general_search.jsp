@@ -22,14 +22,47 @@
   .modal .modal-dialog {
   	width : 90%;
   }
+  
+  	#calSearch {
+		padding-left:30px;
+		padding-right:15px;
+	}
+	
+	#sDate {
+		width:14%;
+		text-align:center;
+	}
+	#eDate {
+		width:14%;
+		text-align:center;
+	}
+	
+	#startDateDate {
+		padding-top:5px;
+		font-size:medium;
+	}
+	
+	#endDateDate {
+		padding-top:5px;
+		font-size:medium;
+	}
  
 
- @media (max-width: 768px) {
-
-  .modal .modal-dialog {
-  	width : 100%;
-  }
-}
+	 @media (max-width: 768px) {
+	
+	  .modal .modal-dialog {
+	  	width : 100%;
+	  }
+	  
+	 	#sDate {
+			width:22%;
+			text-align:center;
+		}
+		#eDate {
+			width:22%;
+			text-align:center;
+		}
+	}
 
 </style>
 
@@ -51,7 +84,25 @@
 		<br>
 		
 		  <form name="searchForm" id="searchForm" method="post" action="">
-			  <div class="col-lg-12">
+		  
+		  	<div id="calSearch">
+			
+		  		검색기간 : 
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text"  id="startDateDate"></strong>
+			 	 </span>
+		  		<input type="text" id="sDate" name="sDate" style="cursor:pointer"/> ~
+		  		
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text" id="endDateDate"></strong>
+			 	 </span>
+		  		<input type="text" id="eDate" name="eDate" style="cursor:pointer" />
+		  		
+			 </div>
+		  
+			  <div class="col-lg-12" style="margin-top:2%;">
 				<div class="col-lg-3">
 					<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
 						<option value="all">전체</option>
@@ -213,13 +264,13 @@
 
 	<%-- 첫 페이지로 이동 --%>
 	<p align="center">
-		<a href="/Search/GeneralUserSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">첫 페이지</a>
+		<a href="/Search/GeneralUserSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">첫 페이지</a>
 
 		<%-- 이전 페이지 그룹 처리 --%>
 		<c:choose>
 			<c:when test="${requestScope.pageBean.previousPageGroup }">
 				<%-- 이전 페이지 그룹이 있다면 isPreviousPageGroup() 호출 --%>
-				<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">◀</a>
+				<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">◀</a>
 			</c:when>
 			<c:otherwise>
 			◀
@@ -232,7 +283,7 @@
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page }">
 					<!-- 현재 페이지가 아니라면 -->
-					<a href="/Search/GeneralUserSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">${page }&nbsp;&nbsp;</a>
+					<a href="/Search/GeneralUserSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">${page }&nbsp;&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 				[${page }]  <%-- &nbsp;는 공백을 나타냄 --%>
@@ -245,7 +296,7 @@
 			<c:when test="${requestScope.pageBean.nextPageGroup }">
 				<%-- isNextPageGroup() 호출 --%>
 				<a
-					href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">▶</a>
+					href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">▶</a>
 				<%-- getEndPage()에서 리턴된 값 넣기 --%>
 			</c:when>
 			<c:otherwise>
@@ -254,7 +305,7 @@
 		</c:choose>
 
 		<!-- 마지막 페이지로 이동 -->
-		<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">마지막
+		<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">마지막
 			페이지</a>
 	</p>
 	
@@ -272,6 +323,41 @@
 </html>
 
 <script>
+/**
+ * 작성자 : 최문정
+ * 내용 : 
+ */
+ $(function(){	
+
+	 $("#sDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#eDate").datepicker("option", "minDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(시작일)
+				var sDateDate = $("#sDate").datepicker("getDate").getDate();
+				 $("#startDateDate").text(sDateDate);
+			}
+	 });
+	
+
+
+	 $("#eDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#sDate").datepicker("option", "maxDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(종료일)
+				var eDateDate = $("#eDate").datepicker("getDate").getDate();
+				 $("#endDateDate").text(eDateDate);
+			}
+	 });
+});
+
 
 /**
  * 작성자 : 최문정
@@ -320,6 +406,18 @@ $(function(){
 	 $("#selectSearchOpt").val("${selectSearchOptBack}");
 	 $("#inputSearchCont").val("${inputSearchContBack}");
 	 $("#sort").val("${sort}");
+	 
+	 //input에 시작날짜와 끝날짜 넣기
+	 $("#sDate").val("${sDateBack}");
+	 $("#eDate").val("${eDateBack}");
+	 
+	 //시작날짜 달력 이미지에 넣기
+	 var sDateStr = $("#sDate").datepicker("getDate").getDate();
+ 	 $("#startDateDate").text(sDateStr);
+	 
+	 //종료날짜 달력 이미지에 넣기
+	 var eDateStr = $("#eDate").datepicker("getDate").getDate();
+	 $("#endDateDate").text(eDateStr);
  });
 
  /**

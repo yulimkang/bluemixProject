@@ -39,12 +39,14 @@ public class AdminSearchController {
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 관리자의 일반예약 검색 기능
+	 * 내용 : 관리자 일반예약 검색 기능
 	 * @param request
 	 * @param page
 	 * @param generalSort
 	 * @param inputSearchCont
 	 * @param selectSearchOpt
+	 * @param sDate
+	 * @param eDate
 	 * @param map
 	 * @return
 	 */
@@ -52,7 +54,10 @@ public class AdminSearchController {
 	public String adminSearchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam(value="sort", defaultValue="new") String generalSort, 
-			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, 
+			@RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			@RequestParam(value="sDate", defaultValue="") String sDate,
+			@RequestParam(value="eDate", defaultValue="") String eDate,
 			ModelMap map ) {
 		
 		int searchpage = page;
@@ -60,7 +65,7 @@ public class AdminSearchController {
 		String selectOpt = selectSearchOpt;
 		String searchCont = inputSearchCont;
 		
-		HashMap<String, Object> pagebeanMap = searchService.searchResult(request, searchCont, selectOpt , searchpage, sortKind);
+		HashMap<String, Object> pagebeanMap = searchService.searchResult(request, searchCont, selectOpt , searchpage, sortKind, sDate, eDate);
 		
 		
 		map.addAttribute("searchResultListA", pagebeanMap.get("searchResult"));
@@ -68,11 +73,15 @@ public class AdminSearchController {
 		map.addAttribute("generalSort", sortKind);
 		map.addAttribute("inputSearchCont", searchCont);
 		map.addAttribute("selectSearchOpt", selectOpt);
+		map.addAttribute("sDate", sDate);
+		map.addAttribute("eDate", eDate);
 		
 		
 		map.addAttribute("selectSearchOptBack", selectOpt);
 		map.addAttribute("inputSearchContBack", searchCont);
 		map.addAttribute("generalSortTypeBack", sortKind);
+		map.addAttribute("sDateBack", sDate);
+		map.addAttribute("eDateBack", eDate);
 		
 		return "/admin/admin_search_general";
 	}
@@ -80,12 +89,14 @@ public class AdminSearchController {
 
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 관리자 검색의 반복예약 검색 기능
+	 * 내용 : 관리자 반복예약 검색 기능
 	 * @param request
 	 * @param page
 	 * @param repeatSort
 	 * @param inputSearchCont
 	 * @param selectSearchOpt
+	 * @param sDate
+	 * @param eDate
 	 * @param map
 	 * @return
 	 */
@@ -93,7 +104,10 @@ public class AdminSearchController {
 	public String adminRepeatSearchPage(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam(value="sort", defaultValue="new") String repeatSort, 
-			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, @RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, 
+			@RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			@RequestParam(value="sDate", defaultValue="") String sDate,
+			@RequestParam(value="eDate", defaultValue="") String eDate,
 			ModelMap map ) {
 		
 			int searchpage = page;
@@ -101,7 +115,7 @@ public class AdminSearchController {
 			String selectOpt = selectSearchOpt;
 			String searchCont = inputSearchCont;
 			
-			HashMap<String, Object> pagebeanMap = searchService.repeatSearchResult(request, searchCont, selectOpt , searchpage, sortKind);
+			HashMap<String, Object> pagebeanMap = searchService.repeatSearchResult(request, searchCont, selectOpt , searchpage, sortKind, sDate, eDate);
 			
 			
 			map.addAttribute("repeatSearchResultListA", pagebeanMap.get("searchResult"));
@@ -109,11 +123,14 @@ public class AdminSearchController {
 			map.addAttribute("generalSort", sortKind);
 			map.addAttribute("inputSearchCont", searchCont);
 			map.addAttribute("selectSearchOpt", selectOpt);
-			
+			map.addAttribute("sDate", sDate);
+			map.addAttribute("eDate", eDate);
 			
 			map.addAttribute("selectSearchOptBack", selectOpt);
 			map.addAttribute("inputSearchContBack", searchCont);
 			map.addAttribute("repeatSortTypeBack", sortKind);
+			map.addAttribute("sDateBack", sDate);
+			map.addAttribute("eDateBack", eDate);
 		
 		return "/admin/admin_search_repeat";
 		
