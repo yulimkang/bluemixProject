@@ -241,9 +241,9 @@
 					</div>
 					
 					<div class="form-group col-lg-4">
-						<div style="text-align:left; display:inline"><label class="control-label">이메일</label></div>
+						<div style="text-align:left; display:inline"><label class="control-label" style="margin-right:20px">이메일</label></div>
 					    <div style=" text-align:right; display:inline">
-					    	<label><span class="control-label" style="width:250px; color:#8d9193; font-size:12px; text-align:right">　　30분 전 Reminder 메일수신</span>
+					    	<label><span class="control-label" style="width:250px; color:#8d9193; font-size:12px; text-align:right">30분 전 Reminder 메일수신</span>
 					 	    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
 					   		<input type="hidden" id="emailCheckValue" name="emailCheckValue">
 					  		</label>
