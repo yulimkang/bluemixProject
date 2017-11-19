@@ -111,11 +111,13 @@ public class SearchController {
 	 * @return
 	 */
 	@RequestMapping("/GeneralUserSearchPage")
-	public String generalUserSearchPage(HttpServletRequest request, 
+	public String generalUserSearchPage(HttpServletRequest request,
 			@RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam(value="sort", defaultValue="old") String generalSort, 
 			@RequestParam(value="inputSearchCont", defaultValue="") String inputSearchCont, 
 			@RequestParam(value="selectSearchOpt", defaultValue="all") String selectSearchOpt,
+			@RequestParam(value="sDate", defaultValue="") String sDate,
+			@RequestParam(value="eDate", defaultValue="") String eDate,
 			ModelMap map ) {
 		
 			int searchpage = page;

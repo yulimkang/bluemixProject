@@ -51,6 +51,12 @@
 		<br>
 		
 		  <form name="searchForm" id="searchForm" method="post" action="">
+		  
+		  	<div id="calSearch">
+		  		<input type="text" id="sDate" name="sDate" />
+		  		<input type="text" id="eDate" name="eDate"/>
+		  	</div>
+		  
 			  <div class="col-lg-12">
 				<div class="col-lg-3">
 					<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
@@ -213,13 +219,13 @@
 
 	<%-- 첫 페이지로 이동 --%>
 	<p align="center">
-		<a href="/Search/GeneralUserSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">첫 페이지</a>
+		<a href="/Search/GeneralUserSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">첫 페이지</a>
 
 		<%-- 이전 페이지 그룹 처리 --%>
 		<c:choose>
 			<c:when test="${requestScope.pageBean.previousPageGroup }">
 				<%-- 이전 페이지 그룹이 있다면 isPreviousPageGroup() 호출 --%>
-				<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">◀</a>
+				<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">◀</a>
 			</c:when>
 			<c:otherwise>
 			◀
@@ -232,7 +238,7 @@
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page }">
 					<!-- 현재 페이지가 아니라면 -->
-					<a href="/Search/GeneralUserSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">${page }&nbsp;&nbsp;</a>
+					<a href="/Search/GeneralUserSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">${page }&nbsp;&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 				[${page }]  <%-- &nbsp;는 공백을 나타냄 --%>
@@ -245,7 +251,7 @@
 			<c:when test="${requestScope.pageBean.nextPageGroup }">
 				<%-- isNextPageGroup() 호출 --%>
 				<a
-					href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">▶</a>
+					href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">▶</a>
 				<%-- getEndPage()에서 리턴된 값 넣기 --%>
 			</c:when>
 			<c:otherwise>
@@ -254,7 +260,7 @@
 		</c:choose>
 
 		<!-- 마지막 페이지로 이동 -->
-		<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">마지막
+		<a href="/Search/GeneralUserSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">마지막
 			페이지</a>
 	</p>
 	
@@ -272,6 +278,14 @@
 </html>
 
 <script>
+/**
+ * 작성자 : 최문정
+ * 내용 : 
+ */
+ $(function(){
+	 $('#sDate').datepicker();
+ });
+
 
 /**
  * 작성자 : 최문정
