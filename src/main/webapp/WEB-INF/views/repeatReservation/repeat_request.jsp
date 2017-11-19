@@ -240,7 +240,13 @@
 				</div>
 
 				<div class="form-group col-lg-4">
-					<label class="control-label">이메일</label> 
+					<div style="text-align:left; display:inline"><label class="control-label">이메일</label></div>
+					    <div style=" text-align:right; display:inline">
+					    	<label><span class="control-label" style="width:250px; color:#8d9193; font-size:12px; text-align:right">　　30분 전 Reminder 메일수신</span>
+					 	    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
+					   		<input type="hidden" id="emailCheckValue" name="emailCheckValue">
+					  		</label>
+					    </div>
 					<span id="emailCheckSpan" ></span>
 					<div>
 						<div class="input-group">
@@ -254,7 +260,7 @@
 			</div>
 			
 			<div class="col-lg-12">
-				<div class="form-group col-lg-8">
+				<div class="form-group col-lg-12">
 				  <label class="control-label">상세 설명</label>
 				  <div>
 				  <div class="input-group">
@@ -263,14 +269,6 @@
 				  </div>
 				  </div>
 				</div>
-				
-				<div class="form-group col-lg-4">
-						<br>
-					  <label class="control-label">메일 수신
-					    <input type="checkbox" id="rsvEmailCheck" name="rsvEmailCheck" checked>
-					    <input type="hidden" id="emailCheckValue" name="emailCheckValue">
-					  </label>
-					</div>
 			</div>
 			
 			<div class="col-xs-12">
@@ -383,8 +381,15 @@ function weekSelectCheckBox(){
 	}
 }
 
-// EMAIL CHECK BTN 기본 활성화
-var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
+function emailStateCheck(){
+	
+	//checkbox의 checked 상태 확인
+	if($('input:checkbox[id="rsvEmailCheck"]').is(":checked") == true){
+		$("#emailCheckValue").val("Y");
+	}else{
+		$("#emailCheckValue").val("N");
+	}
+}
 
 // 시작시간또는 끝시간 변경시 , 유효성 검사
 	function dateChange(){
@@ -470,6 +475,7 @@ var emailCheckValue = $("#rsvEmailCheck").is(":checked") ;
 			alert("정지된 회원입니다");
 		}
 		else if(reservationAvailableCheck == true){
+			emailStateCheck();
 			ableReservation();
 			readOnlySetting();
 			$("#lodingContainer").show();
