@@ -32,6 +32,30 @@
 		margin-top:-3%;
 	}
 	
+	#calSearch {
+		padding-left:30px;
+		padding-right:15px;
+	}
+	
+	#sDate {
+		width:14%;
+		text-align:center;
+	}
+	#eDate {
+		width:14%;
+		text-align:center;
+	}
+	
+	#startDateDate {
+		padding-top:5px;
+		font-size:medium;
+	}
+	
+	#endDateDate {
+		padding-top:5px;
+		font-size:medium;
+	}
+	
 .modal .modal-dialog {
   	width : 90%;
   }
@@ -44,6 +68,15 @@
 		.modal .modal-dialog {
 		  	width : 100%;
 		  }
+		  
+		#sDate {
+			width:22%;
+			text-align:center;
+		}
+		#eDate {
+			width:22%;
+			text-align:center;
+		}
 	}
 
 </style>
@@ -63,58 +96,78 @@
 		<br>
 		
 		<!--  예약 내역 검색 Form -->
-		<div class="col-lg-12">
+		
 		  <form name="searchForm" id="searchForm" method="post" action="">
-			<div class="col-lg-3">
-				<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
-					<option value="all">전체</option>
-					<option value="title">회의제목</option>
-					<option value="mem_nm">예약자</option>
-					<option value="mem_pn">전화번호</option>
-				</select>
-			</div>
-			<div class="col-lg-4">
-				<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){repeatSearchFormSubmit();}"  />
-			</div>
-			<div class="col-lg-3">
-				<div class="radio">
-          			<label>
-						<input type="radio" name="searchKind" value="general" >일반예약 <br/>
-						<input type="radio" name="searchKind" value="repeat" checked="checked">반복예약
-					</label>
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<button type="button" class="pull-right btn btn-primary" onclick="searchBtn()">검색</button>
-			</div>
-
-		<br><br><br><br><br>
-		
-		<!-- 일반예역 / 예약내역 선택 탭 -->
-		<ul class="nav nav-tabs">
-			  <li id="tab1" class="" onclick="searchFormSubmit()"><a href="#" data-toggle="tab" aria-expanded="false" >일반예약</a></li>
-			  <li id="tab2" class="active" onclick="repeatSearchFormSubmit()" ><a href="#" data-toggle="tab" aria-expanded="false">반복예약</a></li>
-		</ul> <br>
+		  
+		  	<div id="calSearch">
 			
-
-			<div class="panel panel-default">
-				<div class="panel-body">관리자 반복예약 검색 결과</div>
-			</div>
-		
-		<br>
-		 <div class="col-lg-3">
-			<select class="form-control"  name="sort" id="sort" onchange="repeatSearchFormSubmit()">
-						<option value="new">최신순</option>
-						<option value="old">오래된 순</option>
-			</select>
-		</div>
+		  		검색기간 : 
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text"  id="startDateDate"></strong>
+			 	 </span>
+		  		<input type="text" id="sDate" style="cursor:pointer" name="sDate" /> ~
+		  		
+		  		<span class="fa-stack fa-1x" style="padding:0px;">
+			    		<i class="fa fa-calendar-o fa-stack-2x"></i>
+			    		<strong class="fa-stack-2x calendar-text" id="endDateDate"></strong>
+			 	 </span>
+		  		<input type="text" id="eDate" style="cursor:pointer" name="eDate" />
+		  		
+			 </div>
+		  
+			  <div class="col-lg-12" style="margin-top:2%;">
+				<div class="col-lg-3">
+					<select class="form-control" name="selectSearchOpt" id="selectSearchOpt">
+						<option value="all">전체</option>
+						<option value="title">회의제목</option>
+						<option value="mem_nm">예약자</option>
+						<option value="mem_pn">전화번호</option>
+					</select>
+				</div>
+				
+				<div class="col-lg-4">
+					<input class="form-control" type="text" size="50" id="inputSearchCont" name="inputSearchCont" OnKeyDown="if(event.keyCode==13){repeatSearchFormSubmit();}"  />
+				</div>
+				
+				<div class="col-lg-3">
+					<div class="radio">
+	          			<label>
+							<input type="radio" name="searchKind" value="general" >일반예약 <br/>
+							<input type="radio" name="searchKind" value="repeat" checked="checked">반복예약
+						</label>
+					</div>
+				</div>
+				
+				<div class="col-lg-2">
+					<button type="button" class="pull-right btn btn-primary" onclick="searchBtn()">검색</button>
+				</div>
+	
+				<br><br><br><br><br>
+			
+				<!-- 일반예역 / 예약내역 선택 탭 -->
+				<ul class="nav nav-tabs">
+					  <li id="tab1" class="" onclick="searchFormSubmit()"><a href="#" data-toggle="tab" aria-expanded="false" >일반예약</a></li>
+					  <li id="tab2" class="active" onclick="repeatSearchFormSubmit()" ><a href="#" data-toggle="tab" aria-expanded="false">반복예약</a></li>
+				</ul> <br>
+				
+	
+				<div class="panel panel-default">
+					<div class="panel-body">관리자 반복예약 검색 결과</div>
+				</div><br>
+				
+				 <div class="col-lg-3">
+					<select class="form-control"  name="sort" id="sort" onchange="repeatSearchFormSubmit()">
+								<option value="new">최신순</option>
+								<option value="old">오래된 순</option>
+					</select>
+				 </div>
+				
+				</div>
 		
 			</form>
-		</div>
+	
 		 
-		
-		
-		
 		<br><br><br><br><br>
 		<!-- 반복예약 결과 데이터 테이블 출력 -->
 		<div id="repeatSearchResultList" class="col-lg-12 table-responsive" style="margin-top:3%;">
@@ -207,13 +260,13 @@
 
 	<%-- 첫 페이지로 이동 --%>
 	<p align="center">
-		<a href="/AdminSearch/AdminRepeatSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">첫 페이지</a>
+		<a href="/AdminSearch/AdminRepeatSearchPage?page=1&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">첫 페이지</a>
 
 		<%-- 이전 페이지 그룹 처리 --%>
 		<c:choose>
 			<c:when test="${requestScope.pageBean.previousPageGroup }">
 				<%-- 이전 페이지 그룹이 있다면 isPreviousPageGroup() 호출 --%>
-				<a href="/AdminSearch/AdminRepeatSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">◀</a>
+				<a href="/AdminSearch/AdminRepeatSearchPage?page=${requestScope.pageBean.beginPage - 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">◀</a>
 			</c:when>
 			<c:otherwise>
 			◀
@@ -226,7 +279,7 @@
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page }">
 					<!-- 현재 페이지가 아니라면 -->
-					<a href="/AdminSearch/AdminRepeatSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">${page }&nbsp;&nbsp;</a>
+					<a href="/AdminSearch/AdminRepeatSearchPage?page=${page}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">${page }&nbsp;&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 				[${page }]  <%-- &nbsp;는 공백을 나타냄 --%>
@@ -239,7 +292,7 @@
 			<c:when test="${requestScope.pageBean.nextPageGroup }">
 				<%-- isNextPageGroup() 호출 --%>
 				<a
-					href="/AdminSearch/AdminRepeatSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">▶</a>
+					href="/AdminSearch/AdminRepeatSearchPage?page=${requestScope.pageBean.endPage + 1 }&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">▶</a>
 				<%-- getEndPage()에서 리턴된 값 넣기 --%>
 			</c:when>
 			<c:otherwise>
@@ -248,7 +301,7 @@
 		</c:choose>
 
 		<!-- 마지막 페이지로 이동 -->
-		<a href="/AdminSearch/AdminRepeatSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }">마지막
+		<a href="/AdminSearch/AdminRepeatSearchPage?page=${requestScope.pageBean.totalPage}&sort=${requestScope.sort }&selectSearchOpt=${requestScope.selectSearchOpt }&inputSearchCont=${requestScope.inputSearchCont }&sDate=${requestScope.sDate }&eDate=${requestScope.eDate }">마지막
 			페이지</a>
 	</p>
 	
@@ -308,6 +361,38 @@ $(function(){
 });
 
 
+$(function(){	
+
+	 $("#sDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#eDate").datepicker("option", "minDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(시작일)
+				var sDateDate = $("#sDate").datepicker("getDate").getDate();
+				 $("#startDateDate").text(sDateDate);
+			}
+	 });
+	
+
+
+	 $("#eDate").datepicker({
+		 dateFormat:"yy-mm-dd",
+		 onClose : function(selectedDate) {
+				$("#sDate").datepicker("option", "maxDate", selectedDate);
+			},
+			onSelect : function(dateText, inst) {
+				
+				//날짜를 새로 선택했을 때 달력 이미지의 날짜가 바뀌도록 함(종료일)
+				var eDateDate = $("#eDate").datepicker("getDate").getDate();
+				 $("#endDateDate").text(eDateDate);
+			}
+	 });
+});
+
+
  /**
  * 작성자 : 최문정
  * 내용 : 결과 값 출력 이후에도 옵션과 검색 내용이 보이도록 함
@@ -316,6 +401,18 @@ $(function(){
 	 $("#selectSearchOpt").val("${selectSearchOptBack}");
 	 $("#inputSearchCont").val("${inputSearchContBack}");
 	 $("#sort").val("${repeatSortTypeBack}");
+	 
+	 //input에 시작날짜와 끝날짜 넣기
+	 $("#sDate").val("${sDateBack}");
+	 $("#eDate").val("${eDateBack}");
+	 
+	 //시작날짜 달력 이미지에 넣기
+	 var sDateStr = $("#sDate").datepicker("getDate").getDate();
+ 	 $("#startDateDate").text(sDateStr);
+	 
+	 //종료날짜 달력 이미지에 넣기
+	 var eDateStr = $("#eDate").datepicker("getDate").getDate();
+	 $("#endDateDate").text(eDateStr);
  });
  
  

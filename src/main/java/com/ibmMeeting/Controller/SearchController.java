@@ -100,13 +100,15 @@ public class SearchController {
 
 	
 	/**
-	 * 작성자 :  최문정
-	 * 내용 : 사용자 검색기능
+	 * 작성자 : 최문정
+	 * 내용 : 사용자 검색 기능
 	 * @param request
 	 * @param page
 	 * @param generalSort
 	 * @param inputSearchCont
 	 * @param selectSearchOpt
+	 * @param sDate
+	 * @param eDate
 	 * @param map
 	 * @return
 	 */
