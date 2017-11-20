@@ -168,5 +168,15 @@ public class SearchController {
 		return searchService.easySearchResult(request, searchCont, selectOpt);
 		
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ShowEasySearchRepeatDetail")
+	public ArrayList<HashMap<String,Object>> showEasySearchRepeatDetail(HttpServletRequest request, ModelMap map ) {
 		
+		String str = request.getParameter("repeatNo");		
+		int repeatSeq = Integer.parseInt(str);
+		
+		return searchService.easySearchDetailConts(repeatSeq);
+		
+	}
 }

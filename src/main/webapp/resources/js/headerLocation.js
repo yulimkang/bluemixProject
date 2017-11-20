@@ -52,13 +52,28 @@ function repeatReservation(){
 //전체 페이지
 var totalPage = 0;
 
+function easySearchCheck() {
+	
+	var eSearchCont = $("#easyInputSearchCont").val();
+	
+	if(eSearchCont.length > 0) {
+		$("#modalBtn").attr("data-toggle", "modal");
+		$("#modalBtn").attr("data-target", "#easySearchResult");
+		easySearchForGeneral(1);
+		
+	}else {
+		alert("내용을 입력해 주세요!");
+	}
+}
+
+
 function easySearchForGeneral(curPage) {
 	var eSearchCont = $("#easyInputSearchCont").val();
 	var eSeachOpt = $("#easySelectSearchOpt").val();
 	
 	var detailViewArray = new Array();
 	
-	
+
 	$.ajax({
 		url : "/Search/EasySearch",
 		dataType : "json",
@@ -66,11 +81,10 @@ function easySearchForGeneral(curPage) {
 		data : { "easyInputSearchCont" : eSearchCont, "easySelectSearchOpt" : eSeachOpt },
 		success : function(data) {
 			detailViewArray = data;
+
 			$("#result").empty();
+			
 			var appendHtml = document.getElementById('result');
-//			$("#detailShow").empty();	
-			
-			
             var results_length = data.length;
             
             var countPage = 5; //한 화면에 출력될 페이지 수
@@ -168,7 +182,7 @@ function easySearchForGeneral(curPage) {
 			if(curPage == 1)  $("#pre").remove();
 			if(totalPage == 1) $("#next").remove();
 			
-			if(curPage == totalPage) $("#next").remove();
+			if(curPage == totalPage) $("#next").remove();				
 
 		},
 		error : function(request, status, error) {
@@ -176,7 +190,6 @@ function easySearchForGeneral(curPage) {
 		}
 		
 	});
-
 }
 
 	function pre(page){
@@ -248,7 +261,7 @@ function easySearchForGeneral(curPage) {
 	function showEasyRepeatDetail(repeatNo) {
 		
 		$.ajax({
-			url : "/Search/ShowRepeatDetail",
+			url : "/Search/ShowEasySearchRepeatDetail",
 			dataType : "json",
 			type : "POST",
 			data : { "repeatNo" : repeatNo },
@@ -272,25 +285,25 @@ function easySearchForGeneral(curPage) {
 				//회의날짜, 회의 시간, 회의실, 회의제목, 예약자, 예약자 번호
 				for(var i =0; i<data.length; i++){
 					
-					var startTime= detailViewArray[i].rsv_start_time;
-					var endTime= detailViewArray[i].rsv_end_time;
+					var startTime= detailViewArray[i].RSV_START_TIME;
+					var endTime= detailViewArray[i].RSV_END_TIME;
 					
 					var st = startTime.substring(0, 5);
 					var et = endTime.substring(0, 5);
 	
 					
-					reservDetail = reservDetail + "<tr> <td style='width:15%'>" +detailViewArray[i].rsv_date + " "+ detailViewArray[i].dayoftheweek + "</td>"
+					reservDetail = reservDetail + "<tr> <td style='width:15%'>" +detailViewArray[i].RSV_DATE + " "+ detailViewArray[i].DAYOFTHEWEEK + "</td>"
 					+"<td style='width:15%'>"+ st + "~" + et +"</td>"
-					+ "<td style='width:15%'>" + detailViewArray[i].conf_nm +"</td>";
+					+ "<td style='width:15%'>" + detailViewArray[i].CONF_NM +"</td>";
 
-					if(detailViewArray[i].rsv_confirm_state != 'N') {
-						reservDetail = reservDetail +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>" +  detailViewArray[i].rsv_title + "</a></td>";
+					if(detailViewArray[i].RSV_CONFIRM_STATE != 'N') {
+						reservDetail = reservDetail +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}else {
-						reservDetail = reservDetail +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].rsv_no + ");'>(승인대기중)" +  detailViewArray[i].rsv_title + "</a></td>";
+						reservDetail = reservDetail +  "<td style='width:30%'>" + "<a onclick='searchToCal(" + detailViewArray[i].RSV_NO + ");'>(승인대기중)" +  detailViewArray[i].RSV_TITLE + "</a></td>";
 					}
 					
-					reservDetail = reservDetail + "<td style='width:10%'>" + detailViewArray[i].rsv_mem_nm + "</td>"
-														+ "<td style='width:15%'>" + detailViewArray[i].rsv_mem_pn + "</td>"
+					reservDetail = reservDetail + "<td style='width:10%'>" + detailViewArray[i].RSV_MEM_NM + "</td>"
+														+ "<td style='width:15%'>" + detailViewArray[i].RSV_MEM_PN + "</td>"
 														+ "</tr>";
 					
 					

@@ -538,8 +538,8 @@ public class SearchService {
 	}
 
 	/**
-	 * 작성자 : 최문정 내용 : 관리자 예약내역, 반복예약 내역 출력, 시작일과 종료일로 검색
-	 * 
+	 * 작성자 : 최문정 
+	 * 내용 : 관리자 예약내역, 반복예약 내역 출력, 시작일과 종료일로 검색
 	 * @param request
 	 * @param page
 	 * @param sort
@@ -876,6 +876,24 @@ public class SearchService {
 
 		}
 
+		return searchResult;
+	}
+	
+	//간편예약 상세보기 출력(오늘 이후의 날짜에서만 반복예약 상세보기 출력)
+	public ArrayList<HashMap<String, Object>> easySearchDetailConts(int repeatSeq) {
+		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> searchInfo = new HashMap<String, Object>();
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		Date cDate = new Date();
+		String today = sdf.format(cDate);
+
+		searchInfo.put("repeatSeq", repeatSeq);
+		searchInfo.put("value", today);
+		
+		searchResult = searchDao.repeatSearchDetailContentsForEasySearch(searchInfo);
+		
 		return searchResult;
 	}
 

@@ -74,7 +74,8 @@
 		    	
 		    	<div class="col-xs-2" style="padding:0px;">
 	
-	      			<button type="button" id="modalBtn" data-toggle="modal" data-target="#easySearchResult" onclick="easySearchForGeneral(1)" class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
+	      			<button type="button" id="modalBtn" data-toggle="" data-target="" onclick="easySearchCheck()" 
+	      				class="btn btn-secondary my-2 my-sm-0" style="height:5%;background-color:#2c3e50;'">
 	   				<span class="fa fa-search" aria-hidden="true" style="color:white;background-color:#2c3e50;"></span></button>
 	
 		      	</div>
@@ -83,8 +84,6 @@
 	   	</div>
 	   	</c:if>
 
-    	
-    	<!-- 여기까지 간편검색 -->
     	
 		<div style="margin-top:1.5%; margin-bottom:1%;">
 		       <ul class="nav navbar-nav navbar-right" >
@@ -113,13 +112,14 @@
 
 
    	<!--  간편검색 모달 -->
+   	<div id="easySearch">
 	   	<div class="modal fade" id="easySearchResult" >
 	    	<div class="modal-dialog" style="background-color:white;'">
 	    		<div class="modal-content">
 	    		
-	    			<div class="modal-header">
-						<h4 class="modal-title">간편검색 상세내역</h4>
-					</div>
+	    		<div class="modal-header">
+	    			<h4>간편검색 검색결과</h4>
+	    		</div>
 					
 					<div class="modal-body" >
 						<div id="result"></div>
@@ -132,6 +132,7 @@
 	    		</div>
 	    	</div>
 	   	</div>
+	   </div>
 
    <form action="/Reservation/SearchToCalendar" id="testForm">
 		<input type="hidden" id="rsvNo" name="rsvNo">
