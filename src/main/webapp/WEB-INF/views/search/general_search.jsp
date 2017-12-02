@@ -448,16 +448,18 @@ function searchFormSubmit(){
  function showRepeatDetail(repeatNo) {
  	
  	var table = document.getElementById('modalTable');
-
  	
  	var detailViewArray = new Array();
+ 	var sDate = $("#sDate").val();
+ 	var eDate = $("#eDate").val();
  	
  	$.ajax({
  		url : "/Search/ShowRepeatDetail",
  		dataType : "json",
  		type : "POST",
- 		data : { "repeatNo" : repeatNo },
+ 		data : { "repeatNo" : repeatNo, "sDate" : sDate, "eDate" : eDate },
  		success : function(data) {
+ 			
  			detailViewArray = data;
 
  			for(var i = table.rows.length - 1; i > 0; i--)

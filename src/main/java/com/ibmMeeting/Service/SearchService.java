@@ -36,28 +36,34 @@ public class SearchService {
 	 * @param generalSort
 	 * @return
 	 */
-	public HashMap<String, Object> searchResult(HttpServletRequest request,
-			String searchCont, String selectOpt, int page, String generalSort) {
+	public HashMap<String, Object> searchResult(HttpServletRequest request, String searchCont, String selectOpt, int page, String generalSort, String sDate, String eDate) {
 
 		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
 
 		HashMap<String, Object> searchInfo = new HashMap<String, Object>();
+		HashMap<String, Object> countForPage = new HashMap<String, Object>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		countForPage.put("value", searchCont);
+		countForPage.put("sDate", sDate);
+		countForPage.put("eDate", eDate);
+
+		searchInfo.put("value", searchCont);
+		searchInfo.put("sDate", sDate);
+		searchInfo.put("eDate", eDate);
 
 		if (request.getParameter("selectSearchOpt") != null) {
 
 			if (selectOpt.equals("all") && generalSort.equals("new")) {
 
 				// '전체'옵션 검색, 최신순 정렬
-				int totalCount = searchDao.rownumSelectByAll(searchCont);
+				int totalCount = searchDao.rownumSelectByAll(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.generalSelectByAllOrderByNewList(searchInfo);
+				searchResult = searchDao.generalSelectByAllOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -65,15 +71,13 @@ public class SearchService {
 			} else if (selectOpt.equals("all") && generalSort.equals("old")) {
 
 				// '전체'옵션 검색, 오래된 순 정렬
-				int totalCount = searchDao.rownumSelectByAll(searchCont);
+				int totalCount = searchDao.rownumSelectByAll(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.generalSelectByAllOrderByOldList(searchInfo);
+				searchResult = searchDao.generalSelectByAllOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -81,15 +85,13 @@ public class SearchService {
 			} else if (selectOpt.equals("title") && generalSort.equals("new")) {
 
 				// '회의제목' 옵션, 최신순 정렬
-				int totalCount = searchDao.rownumSelectByTitle(searchCont);
+				int totalCount = searchDao.rownumSelectByTitle(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.generalSelectByTitleOrderByNewList(searchInfo);
+				searchResult = searchDao.generalSelectByTitleOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -97,15 +99,13 @@ public class SearchService {
 			} else if (selectOpt.equals("title") && generalSort.equals("old")) {
 
 				// '회의제목' 옵션, 오래된 순 정렬 정렬
-				int totalCount = searchDao.rownumSelectByTitle(searchCont);
+				int totalCount = searchDao.rownumSelectByTitle(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.generalSelectByTitleOrderByOldList(searchInfo);
+				searchResult = searchDao.generalSelectByTitleOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -113,15 +113,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_nm") && generalSort.equals("new")) {
 
 				// '예약자 이름' 옵션, 최신 순 정렬
-				int totalCount = searchDao.rownumSelectByMemNM(searchCont);
+				int totalCount = searchDao.rownumSelectByMemNM(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.generalSelectByMemNMOrderByNewList(searchInfo);
+				searchResult = searchDao.generalSelectByMemNMOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -129,15 +127,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_nm") && generalSort.equals("old")) {
 
 				// '예약자 이름' 옵션, 오래된 순 정렬
-				int totalCount = searchDao.rownumSelectByMemNM(searchCont);
+				int totalCount = searchDao.rownumSelectByMemNM(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.generalSelectByMemNMOrderByOldList(searchInfo);
+				searchResult = searchDao.generalSelectByMemNMOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -145,15 +141,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_pn") && generalSort.equals("new")) {
 
 				// 예약자 번호, 최신순 정렬
-				int totalCount = searchDao.rownumSelectByMemPN(searchCont);
+				int totalCount = searchDao.rownumSelectByMemPN(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.genelralSelectByMemPNOrderByNewList(searchInfo);
+				searchResult = searchDao.genelralSelectByMemPNOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -161,15 +155,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_pn") && generalSort.equals("old")) {
 
 				// 예약자 번호, 최신순 정렬
-				int totalCount = searchDao.rownumSelectByMemPN(searchCont);
+				int totalCount = searchDao.rownumSelectByMemPN(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao
-						.genelralSelectByMemPNOrderByOldList(searchInfo);
+				searchResult = searchDao.genelralSelectByMemPNOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -192,28 +184,33 @@ public class SearchService {
 	 * @param generalSort
 	 * @return
 	 */
-	public HashMap<String, Object> repeatSearchResult(
-			HttpServletRequest request, String searchCont, String selectOpt,
-			int page, String generalSort) {
+	public HashMap<String, Object> repeatSearchResult( HttpServletRequest request, String searchCont, String selectOpt, int page, String generalSort, String sDate, String eDate) {
 
 		ArrayList<HashMap<String, Object>> repeatSearchResult = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> searchInfo = new HashMap<String, Object>();
+		HashMap<String, Object> countForPage = new HashMap<String, Object>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		countForPage.put("value", searchCont);
+		countForPage.put("sDate", sDate);
+		countForPage.put("eDate", eDate);
+
+		searchInfo.put("value", searchCont);
+		searchInfo.put("sDate", sDate);
+		searchInfo.put("eDate", eDate);
 
 		if (request.getParameter("selectSearchOpt") != null) {
 
 			if (selectOpt.equals("all") && generalSort.equals("new")) {
 
 				// 반복예약 '전체'옵션 검색, 최신순 정렬
-				int totalCount = searchDao.rownumRepeatSelectByAll(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByAll(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByAllOrderByNewList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByAllOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -221,15 +218,13 @@ public class SearchService {
 			} else if (selectOpt.equals("all") && generalSort.equals("old")) {
 
 				// 반복예약 '전체'옵션 검색, 오래된 순 정렬
-				int totalCount = searchDao.rownumRepeatSelectByAll(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByAll(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByAllOrderByOldList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByAllOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -237,16 +232,13 @@ public class SearchService {
 			} else if (selectOpt.equals("title") && generalSort.equals("new")) {
 
 				// 반복예약 '회의제목'옵션 검색, 최신순 정렬
-				int totalCount = searchDao
-						.rownumRepeatSelectByTitle(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByTitle(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByTitleOrderByNewList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByTitleOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -254,16 +246,13 @@ public class SearchService {
 			} else if (selectOpt.equals("title") && generalSort.equals("old")) {
 
 				// 반복예약 '회의재목'옵션 검색, 오래된 순 정렬
-				int totalCount = searchDao
-						.rownumRepeatSelectByTitle(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByTitle(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByTitleOrderByOldList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByTitleOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -271,16 +260,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_nm") && generalSort.equals("new")) {
 
 				// 반복예약 '예약자'옵션 검색, 최신순 정렬
-				int totalCount = searchDao
-						.rownumRepeatSelectByMemNM(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByMemNM(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByMemNMOrderByNewList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByMemNMOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -288,16 +274,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_nm") && generalSort.equals("old")) {
 
 				// 반복예약 '예약자'옵션 검색, 오래된 순 정렬
-				int totalCount = searchDao
-						.rownumRepeatSelectByMemNM(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByMemNM(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByMemNMOrderByOldList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByMemNMOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -305,16 +288,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_pn") && generalSort.equals("new")) {
 
 				// 반복예약 '예약자 핸드폰 번호'옵션 검색, 최신순 정렬
-				int totalCount = searchDao
-						.rownumRepeatSelectByMemPN(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByMemPN(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByMemPNOrderByNewList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByMemPNOrderByNewList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -322,16 +302,13 @@ public class SearchService {
 			} else if (selectOpt.equals("mem_pn") && generalSort.equals("old")) {
 
 				// 반복예약 '예약자 핸드폰 번호'옵션 검색, 오래된 순 정렬
-				int totalCount = searchDao
-						.rownumRepeatSelectByMemPN(searchCont);
+				int totalCount = searchDao.rownumRepeatSelectByMemPN(countForPage);
 				PagingBean pageBean = new PagingBean(totalCount, page);
 
-				searchInfo.put("value", searchCont);
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				repeatSearchResult = searchDao
-						.repeatSelectByMemPNOrderByOldList(searchInfo);
+				repeatSearchResult = searchDao.repeatSelectByMemPNOrderByOldList(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", repeatSearchResult);
@@ -344,17 +321,23 @@ public class SearchService {
 	}
 
 	/**
-	 * 작성자 : 최문정 내용 : 반복예약 모달에서 상세예약내역 출력
-	 * 
+	 * 작성자 : 최문정 
+	 * 내용 : 반복예약 모달에서 상세예약내역 출력
 	 * @param repeatNo
 	 * @return
 	 */
-	public ArrayList<HashMap<String, Object>> showReservDetail(int repeatNo) {
+	public ArrayList<HashMap<String, Object>> showReservDetail(int repeatNo, String sDate, String eDate) {
 
 		int repeatSeq = repeatNo;
 
 		ArrayList<HashMap<String, Object>> searchDetailResult = new ArrayList<HashMap<String, Object>>();
-		searchDetailResult = searchDao.repeatSearchDetailContents(repeatSeq);
+		HashMap<String, Object> detailInfo = new HashMap<String, Object>();
+
+		detailInfo.put("value", repeatSeq);
+		detailInfo.put("sDate", sDate);
+		detailInfo.put("eDate", eDate);
+		
+		searchDetailResult = searchDao.repeatSearchDetailContents(detailInfo);
 
 		return searchDetailResult;
 
@@ -366,8 +349,7 @@ public class SearchService {
 	 * @param request
 	 * @param response
 	 */
-	public void formAutoComplete(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void formAutoComplete(HttpServletRequest request, HttpServletResponse response) {
 
 		ArrayList<HashMap<String, Object>> autocompleteList = new ArrayList<HashMap<String, Object>>();
 
@@ -379,14 +361,11 @@ public class SearchService {
 			if (selectOption.equals("all")) {
 				autocompleteList = searchDao.autocompleteByAllList(inputValue);
 			} else if (selectOption.equals("title")) {
-				autocompleteList = searchDao
-						.autocompleteByTitleList(inputValue);
+				autocompleteList = searchDao.autocompleteByTitleList(inputValue);
 			} else if (selectOption.equals("mem_nm")) {
-				autocompleteList = searchDao
-						.autocompleteByMemNMList(inputValue);
+				autocompleteList = searchDao.autocompleteByMemNMList(inputValue);
 			} else if (selectOption.equals("mem_pn")) {
-				autocompleteList = searchDao
-						.autocompleteByMemPNList(inputValue);
+				autocompleteList = searchDao.autocompleteByMemPNList(inputValue);
 			}
 
 		}
@@ -452,16 +431,13 @@ public class SearchService {
 		if (request.getParameter("selectSearchOpt") != null) {
 
 			if (selectOption.equals("e_all")) {
-				autocompleteList = searchDao
-						.easyAutocompleteByAllList(easyInfo);
+				autocompleteList = searchDao.easyAutocompleteByAllList(easyInfo);
 			} else if (selectOption.equals("e_title")) {
 				autocompleteList = searchDao.easyAcompleteByTitleList(easyInfo);
 			} else if (selectOption.equals("e_mem_nm")) {
-				autocompleteList = searchDao
-						.easyAutocompleteByMemNMList(easyInfo);
+				autocompleteList = searchDao.easyAutocompleteByMemNMList(easyInfo);
 			} else if (selectOption.equals("e_mem_pn")) {
-				autocompleteList = searchDao
-						.easyAutocompleteByMemPNList(easyInfo);
+				autocompleteList = searchDao.easyAutocompleteByMemPNList(easyInfo);
 			}
 
 		}
@@ -502,8 +478,8 @@ public class SearchService {
 	}
 
 	/**
-	 * 작성자 : 최문정 내용 : 관리자 예약내역, 일반예약 내역 출력, 시작일과 종료일로 검색
-	 * 
+	 * 작성자 : 최문정 
+	 * 내용 : 관리자 예약내역, 일반예약 내역 출력, 시작일과 종료일로 검색
 	 * @param request
 	 * @param page
 	 * @param sort
@@ -511,9 +487,7 @@ public class SearchService {
 	 * @param eDate
 	 * @return
 	 */
-	public HashMap<String, Object> searchGeneralHistoryResult(
-			HttpServletRequest request, int page, String sort, String sDate,
-			String eDate) {
+	public HashMap<String, Object> searchGeneralHistoryResult(HttpServletRequest request, int page, String sort, String sDate, String eDate) {
 
 		ArrayList<HashMap<String, Object>> generalHistorySearchResult = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -536,8 +510,7 @@ public class SearchService {
 		if (sort.equals("old")) {
 
 			// 결과 내역 오래된 순 정렬
-			generalHistorySearchResult = searchDao
-					.generalSelectByDateOrderByOldList(searchInfo);
+			generalHistorySearchResult = searchDao.generalSelectByDateOrderByOldList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("repeatHistorySearchResult", generalHistorySearchResult);
@@ -545,8 +518,7 @@ public class SearchService {
 		} else if (sort.equals("new")) {
 
 			// 결과 내역 최신 순 정렬
-			generalHistorySearchResult = searchDao
-					.generalSelectByDateOrderByNewList(searchInfo);
+			generalHistorySearchResult = searchDao.generalSelectByDateOrderByNewList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("repeatHistorySearchResult", generalHistorySearchResult);
@@ -554,8 +526,7 @@ public class SearchService {
 		} else if (sort.equals("name")) {
 
 			// 결과 내역 이름 가나다 순 정렬
-			generalHistorySearchResult = searchDao
-					.generalSelectByDateOrderByNameList(searchInfo);
+			generalHistorySearchResult = searchDao.generalSelectByDateOrderByNameList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("repeatHistorySearchResult", generalHistorySearchResult);
@@ -567,8 +538,8 @@ public class SearchService {
 	}
 
 	/**
-	 * 작성자 : 최문정 내용 : 관리자 예약내역, 반복예약 내역 출력, 시작일과 종료일로 검색
-	 * 
+	 * 작성자 : 최문정 
+	 * 내용 : 관리자 예약내역, 반복예약 내역 출력, 시작일과 종료일로 검색
 	 * @param request
 	 * @param page
 	 * @param sort
@@ -576,9 +547,7 @@ public class SearchService {
 	 * @param eDate
 	 * @return
 	 */
-	public HashMap<String, Object> searchRepeatHistoryResult(
-			HttpServletRequest request, int page, String sort, String sDate,
-			String eDate) {
+	public HashMap<String, Object> searchRepeatHistoryResult( HttpServletRequest request, int page, String sort, String sDate, String eDate) {
 
 		ArrayList<HashMap<String, Object>> repeatHistorySearchResult = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -601,8 +570,7 @@ public class SearchService {
 		if (sort.equals("old")) {
 
 			// 결과 내역 오래된 순 정렬
-			repeatHistorySearchResult = searchDao
-					.repeatSelectByDateOrderByOldList(searchInfo);
+			repeatHistorySearchResult = searchDao.repeatSelectByDateOrderByOldList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("repeatHistorySearchResult", repeatHistorySearchResult);
@@ -610,8 +578,7 @@ public class SearchService {
 		} else if (sort.equals("new")) {
 
 			// 결과 내역 최신순 정렬
-			repeatHistorySearchResult = searchDao
-					.repeatSelectByDateOrderByNewList(searchInfo);
+			repeatHistorySearchResult = searchDao.repeatSelectByDateOrderByNewList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("repeatHistorySearchResult", repeatHistorySearchResult);
@@ -619,8 +586,7 @@ public class SearchService {
 		} else if (sort.equals("name")) {
 
 			// 결과 내역 이름 가나다 순 정렬
-			repeatHistorySearchResult = searchDao
-					.repeatSelectByDateOrderByNameList(searchInfo);
+			repeatHistorySearchResult = searchDao.repeatSelectByDateOrderByNameList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("repeatHistorySearchResult", repeatHistorySearchResult);
@@ -642,8 +608,7 @@ public class SearchService {
 		int repeatSeq = repeatNo;
 
 		ArrayList<HashMap<String, Object>> searchDetailResult = new ArrayList<HashMap<String, Object>>();
-		searchDetailResult = searchDao
-				.repeatSearchDetailContentsInHistory(repeatSeq);
+		searchDetailResult = searchDao.repeatSearchDetailContentsInHistory(repeatSeq);
 
 		return searchDetailResult;
 
@@ -659,9 +624,7 @@ public class SearchService {
 	 * @param eDate
 	 * @return
 	 */
-	public HashMap<String, Object> searchNoshowHistoryResult(
-			HttpServletRequest request, int page, String sort, String sDate,
-			String eDate) {
+	public HashMap<String, Object> searchNoshowHistoryResult( HttpServletRequest request, int page, String sort, String sDate, String eDate) {
 
 		ArrayList<HashMap<String, Object>> noshowHistorySearchResult = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -684,8 +647,7 @@ public class SearchService {
 		if (sort.equals("old")) {
 
 			// 결과 내역 오래된 순 정렬
-			noshowHistorySearchResult = searchDao
-					.noshowSelectByDateOrderByOldList(searchInfo);
+			noshowHistorySearchResult = searchDao.noshowSelectByDateOrderByOldList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("noshowHistorySearchResult", noshowHistorySearchResult);
@@ -693,8 +655,7 @@ public class SearchService {
 		} else if (sort.equals("new")) {
 
 			// 결과 내역 최신순 정렬
-			noshowHistorySearchResult = searchDao
-					.noshowSelectByDateOrderByNewList(searchInfo);
+			noshowHistorySearchResult = searchDao.noshowSelectByDateOrderByNewList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("noshowHistorySearchResult", noshowHistorySearchResult);
@@ -702,8 +663,7 @@ public class SearchService {
 		} else if (sort.equals("name")) {
 
 			// 결과 내역 이름 가나다 순 정렬
-			noshowHistorySearchResult = searchDao
-					.noshowSelectByDateOrderByNameList(searchInfo);
+			noshowHistorySearchResult = searchDao.noshowSelectByDateOrderByNameList(searchInfo);
 
 			map.put("pageBean", pageBean);
 			map.put("noshowHistorySearchResult", noshowHistorySearchResult);
@@ -714,8 +674,7 @@ public class SearchService {
 
 	}
 
-	// ///////////////////////////////////////10월 31이후
-	// 수정//////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////10월 31이후// 수정//////////////////////////////////////////////////////////////////////
 
 	/**
 	 * 작성자 : 최문정 내용 : 일반 사용자 검색 결과 출력
@@ -727,9 +686,7 @@ public class SearchService {
 	 * @param generalSort
 	 * @return
 	 */
-	public HashMap<String, Object> generalUserSearchResult(
-			HttpServletRequest request, String searchCont, String selectOpt,
-			int page, String generalSort, String sDate, String eDate) {
+	public HashMap<String, Object> generalUserSearchResult(HttpServletRequest request, String searchCont, String selectOpt, int page, String generalSort, String sDate, String eDate) {
 
 		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
 
@@ -784,7 +741,7 @@ public class SearchService {
 				searchInfo.put("startPage", pageBean.getBeginItemInPage());
 				searchInfo.put("endPage", pageBean.getEndItemInPage());
 
-				searchResult = searchDao.generalUserSelectByTitleOrderByNew(countForPage);
+				searchResult = searchDao.generalUserSelectByTitleOrderByNew(searchInfo);
 
 				map.put("pageBean", pageBean);
 				map.put("searchResult", searchResult);
@@ -875,9 +832,7 @@ public class SearchService {
 	 * @param easySelectOpt
 	 * @return
 	 */
-	public ArrayList<HashMap<String, Object>> easySearchResult(
-			HttpServletRequest request, String easySearchCont,
-			String easySelectOpt) {
+	public ArrayList<HashMap<String, Object>> easySearchResult( HttpServletRequest request, String easySearchCont, String easySelectOpt) {
 
 		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
 
@@ -921,6 +876,24 @@ public class SearchService {
 
 		}
 
+		return searchResult;
+	}
+	
+	//간편예약 상세보기 출력(오늘 이후의 날짜에서만 반복예약 상세보기 출력)
+	public ArrayList<HashMap<String, Object>> easySearchDetailConts(int repeatSeq) {
+		ArrayList<HashMap<String, Object>> searchResult = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> searchInfo = new HashMap<String, Object>();
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		Date cDate = new Date();
+		String today = sdf.format(cDate);
+
+		searchInfo.put("repeatSeq", repeatSeq);
+		searchInfo.put("value", today);
+		
+		searchResult = searchDao.repeatSearchDetailContentsForEasySearch(searchInfo);
+		
 		return searchResult;
 	}
 

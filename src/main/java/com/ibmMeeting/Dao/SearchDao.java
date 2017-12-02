@@ -37,10 +37,10 @@ public interface SearchDao {
 	 * @param searchCont
 	 * @return
 	 */
-	Integer rownumSelectByAll(String searchCont);
-	Integer rownumSelectByTitle(String searchCont);
-	Integer rownumSelectByMemNM(String searchCont);
-	Integer rownumSelectByMemPN(String searchCont);
+	Integer rownumSelectByAll(HashMap<String,Object> countForPage);
+	Integer rownumSelectByTitle(HashMap<String,Object> countForPage);
+	Integer rownumSelectByMemNM(HashMap<String,Object> countForPage);
+	Integer rownumSelectByMemPN(HashMap<String,Object> countForPage);
 	
 	
 	
@@ -72,10 +72,10 @@ public interface SearchDao {
 	 * @param searchCont
 	 * @return
 	 */
-	Integer rownumRepeatSelectByAll(String searchCont);
-	Integer rownumRepeatSelectByTitle(String searchCont);
-	Integer rownumRepeatSelectByMemNM(String searchCont);
-	Integer rownumRepeatSelectByMemPN(String searchCont);
+	Integer rownumRepeatSelectByAll(HashMap<String,Object> countForPage);
+	Integer rownumRepeatSelectByTitle(HashMap<String,Object> countForPage);
+	Integer rownumRepeatSelectByMemNM(HashMap<String,Object> countForPage);
+	Integer rownumRepeatSelectByMemPN(HashMap<String,Object> countForPage);
 	
 	/**
 	 * 작성자 : 최문정
@@ -83,12 +83,12 @@ public interface SearchDao {
 	 * @param repeatSeq
 	 * @return
 	 */
-	ArrayList<HashMap<String,Object>> repeatSearchDetailContents(int repeatSeq);
+	ArrayList<HashMap<String,Object>> repeatSearchDetailContents(HashMap<String,Object> searchInfo);
 
 	
 	/**
 	 * 작성자 : 최문정
-	 * 내용 : 관리자 검색 페이지, 자동완성기능
+	 * 내용 : 일반, 관리자 검색 페이지, 자동완성기능
 	 * @param searchCont
 	 * @return
 	 */

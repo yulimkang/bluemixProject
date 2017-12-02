@@ -54,9 +54,13 @@ public class SearchController {
 	public ArrayList<HashMap<String,Object>> showRepeatDetail(HttpServletRequest request, ModelMap map ) {
 		
 		String str = request.getParameter("repeatNo");
+		String sDate = request.getParameter("sDate");
+		String eDate = request.getParameter("eDate");
 		int repeatSeq = Integer.parseInt(str);
 		
-		return searchService.showReservDetail(repeatSeq);
+		System.out.println("Controller sDate : "+sDate+"eDate : "+eDate);
+		
+		return searchService.showReservDetail(repeatSeq, sDate, eDate);
 		
 	}
 	
@@ -100,13 +104,15 @@ public class SearchController {
 
 	
 	/**
-	 * 작성자 :  최문정
-	 * 내용 : 사용자 검색기능
+	 * 작성자 : 최문정
+	 * 내용 : 사용자 검색 기능
 	 * @param request
 	 * @param page
 	 * @param generalSort
 	 * @param inputSearchCont
 	 * @param selectSearchOpt
+	 * @param sDate
+	 * @param eDate
 	 * @param map
 	 * @return
 	 */
@@ -162,5 +168,15 @@ public class SearchController {
 		return searchService.easySearchResult(request, searchCont, selectOpt);
 		
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ShowEasySearchRepeatDetail")
+	public ArrayList<HashMap<String,Object>> showEasySearchRepeatDetail(HttpServletRequest request, ModelMap map ) {
 		
+		String str = request.getParameter("repeatNo");		
+		int repeatSeq = Integer.parseInt(str);
+		
+		return searchService.easySearchDetailConts(repeatSeq);
+		
+	}
 }

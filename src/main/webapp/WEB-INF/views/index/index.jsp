@@ -66,7 +66,7 @@
 
 		<div class="container">
 		
-			<div class="col-lg-12">
+			<div class="col-lg-12" style="background-color:white;">
 
 				<div class="col-lg-5 yongSanDiv" style="padding-top:20px">
 					<span class="YongSanText"> IBM YongSan Office </span>
@@ -2043,8 +2043,9 @@ $(document).ready(function(){
 	
 	.calendar-text { margin-top: .32em; }
 	
-	
+	#calendar {
+	    background-color: #F9F9F9;
+	}
+
 </style>
 
-
- 
