@@ -29,7 +29,7 @@
 		    <center>
 		        
 		        <p class="muted">
-		        <a href="https://drive.google.com/file/d/0B5qB3ntA-vJQRE1mdmFVNFFqbzg/view?usp=sharing"> <img src="/resources/image/ibm_logo.png" style="width:80px"></a>
+		        <a href="https://drive.google.com/open?id=1dcHzPqwHinaCRdB4WjZL1aQT_tj3tBvJ"> <img src="/resources/image/ibm_logo.png" style="width:80px"></a>
 		        
 		          <strong><br>  Copyright® 산학협력프로그램 7기 B조</strong>
 		         

@@ -188,10 +188,11 @@
 					    <span class="input-group-addon input-sm"><i class="fa fa-eye"></i></span>
 					    <select id="rsvColor" name="rsvColor" class="form-control input-sm" readonly>
 					    	<option value="red">빨강</option>
-					    	<option value="yellow">주황</option>
-					    	<option value="green">노랑</option>
-					    	<option value="blue">초록</option>
-					    	<option value="purple" selected>파랑</option>
+					    	<option value="orange">주황</option>
+					    	<option value="green">초록</option>
+					    	<option value="blue" selected>파랑</option>
+					    	<option value="navy">남색</option>
+					    	<option value="skyblue">하늘</option>
 					    </select>
 					  </div>
 				</div>
@@ -312,15 +313,16 @@ var week = new Array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
 
 $(function() {
 	
-	$("#rsvStartDate").datepicker({});
 	$("#rsvStartDate").datepicker("option", "dateFormat", "yy-mm-dd");
 	$("#rsvStartDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
+	$("#rsvStartDate").datepicker( "option", "minDate", new Date());
 	$( "#rsvStartDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
 	
 	
 	$("#rsvEndDate").datepicker();
 	$("#rsvEndDate").datepicker("option", "dateFormat", "yy-mm-dd");
 	$("#rsvEndDate").datepicker().datepicker("setDate", new Date()); //defaultDate 설정
+	$("#rsvEndDate").datepicker( "option", "minDate", new Date());
 	$( "#rsvEndDate" ).datepicker({ beforeShowDay: $.datepicker.noWeekends});
 	
 	
@@ -597,7 +599,6 @@ function emailStateCheck(){
 						$("#reservationCheckBtn").html("예약 수정");
 						$("#reservationCheckBtn").attr("class","btn btn-success");
 						$("#availableDate").val(availableValue);
-						$("#emailCheckValue").val(emailCheckValue);
 						updateCalendar(availableValue,duplicateValue);
 					}
 
