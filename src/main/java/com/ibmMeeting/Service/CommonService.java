@@ -133,10 +133,9 @@ public class CommonService {
 	}
 	
 	public String DateToString(Date date) {
-		Date from = new Date();
 
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String dateString = transFormat.format(from);
+		String dateString = transFormat.format(date);
 		
 		return dateString;
 
