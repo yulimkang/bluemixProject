@@ -1,10 +1,8 @@
 package com.ibmMeeting.Controller;
 
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ibmMeeting.Constant.ConstantCode;
 import com.ibmMeeting.Service.HistoryService;
@@ -78,7 +77,7 @@ public class ReservationController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/RegistReservation")
-	public ModelAndView registReservation(@ModelAttribute Reservation reservation, @RequestParam String emailCheckValue, BindingResult errors, ModelMap map) throws MessagingException, ParseException{
+	public ModelAndView registReservation(@ModelAttribute Reservation reservation, @RequestParam String emailCheckValue, BindingResult errors, ModelMap map, RedirectAttributes redirectAttr) throws MessagingException, ParseException{
 
 		//validation
 		RegisterReservationValidator valid = new RegisterReservationValidator();
@@ -106,6 +105,12 @@ public class ReservationController {
 			//등록되어 있지 않다면 새로 insert
 			memberService.registMember(reservation);
 		}
+		
+		String to = "";
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		to = transFormat.format(reservation.getRsvDate());
+
+		redirectAttr.addFlashAttribute("registRsvDate", to);
 		
 		return new ModelAndView("redirect:/");
 

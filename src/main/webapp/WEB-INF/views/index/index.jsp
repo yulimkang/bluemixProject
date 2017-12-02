@@ -284,12 +284,10 @@
 			</form>
 			</div>
 		
-			
-
-
 		<input type="hidden" id="fromSearch" name="fromSearch" value="${requestScope.fromSearch }">
 		<input type="hidden" id="rsvDateFromSearch" name="rsvDateFromSearch" value="${requestScope.rsvDateFromSearch}">  
 
+		<input type="hidden" id="registRsvDate" name="registRsvDate" value="${requestScope.registRsvDate}">  
 
 		<div id="eventContent" title="Event Details" >
 		<br>
@@ -709,7 +707,7 @@ function modify(){
 			},
 			success:function(success){		
 				alert("수정이 완료되었습니다.");
-				self.location.reload();
+				$('#calendar').fullCalendar('refetchEvents');
 			},
 			error:function(request,status,error){
 				alert("Modify Reservation Error");
@@ -742,7 +740,15 @@ function deleteRsv(){
 		},
 		success:function(success){		
 			alert("삭제되었습니다.");
-			self.location.reload();
+			$('#calendar').fullCalendar('refetchEvents');
+			//이미 입력되어있는 textbox내의 값들 지우기
+			$("#rsvTitle").removeAttr("value");
+			$("#rsvDelPwd").removeAttr("value");
+			$("#rsvMemPn").removeAttr("value");
+			$("#rsvMemNm").removeAttr("value");
+			$("#rsvMemEm").removeAttr("value");
+			$("#rsvEmailCheck").prop('checked' , true); //default값으로 변경
+			$("#rsvColor option[value='blue']").attr("selected", true);
 		},
 		error:function(request,status,error){
 			alert("Delete Reservation Error");
@@ -1317,6 +1323,10 @@ $(document).ready(function(){
 		//  minDate : date, //오늘 이전 날짜는 선택 불가 -> 예약 불가
 		  onSelect: function(dateText) {  
 			  $('#calendar').fullCalendar('gotoDate', dateText);
+			  
+			  var rsvDate = $('#calendar').fullCalendar('getDate');
+			  $("#day").empty();
+			  getInputDayLabel(rsvDate);
 		  }
 	   }); 
 
@@ -1325,6 +1335,10 @@ $(document).ready(function(){
 		//  minDate : date, //오늘 이전 날짜는 선택 불가 -> 예약 불가
 		  onSelect: function(dateText) {  
 			  $('#calendar').fullCalendar('gotoDate', dateText);
+			  
+			  var date = $('#calendar').fullCalendar('getDate');
+			  $("#day").empty();
+			  getInputDayLabel(date);
 		  }
 	   });
 		
@@ -1978,6 +1992,14 @@ $(document).ready(function(){
 	
 	}
 
+	//예약 등록 완료 했을 때, 등록한 날짜로 돌아가기
+	if(!($("#registRsvDate").val() == null || $("#registRsvDate").val().length == 0)){
+		var d =  $("#registRsvDate").val().toString();
+		d= new Date(d);
+		
+		$('#calendar').fullCalendar('gotoDate', d);
+	
+	}
 	
 });
 
