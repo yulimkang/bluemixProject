@@ -1998,6 +1998,10 @@ $(document).ready(function(){
 		d= new Date(d);
 		
 		$('#calendar').fullCalendar('gotoDate', d);
+		
+		var regDate = $('#calendar').fullCalendar('getDate');
+		$("#day").empty();
+		getInputDayLabel(regDate);
 	
 	}
 	
