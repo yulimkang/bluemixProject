@@ -70,6 +70,10 @@ public class ReservationService {
 	 */
 	public void registReservation(Reservation reservation, String emailCheckValue) throws MessagingException, ParseException{
 		
+		
+		System.out.println("::::::::::::::::::::: cont :::::::::::");
+		
+		
 		//객체안 값 설정
 		Date date = new Date();
 		reservation.setRsvNo(0);
@@ -95,14 +99,15 @@ public class ReservationService {
 		String rsvStartTimeChange = commonService.timeToString(rsvStartTime).substring(0,5);
 		String rsvEndTimeChange = commonService.timeToString(rsvEndTime).substring(0,5);
 		
-		
 		String email = reservation.getRsvMemEm();
 		
 		String subject;
 		String content;
 		
-		if(reservation.getRsvConfirmState()=="N"){
+		if(reservation.getRsvConfirmState().equals("N")){
+			
 			email = adminDao.getAdminEmail();
+			
 			subject = "[회의실 가예약] " + rsvTitle + " (" + rsvDateString + "(" + rsvDateOfTheWeek + ") " + rsvStartTimeChange + " - " + rsvDateString + "(" + rsvDateOfTheWeek + ")" + rsvEndTimeChange	+ "), " + rsvConfNm;
 			
 			content = "<html>\r\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"

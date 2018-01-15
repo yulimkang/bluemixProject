@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-
 <!-- ┏━━━━┓ark Sung Jun -->
 <!-- │    ┃ark Sung Jun -->
 <!-- │━━━━┛ark Sung Jun -->
@@ -133,10 +132,6 @@
 	    	</div>
 	   	</div>
 	   </div>
-
-   <form action="/Reservation/SearchToCalendar" id="testForm">
-		<input type="hidden" id="rsvNo" name="rsvNo">
-	</form>
 
 <script>
 </script>
