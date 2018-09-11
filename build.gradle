@@ -25,7 +25,8 @@ repositories {
 
 
 dependencies {
-	 compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.mariadb.jdbc:mariadb-java-client:1.1.7')
+	compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
     compile('javax.servlet:jstl')
     compile('org.yaml:snakeyaml')
